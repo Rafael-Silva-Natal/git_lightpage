@@ -35,11 +35,7 @@
 a:hover{
   color: rgb(169, 225, 241); 
 }
-.linksalas {
-  color:#51cc76;
-  margin:0;
-  margin: auto;
-}
+
 .linkreposit{
   color:#b70fe0;
   size:0.9em;
@@ -47,6 +43,24 @@ a:hover{
   margin: auto;
 
 }
+
+.linksalas {
+  font-size: 2.6em;
+  color: #51cc76;
+  text-decoration: underline;
+  float: left;
+}
+
+div span {
+  color: rgb(240, 140, 46);
+  text-align: right;
+  font-size: 2.6em;
+  float: right;
+}
+a {
+  text-decoration: none;
+}
+
 
 </style>
 
@@ -64,9 +78,16 @@ a:hover{
       <img src="img_1_22.png" width="100%">
     </div>
 
-    <a href="salas.html" class="linksalas"><h2>Salas reservadas</h2></a>
+    <div>
+      <a href="salas.html" class="linksalas">Salas reservadas</a>
+      <span>0$ Acesse aqui a Sala free 0$</span>
+      <div style="clear: both;"></div>
+    </div>
+
+    <!--<div><a href="salas.html" class="linksalas"><h2>Salas reservadas</h2></a>0$ Sala free 0$</div>-->
+    <!--<div class="free">0$ Sala free 0$</div>-->
     
-    <div class="align-right">
+    <div class="align-right" style="clear: both;">
       <a href="TloginSala6_free.html" class="link-branco">Fale com o administrador, receba sua senha e acesse este link da versão 1.0.</a>
     </div>
     
