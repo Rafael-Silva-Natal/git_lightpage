@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    
+
+.imagem-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.imagem-sobreposta {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 20%;
+  height: 20%;
+  background-image: url('imglabirinto.jpg');
+  background-size: cover;
+  z-index: 1;
+}
+
+
+.overlay-img {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+
+.imagem-fundo img {
+  width: 100%;
+  height: auto;
+  border: 0px;
+  margin: 0px;
+}
+
+
+.txt1{
+  color: #e09238;
+  size: 2.0px;
+  width: auto;
+  background-color: black;
+  border: 0px;
+  margin: 0px;
+}
+
+
+
+</style>
+
+
+
+<body>
+  <p class="txt1">_Conheça tambem o nosso mascote "The great game of the rat"!</p>
+
+    <a href="https://scratch.mit.edu/projects/715904874/">
+        <div class="imagem-container">
+          <div class="imagem-sobreposta">
+            <!-- imagem que fica por cima -->
+            <img src="imglabirinto.jpg" class="overlay-img">
+          </a>
+          </div>
+        
+            <div class="imagem-fundo">
+              <!-- imagem de fundo -->
+              <img src="img_03.PNG">
+            </div>
+        </div>
+      
+</body>
+</html>
