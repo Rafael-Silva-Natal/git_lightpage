@@ -1,13 +1,10 @@
-html
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The great game of the rat</title>
     
 </head>
 
@@ -17,8 +14,8 @@ html
   position: relative;
   width:1250px;
   height: 670px;
-  border: 1px solid black; /* Adicionando uma borda para visualização */
-  background-image: url("imglabirinto.jpg");
+  /*border: 1px solid black; *//* Adicionando uma borda para visualização */
+  /*background-image: url("imglabirinto.jpg");*/
   background-size: cover;
 }
 
@@ -30,24 +27,27 @@ html
   left: 0; /* Alinhando a imagem na esquerda */
 }
 
-/*#texto {
+/*
+#texto {
   position: absolute;
   top: 50px;
   left: 50px;
   color: white;
   font-size: 24px;
   text-shadow: 1px 1px black;
-}
+}*/
+
+
 #link {
   position: absolute;
   top: 50px;
   left: 50px;
-  color: white;
+  color: rgb(250, 46, 46);
   font-size: 24px;
   text-shadow: 1px 1px black;
   text-decoration: none;
 }
-*/
+
 </style>
 
 <body style="background-image: url('imglabirinto.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
@@ -55,9 +55,12 @@ html
   <div id="container">
     <img id="imagem1" src="imgz3_9rat.PNG">
     <img id="imagem2" src="imgratzcatr.PNG">
-   <!-- <div id="texto">Texto sobre a imagem</a></div>-->
-   <!-- <div id="link"><a id="link" href="https://www.google.com"></a></div>-->
+   <div><a id="link" href="z_The great game of the rat.html">_The great game of the rat...</a></div>
+   <!--<div id="texto">Texto sobre a imagem</div>-->
+   <!--<div id="link"><a id="link" href="https://www.google.com">The great game of the rat</a></div>-->
 </div>
+
+
   
       <script>
 
@@ -67,10 +70,10 @@ var imagem2 = document.getElementById("imagem2");
 var body = document.querySelector("body");
 
 // Definir a posição inicial das imagens
-var startX1 = 100;
-var startY1 = 100;
-var startX2 = 150;
-var startY2 = 150;
+var startX1 = 1050;
+var startY1 = 400;
+var startX2 = 100;
+var startY2 = 100;
 imagem1.style.left = startX1 + "px";
 imagem1.style.top = startY1 + "px";
 imagem2.style.left = startX2 + "px";
