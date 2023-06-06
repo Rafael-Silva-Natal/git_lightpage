@@ -2,212 +2,46 @@
 <html lang="pt-br">
   <head>
     <title>LigthPage</title>
-  
+    <link rel="stylesheet" href="style.css">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
   </head>
 
-<style>
-  marquee {
-  width: 100%;
-  background-color: #180e3d;
-  color: #f5f6fa;
-  font-size: 1.5em;
-  direction:"Left";
-  margin: 0;
-  border: 0px;
-} 
-.align-right {
-    text-align: right;
-      
-}
 
-
-.video-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.link-branco {
-  color: #fff; 
-  size:1.3em;
-  margin:0;
-  margin: auto;
-}
-a:hover{
-  color: rgb(169, 225, 241); 
-}
-
-.linkreposit{/*link github*/
-  flex: 20%;
-  color:#b70fe0;
-  text-decoration:underline;
-  font-size: 20px;
-  text-shadow: 1px 1px rgb(56, 202, 221);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  flex-shrink: 0;
-}
-
-.linkRedeS{/*link twiter*/
-  flex: 20%;
-  color:#67c6f1;
-  font-size: 23px;
-  text-shadow: 1px 1px rgb(56, 202, 221);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  flex-shrink: 0;
-}
-
-.linkRedeS2{/*link youtube*/
-  flex: 20%;
-  color:#f51a2c;
-  font-size: 23px;
-  text-shadow: 1px 1px rgb(56, 202, 221);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  flex-shrink: 0;
-}
-.linkRedeS3{/*link instagram*/
-  flex: 20%;
-  color:#f84297;
-  font-size: 23px;
-  text-shadow: 1px 1px rgb(56, 202, 221);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  flex-shrink: 0;
-}
-
-.linkRedeS4{/*link doi discord*/
-  flex: 20%;
-  /*margin-left: 25px;*/
-  color:#108519;
-  font-size: 23px;
-  text-shadow: 1px 1px rgb(56, 202, 221);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  flex-shrink: 0;
-}
-
-.a3{
-  text-indent: 10em;
-}
-
-.linksalas {
-  font-size: 2.6em;
-  color: #51cc76;
-  text-decoration: underline;
-  float: left;
-}
-
-div span {
-  color: rgb(240, 140, 46);
-  text-align: right;
-  font-size: 2.6em;
-  float: right;
-}
-a {
-  text-decoration: none;
-}
-
-.rodape{
-  margin: 0%;
-  border: 0px;
-}
-.linkrodapeAli{
-  text-align: center;
-}
-.linkrodape{
-  color:rgb(3, 3, 119);
-  text-decoration:underline;
-  top: 50px;
-  left: 50px;
-  font-size: 17px;
-  text-shadow: 1px 1px rgb(56, 202, 221);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
-
-}
-.linkrodape2{
-  color:rgb(84, 245, 133);
-  text-decoration:underline;
-  top: 50px;
-  left: 50px;
-  font-size: 17px;
-  text-shadow: 1px 1px rgb(245, 184, 70);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
-
-}
-
-</style>
 
   <body style="background-color:#000">
 
+    <header>
+    <br>
+      <h1 id="title">Menu</h1>
+      <p id="expand">Expanda para ver o menu.</p>
+      <p id="select"></p>
+      <ul id="nav">
+          <li><a href="public\paginasAuxiliares\tutorial.html"  class="selected">Tutorial</a></li><br><br>
+          <li><a href="public\salas\TloginSala6_free.html" >Sala free</a></li><br><br>
+          <li><a href="public\salas\salas.html">Salas reservadas</a></li><br><br>
+          <li><a href="public\paginasAuxiliares\projetos.html" >Projetos</a></li><br><br>
+          <li><a href="public\CopyBlocks\CopyBlock.html" >Ferramentas Gratuítas</a></li><br><br>
+          <li><a href="public\paginasAuxiliares\loja.html" >Loja</a></li><br><br>
+          <li><a href="public\paginasAuxiliares\Parcerias.html">Parcerias</a></li><br><br>
+          <li><a href="public\paginasAuxiliares\Autor.html" >Sobre o autor</a></li>
+      </ul>
+  </header>
+
+
     <div>
     
-      <img src="img_01.PNG" width="100%">
+      <img src="public\imagens\img_01.PNG" width="100%">
       
-    
-      <div class="video-container">
-        <iframe width="50%" src="https://www.youtube.com/embed/CGO-9ggBwcM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </div>
-    
-      <img src="img_1_22.png" width="100%">
     </div>
 
-    <div width="100%">
-      <a href="salas.html" class="linksalas">Salas reservadas</a>
-      <span>0$ Acesse aqui a Sala free 0$</span>
-      <div style="clear: both;"></div>
-    </div>
-
-    <div class="align-right" style="clear: both;">
-      <a href="TloginSala6_free.html" class="link-branco">Fale com o administrador, receba sua senha e acesse este link da versão 1.0.</a>
-    </div>
-    
-    <div>
-      <img src="img_02.PNG" width="100%">
-    </div>
-
-
-    <div style="
-  width: 100%;
-  display: flex;
-  justify-content:center;
-  padding: 0px;
-">
-  <a href="https://www.instagram.com/atomaespionka/" class="link linkRedeS3">Instagram</a>
-  <a href="https://twitter.com/RafaelS14068210" class="link linkRedeS">twitter</a>
-  <a href="https://youtube.com/@RafaelSilva-ke7rt" class="link linkRedeS2">Youtube</a>
-  <a href="https://discord.com" class="link linkRedeS4">Discord</a>
-  <a href="https://github.com/Rafael-Silva-Natal" class="link linkreposit">Repositório no GitHub.</a>
-</div>
-
-
-  
-
-<!--<div class="alignLinksSociais">
-
-<a href="https://discord.com" class="linkRedeS4">Discord</a><a href="https://twitter.com/RafaelS14068210" class="linkRedeS">twitter</a><a href="https://youtube.com/@RafaelSilva-ke7rt" class="linkRedeS2">Youtube</a><a href="https://www.instagram.com/atomaespionka/" class="linkRedeS3">Instagram</a><a href="https://github.com/Rafael-Silva-Natal" class="linkreposit">Repositório no GitHub.</a>
-
-</div>-->
-    
-    <br><br>
     <div class="rodape">
-    <img src="imgrodapedapagina.png" width="100%">
-    </div>
-    
-<div class="linkrodapeAli">
-  <a href="https://www.newtoncbraga.com.br" class="linkrodape">Instituto Newton C. Braga</a>
-</div>
-<br>
-<div class="rodape">
-  <img src="imgzcircuito3.png" width="100%">
-  </div>
-  <br>
-  <div class="linkrodapeAli">
-    <a href="CopyBlock.html" class="linkrodape2">Copiador de Blocos para Javascript</a>
-  </div>
-  <br>
-          <marquee >
-            LightPage_LightJoystik_versão1.0_Arduino_project_Rafael Silva_Natal_RN_Brasil -Doe qualquer valor e ajude o desenvolvedor desse projeto... PIX : atomaespionka@gmail.com
-          </marquee>
+      <img src="public\imagens\imgzcircuito3.png" width="100%">
+      </div>
+ 
 
+        
   </body>
 </html>
 

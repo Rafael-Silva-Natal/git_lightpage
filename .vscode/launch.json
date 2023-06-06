@@ -7,8 +7,9 @@
         {
             "type": "pwa-chrome",
             "request": "launch",
-            "name": "Open index.html",
-            "file": "c:\\Users\\Laptop\\Desktop\\Git_LightPage\\index.html"
+            "name": "Launch Chrome against localhost",
+            "url": "C:/Users/Laptop/Desktop/Git_LightPage/index.html",
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }

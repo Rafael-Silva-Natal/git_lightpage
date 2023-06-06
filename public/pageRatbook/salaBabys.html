@@ -50,11 +50,11 @@
 
 </style>
 
-<body style="background-image: url('imglabirinto.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+<body style="background-image: url('/public/imagens/imglabirinto.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
   <div id="container">
-    <img id="imagem1" src="imgz3_9rat.PNG">
-    <img id="imagem2" src="imgratzcatr.PNG">
+    <img id="imagem1" src="/public/imagens/imgz3_9rat.PNG">
+    <img id="imagem2" src="/public/imagens/imgratzcatr.PNG">
    <div><a id="link" href="z_The great game of the rat.html">_The great game of the rat...</a></div>
    <!--<div id="texto">Texto sobre a imagem</div>-->
    <!--<div id="link"><a id="link" href="https://www.google.com">The great game of the rat</a></div>-->
@@ -85,7 +85,7 @@ var speed2 = 5;
 
 // Adicionar um atraso de 2 segundos antes de iniciar o movimento das imagens
 setTimeout(function() {
-  body.style.backgroundImage = "url('imglabirinto.jpg')"; // Definindo a imagem de fundo
+  body.style.backgroundImage = "url('/public/imagens/imglabirinto.jpg')"; // Definindo a imagem de fundo
   container.addEventListener("mousemove", function(event) {
     var x = event.clientX - container.offsetLeft;
     var y = event.clientY - container.offsetTop;
