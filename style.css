@@ -1,4 +1,7 @@
-
+.body{
+  overflow: hidden;
+  background-color: black;
+}
 .topo {/*relativo a tenativa de mudança de letra da barra da página*/
   font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 
