@@ -1,234 +1,430 @@
 
-  .align-right {
-      text-align: right;
-        
-  }
-  
-  
-  .video-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
-  .link-branco {
-    color: #fff; 
-    size:1.3em;
-    margin:0;
-    margin: auto;
-  }
-  a:hover{
-    color: rgb(169, 225, 241); 
-  }
-  
-  .linkreposit{/*link github*/
-    flex: 20%;
-    color:#b70fe0;
-    text-decoration:underline;
-    font-size: 20px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    flex-shrink: 0;
-  }
-  
-  .linkRedeS{/*link twiter*/
-    flex: 20%;
-    color:#67c6f1;
-    font-size: 23px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    flex-shrink: 0;
-  }
-  
-  .linkRedeS2{/*link youtube*/
-    flex: 20%;
-    color:#f51a2c;
-    font-size: 23px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    flex-shrink: 0;
-  }
-  .linkRedeS3{/*link instagram*/
-    flex: 20%;
-    color:#f84297;
-    font-size: 23px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    flex-shrink: 0;
-  }
-  
-  .linkRedeS4{/*link doi discord*/
-    flex: 20%;
-    /*margin-left: 25px;*/
-    color:#108519;
-    font-size: 23px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    flex-shrink: 0;
-  }
-  
-  .a3{
-    text-indent: 10em;
-  }
-  
-  .linksalas {
-    font-size: 2.6em;
-    color: #51cc76;
-    text-decoration: underline;
-    float: left;
-  }
-  
-  div span {
-    color: rgb(240, 140, 46);
-    text-align: right;
-    font-size: 2.6em;
-    float: right;
-  }
-  a {
-    text-decoration: none;
-  }
-  
-  .rodape{
-    margin: 0%;
-    border: 0px;
-  }
-  .linkrodapeAli{
-    text-align: center;
-  }
-  .linkrodape{
-    color:rgb(3, 3, 119);
-    text-decoration:underline;
-    top: 50px;
-    left: 50px;
-    font-size: 17px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
-  
-  }
-  .linkrodape2{
-    color:rgb(84, 245, 133);
-    text-decoration:underline;
-    top: 50px;
-    left: 50px;
-    font-size: 17px;
-    text-shadow: 1px 1px rgb(245, 184, 70);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
-  
-  }
-  
-  
-  /* modificações */
-  
-  header {
-      position: absolute;
-      box-sizing: border-box;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 34px;
-      margin: 0;
-      z-index: 1;
-      box-shadow: 0 5px rgba(0, 0, 0, 0.8);
-      background: rgba(20, 20, 20, 0.8);
-      /*border-left: 8px solid #900;*/
-      transition: all 0.5s;
-  }
-  header:hover {
-      height: 350px;
-  }
-  
-  /**
-   * Header Styles
-   */
-   header h1 {
-      display: inline-block;
-      margin: 0;
-      padding: 8px;
-      font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-      color: white;
-      font-size: 18px;
-      font-weight: normal;
-      text-transform: capitalize;
-  }
-  header p {
-      display: inline-block;
-      margin: 0;
-      color: #999;
-      font-size: 1em;
-      font-style: italic;
-      transition: opacity 0.5s;
-  }
-  #select {
-      position: relative;
-      left: -115px;
-      opacity: 0;
-  }
-  
-  header:hover #expand {
-      opacity: 0;
-  }
-  header:hover #select {
-      opacity: 1;
-  }
-  
-  
-  
-  /**
-   * Nav Menu Styles
-   */
-  #nav {
-      list-style: none;
-      margin: 5px;
-  }
-  #nav li {
-      display: inline-block;
-  }
-  #nav a {
-      position: relative;
-      margin: 2px 3px;
-      padding: 6px 12px 5px;
-      font-family: Georgia, Times, "Times New Roman", serif;
-      text-transform: uppercase;
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 10px;
-      letter-spacing: 1px;
-      line-height: 18px;
-      color: #BBB;
-      opacity: 0;
-      transition: opacity 0.5s;
-  }
-  header:hover #nav a {
-      opacity: 1;
-  }
-  #nav a:hover {
-      color: white;
-  }
-  
-  #nav a::after {
-      /*content: "//";*/
-      position: absolute;
-      top: 1px;
-      right: -8px;
-      width: 10px;
-      height: 20px;
-      font-size: 18px;
-      letter-spacing: -4px;
-      color: #646464;
-  }
-  #nav li:first-child a::before {
-      /*content: "//";*/
-      position: absolute;
-      top: 1px;
-      left: -8px;
-      width: 10px;
-      height: 20px;
-      font-size: 18px;
-      letter-spacing: -4px;
-      color: #646464;
-  }
-  
-  #nav li a.selected {
-      color: white;
-  }
-  
-  
+.topo {/*relativo a tenativa de mudança de letra da barra da página*/
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+}
+
+.align-right {
+  text-align: right;
+    
+}
+
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.link-branco {
+color: #fff; 
+size:1.3em;
+margin:0;
+margin: auto;
+}
+a:hover{
+color: rgb(169, 225, 241); 
+}
+
+.linkreposit{/*link github*/
+flex: 20%;
+color:#b70fe0;
+text-decoration:underline;
+font-size: 20px;
+text-shadow: 1px 1px rgb(56, 202, 221);
+font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+flex-shrink: 0;
+}
+
+.linkRedeS{/*link twiter*/
+flex: 20%;
+color:#67c6f1;
+font-size: 23px;
+text-shadow: 1px 1px rgb(56, 202, 221);
+font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+flex-shrink: 0;
+}
+
+.linkRedeS2{/*link youtube*/
+flex: 20%;
+color:#f51a2c;
+font-size: 23px;
+text-shadow: 1px 1px rgb(56, 202, 221);
+font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+flex-shrink: 0;
+}
+.linkRedeS3{/*link instagram*/
+flex: 20%;
+color:#f84297;
+font-size: 23px;
+text-shadow: 1px 1px rgb(56, 202, 221);
+font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+flex-shrink: 0;
+}
+
+.linkRedeS4{/*link doi discord*/
+flex: 20%;
+/*margin-left: 25px;*/
+color:#108519;
+font-size: 23px;
+text-shadow: 1px 1px rgb(56, 202, 221);
+font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+flex-shrink: 0;
+}
+
+.a3{
+text-indent: 10em;
+}
+
+.linksalas {
+font-size: 2.6em;
+color: #51cc76;
+text-decoration: underline;
+float: left;
+}
+
+div span {
+color: rgb(240, 140, 46);
+text-align: right;
+font-size: 2.6em;
+float: right;
+}
+a {
+text-decoration: none;
+}
+
+.rodape{
+margin: 0%;
+border: 0px;
+
+}
+.linkrodapeAli{
+text-align: center;
+}
+.linkrodape{
+color:rgb(3, 3, 119);
+text-decoration:underline;
+top: 50px;
+left: 50px;
+font-size: 17px;
+text-shadow: 1px 1px rgb(56, 202, 221);
+font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+
+}
+.linkrodape2{
+color:rgb(84, 245, 133);
+text-decoration:underline;
+top: 50px;
+left: 50px;
+font-size: 17px;
+text-shadow: 1px 1px rgb(245, 184, 70);
+font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+
+}
+
+
+/* modificações */
+
+header {
+position: absolute;
+box-sizing: border-box;
+top: 0;
+left: 0;
+width: 34px; /* Largura do header ajustada para 34px */
+height: 100%;
+margin: 0;
+z-index: 1;
+box-shadow: 5px 0 rgba(0, 0, 0, 0.8); /* Alterado para criar sombra na borda esquerda */
+background: rgba(20, 20, 20, 0.8);
+transition: width 0.5s; /* Adicionado para animar a largura */
+}
+
+header:hover {
+width: 150px; /* Ajuste a largura conforme necessário */
+}
+
+header h1,
+header p {
+display: none; /* Oculta o texto no cabeçalho */
+}
+
+header:hover h1,
+header:hover p {
+display: inline-block; /* Exibe o texto ao passar o mouse */
+}
+
+
+/**
+* Header Styles
+*/
+header h1 {
+display: inline-block;
+margin: 0;
+padding: 8px;
+font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+color: white;
+font-size: 18px;
+font-weight: normal;
+text-transform: capitalize;
+transition: color 0.5s; /* Adicionado para animar a cor */
+}
+
+header:hover h1 {
+color: #fff; /* Ajuste a cor conforme necessário */
+}
+
+
+
+
+
+
+
+#select {
+  position: relative;
+  left: -115px;
+  opacity: 0;
+}
+
+header:hover #expand {
+  opacity: 0;
+}
+header:hover #select {
+  opacity: 1;
+}
+
+
+
+/**
+* Nav Menu Styles
+*/
+#nav {
+list-style: none;
+margin: 0;
+padding: 0;
+position: absolute;
+top: 100%; /* Ajuste a margem superior conforme necessário */
+left: 0;
+width: 150px; /* Ajuste a largura conforme necessário */
+margin-top: 10px; /* Adicionado espaçamento superior ao expandir o cabeçalho */
+transition: margin-top 0.5s; /* Adicionado transição para suavizar o efeito */
+}
+
+header:hover #nav {
+margin-top: 30px; /* Ajuste o espaçamento superior conforme necessário */
+}
+
+
+
+
+#nav {
+list-style: none;
+margin: 0;
+padding: 0;
+position: absolute;
+top: 34px; /* Altura do header */
+left: 0;
+width: 150px; /* Ajuste a largura conforme necessário */
+}
+
+
+#nav li {
+display: block;
+margin-bottom: 2px; /* Espaçamento entre os itens */
+}
+
+#nav a {
+display: block;
+padding: 5px;
+text-decoration: none;
+color: #BBB;
+opacity: 0;
+transition: opacity 0.5s;
+}
+
+header:hover #nav a {
+opacity: 1;
+}
+
+#nav a:hover {
+color: white;
+}
+
+#nav a::after,
+#nav li:first-child a::before {
+content: none; /* Remover as barras "//" */
+}
+
+#nav li a.selected {
+color: white;
+}
+
+
+/*tipo de letra e stilo nos links do menu*/
+
+#nav a {
+display: block;
+padding: 10px; /* Aumentei o preenchimento para maior legibilidade e estética */
+text-decoration: none;
+color: #BBB;
+opacity: 0;
+font-family: Arial, sans-serif; /* Use a fonte Arial */
+transition: opacity 0.5s, color 0.5s, text-shadow 0.5s; /* Adicionado text-shadow na transição */
+}
+
+header:hover #nav a {
+opacity: 1;
+color: white;
+text-shadow: 1px 1px 2px rgba(0, 255, 0, 0.8); /* Alterado para um sombreamento verde */
+}
+
+#nav a:hover {
+color: white;
+}
+
+
+
+
+#menus {
+  display: flex;
+  justify-content: space-between;
+}
+
+#nav-direita {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 34px; /* Altura do header */
+  right: 0; /* Ajuste para a direita */
+  width: 150px; /* Ajuste a largura conforme necessário */
+}
+
+#nav-direita li {
+  display: block;
+  margin-bottom: 2px; /* Espaçamento entre os itens */
+}
+
+#nav-direita a {
+  display: block;
+  padding: 5px;
+  text-decoration: none;
+  color: #BBB;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+header:hover #nav-direita a {
+  opacity: 1;
+}
+
+#nav-direita a:hover {
+  color: white;
+}
+
+#nav-direita a::after,
+#nav-direita li:first-child a::before {
+  content: none; /* Remover as barras "//" */
+}
+
+#nav-direita li a.selected {
+  color: white;
+}
+#esquerda {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: 34px; /* Largura do header ajustada para 34px */
+  height: 100%;
+  margin: 0;
+  z-index: 1;
+  box-shadow: 5px 0 rgba(0, 0, 0, 0.8); /* Alterado para criar sombra na borda esquerda */
+  background: rgba(20, 20, 20, 0.8);
+  transition: width 0.5s; /* Adicionado para animar a largura */
+}
+
+#direita {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  right: 0;
+  width: 34px; /* Largura do header ajustada para 34px */
+  height: 100%;
+  margin: 0;
+  z-index: 1;
+  box-shadow: -5px 0 rgba(0, 0, 0, 0.8); /* Alterado para criar sombra na borda direita */
+  background: rgba(20, 20, 20, 0.8);
+  transition: width 0.5s; /* Adicionado para animar a largura */
+}
+
+#esquerda:hover {
+  width: 150px; /* Ajuste a largura conforme necessário */
+}
+
+#direita:hover {
+  width: 150px; /* Ajuste a largura conforme necessário */
+}
+
+#esquerda h1,
+#esquerda p,
+#direita h1,
+#direita p {
+  display: none; /* Oculta o texto no cabeçalho */
+}
+
+#esquerda:hover h1,
+#esquerda:hover p,
+#direita:hover h1,
+#direita:hover p {
+  display: inline-block; /* Exibe o texto ao passar o mouse */
+}
+
+
+
+
+/* ... (seu código anterior) ... */
+
+#esquerda h1,
+#esquerda p,
+#direita h1,
+#direita p {
+  display: inline-block; /* Exibe o texto inicialmente */
+  margin: 0; /* Removido o espaçamento padrão */
+  transition: opacity 0.5s, transform 0.5s; /* Adicionado transição para suavizar a mudança de visibilidade e posição */
+}
+
+#esquerda:hover h1,
+#esquerda:hover p,
+#direita:hover h1,
+#direita:hover p {
+  opacity: 1; /* Garante que o texto esteja sempre visível ao passar o mouse */
+  transform: translateX(0); /* Garante que o texto esteja sempre visível ao passar o mouse */
+}
+
+#esquerda h1,
+#direita h1 {
+  margin: 8px 0; /* Adicionado espaçamento superior e inferior */
+}
+
+/* Ajuste os espaçamentos conforme necessário */
+#nav a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #BBB;
+  opacity: 0;
+  font-family: Arial, sans-serif;
+  transition: opacity 0.5s, color 0.5s, text-shadow 0.5s, transform 0.5s; /* Adicionado transform na transição */
+  transform: translateY(-20px); /* Inicialmente, mova os links para cima para escondê-los */
+}
+
+header:hover #nav a {
+  opacity: 1;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 255, 0, 0.8);
+  transform: translateY(0); /* Move os links para baixo ao passar o mouse */
+}
+
+#nav a:hover {
+  color: white;
+  transform: scale(1.1); /* Adicionado efeito de escala ao passar o mouse */
+}
