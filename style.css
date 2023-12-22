@@ -1,11 +1,22 @@
-.body{
+.body {
+  background: url('public/imagens/img_01.PNG') no-repeat;
+  background-size: cover;
   overflow: hidden;
-  background-color: black;
+  /*background-color: black;*/
 }
-.topo {/*relativo a tenativa de mudança de letra da barra da página*/
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 
+/* style.css */
+
+/* Estilo para o título com a classe "topo" */
+.title.topo {
+  /* Adicione as propriedades de estilo desejadas */
+  font-family: 'Nome da Fonte', sans-serif; /* Substitua 'Nome da Fonte' pela fonte desejada */
+  /*font-size: 24px;  Tamanho da fonte */
+  font-weight: bold; /* Peso da fonte (por exemplo, negrito) */
+  color: #333; /* Cor do texto */
+  /* Outras propriedades de estilo, se necessário */
 }
+
 
 .align-right {
   text-align: right;
