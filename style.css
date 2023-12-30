@@ -1,5 +1,5 @@
 .body {
-  background: url('public/imagens/img_01.PNG') no-repeat;
+  background: url('public/imagens/img_01completa.PNG') no-repeat;
   background-size: cover;
   overflow: hidden;
   width: 100%;
@@ -7,6 +7,29 @@
   height: auto;
   /*background-color: black;*/
 }
+
+/* ... (seu código anterior) ... */
+
+#canvas-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 410px;
+}
+
+#myCanvas {
+  border: 1px solid rgb(250, 247, 247); /* Adicione uma borda para visualização */
+  /* Adicione outros estilos conforme necessário para o seu canvas */
+  width: 275px; /* Ajuste conforme necessário para o tamanho desejado */
+  height: 135px;
+}
+
+/* ... (seu código anterior) ... */
+
+
+
+
+
 
 /* style.css */
 
