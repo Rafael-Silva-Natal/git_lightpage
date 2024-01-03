@@ -17,11 +17,13 @@
   margin-top: 410px;
 }
 
-#myCanvas {
-  border: 1px solid rgb(250, 247, 247); /* Adicione uma borda para visualização */
+#desenho1 {
+  border: 3px solid rgb(225, 250, 222) ; /* Adicione uma borda para visualização */
+  border-radius: 5%;
   /* Adicione outros estilos conforme necessário para o seu canvas */
   width: 275px; /* Ajuste conforme necessário para o tamanho desejado */
   height: 135px;
+  opacity: 70%;
 }
 
 /* ... (seu código anterior) ... */
