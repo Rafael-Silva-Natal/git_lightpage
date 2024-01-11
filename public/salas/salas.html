@@ -2,6 +2,7 @@
 <html lang="pt-br">
   <head>
     <title>LigthPage_salas</title>
+    <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -90,15 +91,31 @@ a:hover{
 .alinhamento{
   text-align: center;
 }
+.canvas{
+  justify-content: right;
+      align-items: right;
+
+}
+
+#CanvaLinks{
+  display:inline-block;
+}
 
 </style>
 
 <body style="background-image:url('../imagens/fundoProgram3.PNG'); background-size:100%; background-position:top; background-repeat:no-repeat;">
 
   
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>  
+<div id="CanvaLinks">
+<div class="canvas">
+ <canvas id="desenho1" width="500" height="500">
+  <h3>seu browser não possui suporte a canvas</h3>
+  </canvas>
+</div>
 
 <br><br>
+<div class="links">
   <a href="TloginAlfa.html" class="alfa"> Sala alfa (Indisponível)</a><br><br>
   <a href="TloginBeta.html" class="beta"> Sala beta (Indisponível)</a><br><br>
   <a href="TloginSala2.html" class="sala2"> Acesse o link e execute o login da sala 2 (Indisponível)</a><br><br>
@@ -111,6 +128,49 @@ a:hover{
   <p >
     <a href="TloginSala6_free.html" color="#f5f6fa">Fale com o administrador, receba sua senha e acesse a sala free!</a>
   </p>
+
+</div>
+</div>
+
+  <script type="text/javascript">
+    let canvas=document.getElementById("desenho1")
+    let ctx=canvas.getContext('2d')
+
+    let jogador= new Image()
+    jogador.src="../imagens/AnimationSalas.png"//lembrar sempre de rever o caminho da imagem em caso de mudaça de pastas
+    let numSprite=0//variavel responsavel de mudar as imagens! na posição em x
+    let posIniX=0
+    let Limagem=0
+    let largSprite=0
+    let numSpries=4//A quntidade de recorte de imagens esta ligada diretamenta com a condição que reinicia a sequencia de imagens do if da função ANIMA
+    jogador.addEventListener('load',()=>{
+        largSprite=jogador.width/numSpries
+        AltSprite=jogador.height/numSpries
+        posIniX=largSprite*numSprite// <= ao mudar esse valor desloca-se a captura de imagem... como a imagem estudada é de 4imagens 50x50pixls ..temos de 0 a 3 ... posteriormente o numero foi adcionado a uma variavel!!
+        //(imagem) +++ (x inicial do recorte..y inicial do recorte) +++ (largura do recote...Altura do recorte) +++ (posição X da imagem...posição Y da imagem) +++ (Largura da imagem ...altura da imagem)
+      ctx.drawImage(jogador,posIniX,0,largSprite,AltSprite,0,0,largSprite,AltSprite)
+      //posIniY modifica a sequencia de imagens para baixo lembra de modificar nas duas funções que se seguem
+    })      
+    
+    let anima=setInterval(()=>{
+        ctx.clearRect(0,0,500,500)
+        numSprite++
+        if(numSprite>3)//condição que reinicia a sequencia de imagens! 
+        numSprite=0
+        posIniX=largSprite*numSprite
+         //(imagem) +++ (x inicial do recorte..y inicial do recorte) +++ (largura do recote...Altura do recorte) +++ (posição X da imagem...posição Y da imagem) +++ (Largura da imagem ...altura da imagem)
+      ctx.drawImage(jogador,posIniX,0,largSprite,400,0,0,500,500)//..50x50
+     //posIniY modifica a sequencia de imagens para baixo  lembra de modificar nas duas funções que se seguem
+    },1000)//função que define o tempo em que as imagens mudam
+
+
+
+
+
+
+
+
+</script>
 
   </body>
 </html>
