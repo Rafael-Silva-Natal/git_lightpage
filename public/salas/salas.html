@@ -91,24 +91,55 @@ a:hover{
 .alinhamento{
   text-align: center;
 }
-.canvas{
-  justify-content: right;
-      align-items: right;
 
-}
+.canvas {
+  border: 0px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0px;
+        }
 
-#CanvaLinks{
-  display:inline-block;
-}
+        #CanvaLinks {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            padding: 0px;
+        }
 
+        .links {
+            flex: 1;
+
+            margin-left: 200px; /* Adicionei uma margem à esquerda dos links */
+        }
+
+        #desenho1 {
+            flex: 1;
+        }
+        .rodape{
+          width: 100%;
+          border: 0px;
+          padding: 0%;
+        }
+        .body{
+          background: url('../imagens/fundoProgram3.PNG') no-repeat;
+          background-size: cover;
+      
+          width: 100%;
+          max-width: 100%;
+          height: auto;
+          /*background-color: black;*/
+        }
 </style>
 
-<body style="background-image:url('../imagens/fundoProgram3.PNG'); background-size:100%; background-position:top; background-repeat:no-repeat;">
+<body style="background-color: black" class="body">
 
   
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>  
+<br><br><br><br><br>
 <div id="CanvaLinks">
+
 <div class="canvas">
+
  <canvas id="desenho1" width="500" height="500">
   <h3>seu browser não possui suporte a canvas</h3>
   </canvas>
@@ -116,21 +147,24 @@ a:hover{
 
 <br><br>
 <div class="links">
-  <a href="TloginAlfa.html" class="alfa"> Sala alfa (Indisponível)</a><br><br>
-  <a href="TloginBeta.html" class="beta"> Sala beta (Indisponível)</a><br><br>
-  <a href="TloginSala2.html" class="sala2"> Acesse o link e execute o login da sala 2 (Indisponível)</a><br><br>
-  <a href="TloginSala3.html" class="linkcolor"> Acesse o link e execute o login da sala 3 (Disponível)</a><br><br>
-  <a href="TloginSala4.html" class="linkcolor"> Acesse o link e execute o login da sala 4 (Disponível)</a><br><br>
-  <a href="TloginSala5.html" class="linkcolor"> Acesse o link e execute o login da sala 5 (Disponível)</a>
-  
- 
-  
-  <p >
+ <p >
     <a href="TloginSala6_free.html" color="#f5f6fa">Fale com o administrador, receba sua senha e acesse a sala free!</a>
   </p>
+  <br><br>
+  <a href="TloginAlfa.html" class="alfa"> Sala alfa (Indisponível)</a><br><br><br>
+  <a href="TloginBeta.html" class="beta"> Sala beta (Indisponível)</a><br><br><br>
+  <a href="TloginSala2.html" class="sala2"> Acesse o link e execute o login da sala 2 (Indisponível)</a><br><br><br>
+  <a href="TloginSala3.html" class="linkcolor"> Acesse o link e execute o login da sala 3 (Disponível)</a><br><br><br>
+  <a href="TloginSala4.html" class="linkcolor"> Acesse o link e execute o login da sala 4 (Disponível)</a><br><br><br>
+  <a href="TloginSala5.html" class="linkcolor"> Acesse o link e execute o login da sala 5 (Disponível)</a>
+  
+</div>
+</div>
+<br>
+<div class="rodape">
+  <img src="../imagens/fundo program3_1.png" width="100%">
+ </div>
 
-</div>
-</div>
 
   <script type="text/javascript">
     let canvas=document.getElementById("desenho1")
