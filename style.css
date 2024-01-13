@@ -2,11 +2,16 @@
   background: url('public/imagens/FundoAtual.PNG') no-repeat;
   background-size: cover;
   overflow: hidden;
+
+  /*código aprovado como padrão
   width: 100%;
   max-width: 100%;
-  height: auto;
-  /*background-color: black;*/
+  height: auto;*/
+ 
   margin: 0%;/*atributo adcionado para resolver bug na apresentação mobile feito por mim*/
+
+
+
 }
 
 /* ... (seu código anterior) ... */
@@ -16,6 +21,11 @@
   justify-content: center;
   align-items: center;
   margin-top: 410px;
+  /*margin-top: 32%; codigo de teste para resolver bug na apresentação mobile feito por mim
+  margin-left: 40%;
+  margin-right: 60%;*/
+
+
 }
 
 #desenho1 {
