@@ -6,6 +6,7 @@
   max-width: 100%;
   height: auto;
   /*background-color: black;*/
+  margin: 0%;/*atributo adcionado para resolver bug na apresentação mobile feito por mim*/
 }
 
 /* ... (seu código anterior) ... */
