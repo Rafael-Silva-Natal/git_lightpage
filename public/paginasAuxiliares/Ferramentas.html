@@ -4,115 +4,110 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ferramentas Gratuitas</title>
     <style>
+        body {
+            background-image: url('../imagens/ferramentasPage.PNG');
+            /*filter: blur(5px);  Ajuste o valor conforme necessário */
+            background-size: cover;
+            width: 100%;
+            height: auto;
+            margin: 0;
+        }
 
-body {
-  background-image: url('../imagens/ferramentasPage.PNG');
-  background-size: cover;
-  /*filter: blur(5px);  Ajuste o valor conforme necessário */
-  width: 100%;
-  height: auto;
-  margin: 0;
-}
-.princial{
-    text-align: center;
-  }
+        .principal {
+            text-align: center;
+        }
 
- .imagem{
-    display:inline-block;
- 
-  }
-  .dimensao{
-    margin-left: 20%;
-    width: 200px;
-    height: 100px;
-    border: 3px solid blue ;
-    border-radius: 10%;
-  }
+        .conteudo {
+            display: flex;
+            /*justify-content: center;*/
+            margin-left: 50px;
+            align-items: flex-start; /* Alinha os itens com o topo */
+            margin-top: 20px; /* Espaçamento superior entre os grupos */
+        }
 
-  .link{
-  text-align:right;
-  font-size:0.9em ;
-margin-left: 10%;
-  display:inline-block;
-}
-#estilizarLink{
- 
-  color:#073ffa;
-  text-decoration:underline;
-  top: 0px;
-  left: 50px;
-  font-size: 23px;
-  text-shadow: 1px 1px rgb(10, 10, 10);
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
+        .imagem {
+            display: inline-block;
+        }
 
-.estilizarTexto{
-  color:rgb(212, 6, 253);
- text-align: center;
-  font-size: 60px;
-  text-shadow: 2px 2px #0429fd;
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        .dimensao {
+            width: 200px;
+            height: 100px;
+            border: 3px solid blue;
+            border-radius: 10%;
+        }
 
-}
+        .link {
+            text-align: right;
+            font-size: 0.9em;
+            margin-left: 10px; /* Espaço entre a imagem e o link */
+            vertical-align: top; /* Alinha com o topo da imagem */
+        }
 
+        #estilizarLink {
+            color: #073ffa;
+            text-decoration: underline;
+            font-size: 16px;
+            text-shadow: 1px 1px rgb(10, 10, 10);
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+
+        .estilizarTexto {
+            color: rgb(212, 6, 253);
+            text-align: center;
+            font-size: 60px;
+            text-shadow: 2px 2px #0429fd;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
     </style>
 </head>
 <body style="background-color: white" class="body">
- 
+    <p class="estilizarTexto">Ferramentas gratuitas</p>
 
-  <p class="estilizarTexto">Ferramentas gratuitas</p>
+    <br><br>
 
-
-  <br><br>
-<div class="principal">
-
-    <div class="imagem">
-        <img src="../imagens/copyBlock.PNG" class="dimensao">
-
-        <div style="clear: both;"></div> 
-    
-      </div>
-  
-      <div class="link" style="clear: both;">
-        <a href="../pageRatbook/salaBabys.html" id="estilizarLink">acesse este link para acessar o repositório do Copyblock</a>
-      </div>
-      
+    <!-- Grupo 1 -->
+    <div class="conteudo">
+        <div class="imagem">
+            <img src="../imagens/copyBlock.PNG" class="dimensao">
+        </div>
+        <div class="link">
+            <a href="../pageRatbook/salaBabys.html" id="estilizarLink">Acesse este link para uma experiência na página</a>
+        </div>
+        <div class="link">
+            <a href="../pageRatbook/salaBabys.html" id="estilizarLink">Acesse este link para acessar o repositório do Copyblock</a>
+        </div>
     </div>
 
+    <br><br>
 
-<br><br>
-    <div class="principal">
-
-      <div class="imagem">
-          <img src="../imagens/matMemoryImage.PNG" class="dimensao">
-  
-          <div style="clear: both;"></div> 
-      
+    <!-- Grupo 2 -->
+    <div class="conteudo">
+        <div class="imagem">
+            <img src="../imagens/matMemoryImage.PNG" class="dimensao">
         </div>
-    
-        <div class="link" style="clear: both;">
-          <a href="../pageRatbook/salaBabys.html" id="estilizarLink">acesse este link para acessar o repositório do MatMemoryGame</a>
+        <div class="link">
+            <a href="../pageRatbook/salaBabys.html" id="estilizarLink">Acesse este link para uma experiência na página</a>
         </div>
-        
-      </div>
+        <div class="link">
+            <a href="../pageRatbook/salaBabys.html" id="estilizarLink">Acesse este link para acessar o repositório do MatMemoryGame </a>
+        </div>
+    </div>
 
-<br><br>
-      <div class="principal">
+    <br><br>
 
+    <!-- Grupo 3 -->
+    <div class="conteudo">
         <div class="imagem">
             <img src="../imagens/jogoDoRatoIMG.jpg" class="dimensao">
-    
-            <div style="clear: both;"></div> 
-        
-          </div>
-      
-          <div class="link" style="clear: both;">
-            <a href="../pageRatbook/salaBabys.html" id="estilizarLink"> Link para acessar o repositório do jogo do rato ( indisponível )</a>
-          </div>
-          
         </div>
-    
+        <div class="link">
+            <a href="../pageRatbook/salaBabys.html" id="estilizarLink">Acesse este link para uma experiência na página</a>
+        </div>
+        <div class="link">
+            <a href="../pageRatbook/salaBabys.html" id="estilizarLink">Link para acessar o repositório do jogo do rato (indisponível)</a>
+        </div>
+    </div>
 </body>
 </html>
