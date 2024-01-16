@@ -172,7 +172,7 @@ function checkCards() {
      // Função para redirecionar a pagina
      function redirecionar1() {
       // Altere o URL abaixo para a página desejada
-      window.location.href = "https://rafael-silva-natal.github.io/Ligth_page/";
+      window.location.href = "https://rafael-silva-natal.github.io/Matematics_MemoryGame/public/Fases/fase2/fase2.html";
   }
 
   // Obtém o elemento do botão por seu ID
