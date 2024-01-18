@@ -60,6 +60,135 @@
 </div>
 
 
+<!--<script> 
+
+var container = document.getElementById("container");
+var imagem1 = document.getElementById("imagem1");
+var imagem2 = document.getElementById("imagem2");
+var body = document.querySelector("body");
+
+// Definir a posição inicial das imagens
+var startX1 = 1050;
+var startY1 = 400;
+var startX2 = 100;
+var startY2 = 100;
+imagem1.style.left = startX1 + "px";
+imagem1.style.top = startY1 + "px";
+imagem2.style.left = startX2 + "px";
+imagem2.style.top = startY2 + "px";
+
+// Definir a velocidade das imagens
+var speed1 = 5;
+var speed2 = 2;
+
+// Flag para indicar se ocorreu uma colisão
+var collisionOccurred = false;
+
+// Adicionar um atraso de 2 segundos antes de iniciar o movimento das imagens
+setTimeout(function() {
+  body.style.backgroundImage = "url('../imagens/imglabirinto.jpg')"; // Definindo a imagem de fundo
+  container.addEventListener("mousemove", function(event) {
+    if (collisionOccurred) {
+      // Se já ocorreu uma colisão, não faça nada
+      return;
+    }
+
+    var x = event.clientX - container.offsetLeft;
+    var y = event.clientY - container.offsetTop;
+
+    // Calcular o ângulo entre a posição atual da imagem1 e o cursor
+    var angle = Math.atan2(y - startY1, x - startX1);
+    
+    // Aplicar a rotação na imagem1
+    imagem1.style.transform = "rotate(" + angle + "rad)";
+
+    // Calcular a distância entre as imagens
+    var distance = Math.sqrt(Math.pow(startX2 - startX1, 2) + Math.pow(startY2 - startY1, 2));
+
+    // Definir uma distância de referência para acionar a rotação da imagem2
+    var referenceDistance = 50;
+
+    // Determinar a direção da rotação com base na posição relativa das imagens
+    var rotationDirection = "";
+    if (startX2 > startX1 + referenceDistance) {
+      rotationDirection = "right";
+    } else if (startX2 < startX1 - referenceDistance) {
+      rotationDirection = "left";
+    } else if (startY2 > startY1 + referenceDistance) {
+      rotationDirection = "down";
+    } else if (startY2 < startY1 - referenceDistance) {
+      rotationDirection = "up";
+    }
+
+    // Aplicar a rotação na imagem2 com base na direção
+    switch (rotationDirection) {
+      case "right":
+        imagem2.style.transform = "rotate(0deg)";
+        break;
+      case "left":
+        imagem2.style.transform = "rotate(180deg)";
+        break;
+      case "down":
+        imagem2.style.transform = "rotate(90deg)";
+        break;
+      case "up":
+        imagem2.style.transform = "rotate(-90deg)";
+        break;
+      default:
+        imagem2.style.transform = "rotate(0deg)";
+    }
+
+    // Calcular a nova posição da imagem1
+    var newX1 = x - (imagem1.offsetWidth / 2);
+    var newY1 = y - (imagem1.offsetHeight / 2);
+
+    // Calcular a nova posição da imagem2
+    var newX2 = x - (imagem2.offsetWidth / 2);
+    var newY2 = y - (imagem2.offsetHeight / 2);
+
+    // Verificar a colisão entre as imagens
+    if (
+      newX1 < newX2 + imagem2.offsetWidth &&
+      newX1 + imagem1.offsetWidth > newX2 &&
+      newY1 < newY2 + imagem2.offsetHeight &&
+      newY1 + imagem1.offsetHeight > newY2
+    ) {
+      // Colisão detectada, redirecionar para outra página
+      collisionOccurred = true;
+      window.location.href = "seu_novo_link.html";
+    }
+
+    // Aplicar a nova posição das imagens com a velocidade definida
+    if (Math.abs(newX1 - startX1) > speed1 || Math.abs(newY1 - startY1) > speed1) {
+      if (newX1 > startX1) startX1 += speed1;
+      else startX1 -= speed1;
+      if (newY1 > startY1) startY1 += speed1;
+      else startY1 -= speed1;
+
+      imagem1.style.left = startX1 + "px";
+      imagem1.style.top = startY1 + "px";
+    }
+
+    if (Math.abs(newX2 - startX2) > speed2 || Math.abs(newY2 - startY2) > speed2) {
+      if (newX2 > startX2) startX2 += speed2;
+      else startX2 -= speed2;
+      if (newY2 > startY2) startY2 += speed2;
+      else startY2 -= speed2;
+
+      imagem2.style.left = startX2 + "px";
+      imagem2.style.top = startY2 + "px";
+    }
+  });
+}, 2000);
+
+  
+  </script>-->
+
+
+
+
+
+
 
 <script>
 var container = document.getElementById("container");
@@ -163,8 +292,6 @@ setTimeout(function() {
 
 
 </script>
-
-
 
 
 </body>
