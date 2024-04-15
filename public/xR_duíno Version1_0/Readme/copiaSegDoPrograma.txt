@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R_duíno IDE</title>
+</head>
+<style>
+#gravador{
+  background-color: #3473e9; /* Cor de fundo do botão */
+      color: white; /* Cor do texto do botão */
+      border: 2px solid #f03a3a; /* Borda do botão */
+      padding: 10px 20px; /* Espaçamento interno do botão */
+      border-radius: 5px; /* Borda arredondada do botão */
+      font-size: 16px; /* Tamanho da fonte do botão */
+      margin-left: 85%;
+
+}
+
+
+#botaoParar{
+
+  background-color: #3473e9; /* Cor de fundo do botão */
+      color: white; /* Cor do texto do botão */
+      border: 2px solid #f03a3a; /* Borda do botão */
+      padding: 10px 20px; /* Espaçamento interno do botão */
+      border-radius: 5px; /* Borda arredondada do botão */
+      font-size: 16px; /* Tamanho da fonte do botão */
+
+}
+
+#botaoApagar1{
+  
+    background-color: #3473e9; /* Cor de fundo do botão */
+        color: white; /* Cor do texto do botão */
+        border: 2px solid #f03a3a; /* Borda do botão */
+        padding: 10px 20px; /* Espaçamento interno do botão */
+        border-radius: 5px; /* Borda arredondada do botão */
+        font-size: 16px; /* Tamanho da fonte do botão */
+        
+  }
+  
+
+#cabeça{
+    width: 100%;
+  }
+  #opçoes{
+    display: inline-block;
+      /*vertical-align: top;*/
+      margin-left: 600px;/*define a distancia entre as divs*/ 
+   
+  }
+  #cabe{
+    display: inline-block;
+   
+  }
+  
+  .cabeçalho{
+    margin-top: 0px;
+    color:rgb(8, 139, 47);
+    font-family:'Courier New', Courier, monospace;
+    font-size: 2.9em;
+    border: 0px;
+    text-indent: 120px;
+    text-shadow: 2px 2px rgb(23, 22, 121);
+    
+  }
+  
+  
+  
+  #meusBotoes {
+      display: inline-block;/*define formato e cores para a box e conteudo dos botões*/
+      vertical-align: top;
+      margin-right: 400px;/*define a distancia entre as divs*/
+      
+      overflow-y: auto;/* sobre a barra de rolagem */
+    height: 450px; /* ou qualquer outra altura desejada */
+      
+    }
+    
+  
+    #minhaDiv {
+      display: inline-block;
+      vertical-align: top;
+      /*margin-left: 20px;*/
+      /*display: flex;*/
+      justify-content: center;
+      align-items:flex-start;
+      /*height: 100vh;*/
+      top: 0;
+      
+     width: 10%;
+  
+      
+    }
+    
+  
+  
+  
+  
+    #mensagem {
+      background-color: #9ef874;/*define estilização de box do botoes de forma independente*/
+      color: rgb(228, 151, 209);
+      border: 3px solid rgb(4, 192, 44);
+      padding: 5px;
+      margin: 5px;
+      width: 120px;
+      height: 30px;
+      font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: 0.9em;
+      text-align:center;
+      text-shadow: 1px 1px rgb(78, 63, 143);
+      border-radius: 10%;/*definição diferenciada de estilo relativo aos outros botoes*/
+    }
+    #botao1,
+    #botao2,
+    #botao3,
+    #botao4,
+    #botao5,
+    #botao6,
+    #botao7,
+    #botao8,
+    #botao9
+   
+    {
+      background-color: #9ef874;/*define estilização de box dos botoes de forma independente*/
+      color: rgb(8, 166, 240);
+      border: 3px solid rgb(135, 12, 151);
+      padding: 5px;
+      margin: 5px;
+      width: 110px;
+      height: 30px;
+      font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: 0.9em;
+      text-align:center;
+      border-radius: 20%;
+    
+    }
+  
+  
+    .titulos{
+      color: rgb(230, 119, 245);
+      text-shadow: 1px 1px rgb(78, 63, 143);
+      font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: 1.5em;
+    }
+  
+    .titu{
+      color: rgb(242, 204, 247);
+      text-shadow: 1px 1px rgb(78, 63, 143);
+      font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: 1.1em;
+    }
+  
+
+    .botaoSom {
+      background-color: #e731c9; /* Cor de fundo do botão */
+      color: #ffffff; /* Cor do texto do botão */
+      border: 2px solid #000000; /* Borda do botão */
+      padding: 10px 20px; /* Espaçamento interno do botão */
+      border-radius: 5px; /* Borda arredondada do botão */
+      font-size: 16px; /* Tamanho da fonte do botão */
+       
+  margin-top: 10%;
+     
+  }
+
+</style>
+<body>
+
+    
+<div id="cabeça">
+
+    <div id="cabe">
+      <p class="cabeçalho">R_duíno IDE</p><br><br>
+    </div>
+    <div id="opçoes">
+    <button id="botaoApagar1">Apagar blocos</button><br><br>
+    <button id="botaoParar">BREAK SOUND</button><br><br>
+    
+  </div> 
+  
+  </div>
+    <div id="conteudo">
+        <div id="meusBotoes">
+          <spam class="titu">O autor diz:</spam><br>
+          <button id="mensagem">Bons estudos!</button><br>
+          <spam class="titu">Sobre este Programa:</spam><br>
+          <button id="botao1">Helo World!</button><br>
+
+          <spam class="titulos">Dó</spam><br>
+          <button id="botao2">261,63 Hz</button><br>
+          <spam class="titulos">Ré</spam><br>
+          <button id="botao3">293,66 Hz</button><br><!-- + botões-->
+          <spam class="titulos">Mi</spam><br>
+          <button id="botao4">329,63 Hz</button><br>
+          <spam class="titulos">Fá</spam><br>
+          <button id="botao5">349,23 Hz</button><br>
+          <spam class="titulos">Sol</spam><br>
+          <button id="botao6">392 Hz</button><br>
+          <spam class="titulos">Lá</spam><br>
+          <button id="botao7">440 Hz</button><br>
+          <spam class="titulos">Si</spam><br>
+          <button id="botao8">493,88 Hz</button><br>
+          <spam class="titulos">dó</spam><br>
+          <button id="botao9">523,25 Hz</button><br>
+        </div>
+        <div id="minhaDiv"></div><!--div responsavel pelo texto em inline-block com a div dos botoes-->
+      </div>
+      <button id="gravador">Gravar</button>
+
+<script>
+// Array para armazenar referências aos botões criados
+let botoesCriados = [];
+
+// Array para armazenar referências aos elementos de áudio gerados dinamicamente
+var audiosGerados = [];
+
+//=====================================Botoes das notas e frequencias================
+//---------------------------------------Dó
+// Função para criar um novo botão
+function criarBotao() {
+    const novoBotao = document.createElement("button");
+    novoBotao.textContent = "Dó";
+    document.getElementById("minhaDiv").appendChild(novoBotao);// adiciona o novo botao a pagina
+    botoesCriados.push(novoBotao); // Adiciona o botão ao array
+ // Aplica a classe CSS para estilizar o botão
+    novoBotao.classList.add("botaoSom");
+    // Adiciona um evento de clique ao botão
+    novoBotao.addEventListener("click", function() {
+        gerarNovoAudio();
+    }); 
+ // Função para gerar um novo elemento de áudio e armazená-lo no array
+function gerarNovoAudio() {
+        var novoAudio = document.createElement("audio");
+        novoAudio.src = "./Audio Piano/1_Dó_261p63Hz.mp3";
+  document.body.appendChild(novoAudio);
+  audiosGerados.push(novoAudio);
+  novoAudio.play();
+}        
+}
+// Adiciona um evento de clique ao botão "criarBotao"
+document.getElementById("botao2").addEventListener("click", criarBotao);
+
+//--------------------------------------------------------Ré
+
+// Função para criar um novo botão
+function criarBotao2() {
+    const novoBotao2 = document.createElement("button");
+    novoBotao2.textContent = "Ré ";
+    document.getElementById("minhaDiv").appendChild(novoBotao2);
+    botoesCriados.push(novoBotao2); // Adiciona o botão ao array
+ // Aplica a classe CSS para estilizar o botão
+    novoBotao2.classList.add("botaoSom");
+    // Adiciona um evento de clique ao botão
+    novoBotao2.addEventListener("click", function() {
+      gerarNovoAudio2();
+    });
+    // Função para gerar um novo elemento de áudio e armazená-lo no array
+  function gerarNovoAudio2() {
+        var novoAudio2 = document.createElement("audio");
+        novoAudio2.src = "./Audio Piano/2_Ré_293p66Hz.mp3";
+  document.body.appendChild(novoAudio2);
+  audiosGerados.push(novoAudio2);
+  novoAudio2.play();
+}       
+}
+// Adiciona um evento de clique ao botão "criarBotao"
+document.getElementById("botao3").addEventListener("click", criarBotao2);
+//-------------------------------------------------------
+//==================================================================
+
+
+// ======================Função para apagar o último botão criado=====================
+function apagarUltimoBotao() {
+    if (botoesCriados.length > 0) {
+        const ultimoBotao = botoesCriados.pop(); // Remove o último botão do array
+        ultimoBotao.parentNode.removeChild(ultimoBotao); // Remove o botão do DOM
+    }
+}
+// Adiciona um evento de clique ao botão "apagarBotao"
+document.getElementById("botaoApagar1").addEventListener("click", apagarUltimoBotao);
+//============================================================================
+
+//================================parar audios===============================
+// Função para parar todos os áudios em reprodução
+function pararTodosOsAudios() {
+  // Itera sobre cada elemento de áudio gerado e para sua reprodução
+  audiosGerados.forEach(function(audio) {
+      audio.pause(); // Pausa a reprodução do áudio
+      audio.currentTime = 0; // Define o tempo de reprodução como zero para reiniciar o áudio, se necessário
+  });
+}
+// Adiciona um evento de clique ao botão "botaoParar"
+document.getElementById("botaoParar").addEventListener("click", function() {
+  pararTodosOsAudios(); // Chama a função para parar todos os áudios
+});
+//=============================================================================
+</script>
+</body>
+</html>
