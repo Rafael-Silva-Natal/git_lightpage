@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>R_duíno IDE</title>
+    <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
+</head>
+<style>
+
+#gravador
+ {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin: 10px;
+}
+#gravador::after
+ {
+  content: attr(data-tooltip);
+    position:absolute;
+    background-color: rgba(252, 6, 6, 0.8);
+    color: black;
+    padding: 20px; /* Ajuste o tamanho do padding conforme necessário */
+    border-radius: 5px;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 15px;
+    text-align: justify; /* Justifica o texto */
+    width: 100px; /* Define a largura do tooltip */
+    
+}
+#gravador:hover::after
+ {
+  opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+
+
+ .tutorial {
+  text-align: center;
+  margin-top: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding:20px;
+  background-color: rgba(155, 208, 243, 0.753);
+  border: 10px solid rgb(80, 44, 10);
+  border-radius: 10px;
+
+}
+/* Estilos para o botão Yes, I know */
+.tutorial button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #610479;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 3px solid rgb(69, 12, 71);
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+/* Estilos para o botão No, I don't know */
+.tutorial button:last-child {
+  background-color: #d43bfa;
+  border: 3px solid rgb(252, 4, 210);
+}
+
+.content {
+  display: none;
+}
+#conteudo{
+  display: none;
+}
+.welcome{
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  #menu {
+  position: fixed; /* Fixa a barra de menu na parte superior */
+  top: 0; /* Alinha a barra de menu ao topo da página */
+  left: 0; /* Alinha a barra de menu à esquerda da página */
+  width: 100%; /* Preenche toda a largura da janela do navegador */
+  display: flex;
+  background-color: #951afa; /* Cor de fundo do menu */
+  color: white;
+  padding: 10px; /* Remover espaçamento interno */
+  margin: 0; /* Remover margens */
+}
+/* barra divisoria*/
+#menu2 {
+  position: fixed; /* Fixa a barra de menu na parte superior */
+  top: 40px; /* Alinha a barra de menu ao topo da página */
+  left: 0; /* Alinha a barra de menu à esquerda da página */
+  width: 100%; /* Preenche toda a largura da janela do navegador */
+  display: flex;
+  background-color: #3955f3; /* Cor de fundo do menu */
+  padding: 3px; /* Remover espaçamento interno */
+  margin: 0; /* Remover margens */
+  
+}
+.menu-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 20px;
+}
+.menu-button2 {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 20px;
+}
+.menu-button3 {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 20px;
+}
+.menu-button4 {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  /*margin-right: 20px;*/
+}
+
+
+
+.menu-button:hover,
+.menu-button2:hover,
+.menu-button3:hover,
+.menu-button4:hover {
+  background-color: rgba(61, 4, 66, 0.1); /* Define a cor de fundo ao passar o mouse */
+  transition: background-color 0.3s ease; /* Adiciona uma transição suave */
+}
+
+#Aba1{
+  display: none;
+  position: absolute; /* Posição absoluta para facilitar o posicionamento */
+  background-color: #951afa;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin-top:20px;
+  border-top: 0px;
+}
+#Aba2 {
+  border-top: 0px;
+  display: none;
+  position: absolute; /* Posição absoluta para facilitar o posicionamento */
+  background-color: #951afa;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin-top:20px;
+  left: 100px;
+}
+#Aba3 {
+  border-top: 0px;
+  display: none;
+  position: absolute; /* Posição absoluta para facilitar o posicionamento */
+  background-color: #951afa;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin-top:20px;
+  left: 170px;
+}
+#Aba4 {
+  border-top: 0px;
+  display: none;
+  position: absolute; /* Posição absoluta para facilitar o posicionamento */
+  background-color: #951afa;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin-top:20px;
+  left: 260px;
+}
+.menu-button5 {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left:  700px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  text-shadow: 3px 2px rgb(136, 171, 236);
+}
+
+
+
+
+#opacity,
+#opacity2,
+#opacity3,
+#opacity4,
+#opacity5,
+#opacity6,
+#opacity7,
+#opacity8,
+#opacity9,
+#opacity10,
+#opacity11,
+#opacity12,
+#opacity13,
+#opacity14,
+#opacity15,
+#opacity16,
+#opacity17,
+#opacity18,
+#opacity19,
+#opacity20{
+  color: white;
+  background-color: #951afa; /* Cor de fundo padrão */
+  border: 0px;
+  transition: opacity 0.3s ease; /* Adiciona uma transição suave para a opacidade */
+}
+
+#opacity:hover,
+#opacity2:hover,
+#opacity3:hover,
+#opacity4:hover,
+#opacity5:hover,
+#opacity6:hover,
+#opacity7:hover,
+#opacity8:hover,
+#opacity9:hover,
+#opacity10:hover,
+#opacity11:hover,
+#opacity12:hover,
+#opacity13:hover,
+#opacity14:hover,
+#opacity15:hover,
+#opacity16:hover,
+#opacity17:hover,
+#opacity18:hover,
+#opacity19:hover,
+#opacity20:hover{
+  background-color: rgba(61, 4, 66, 0.1); /* Define a cor de fundo ao passar o mouse */
+  transition: background-color 0.3s ease; /* Adiciona uma transição suave para a cor de fundo */
+
+  
+}
+#opacity:hover {
+  opacity: 0.7; /* Define a opacidade ao passar o mouse */
+}
+
+#barraMenu {
+        display: none; /* Oculta a barra de menu inicialmente */
+      }
+</style>
+  <body class="body">
+
+
+    <div id="barraMenu">
+      <div id="menu">
+          <button class="menu-button" onclick="showMenu('Aba1')">Arquivo</button>
+          <button class="menu-button2" onclick="showMenu('Aba2')">Editar</button>
+          <button class="menu-button3" onclick="showMenu('Aba3')">Executar</button>
+          <button class="menu-button4" onclick="showMenu('Aba4')">Ajuda</button>
+
+          <!-- Adicione mais botões e menus conforme necessário -->
+          <button class="menu-button5">xR_duíno IDE versão 1.0</button>
+        </div>
+        <div id="menu2"></div>
+  
+        <div id="Aba1">
+          <button id="opacity">Novo Projeto</button><br><br>
+          <button id="opacity2">Abrir Projeto</button><br><br>
+          <button id="opacity3">Salvar Projeto</button><br><br>
+          <button id="opacity4">Exportar Projeto</button><br><br>
+          <button id="opacity5">Fechar Programa</button>
+        </div>
+        <div id="Aba2">
+          <button id="opacity6">Desfazer</button><br><br>
+          <button id="opacity7">Refazer</button><br><br>
+          <button id="opacity8">Copiar</button><br><br>
+          <button id="opacity9">Recortar</button><br><br>
+          <button id="opacity10">Colar</button>
+        </div>
+        <div id="Aba3">
+          <button id="opacity11">Baixar programa</button><br><br>
+          <button id="opacity12">Reiniciar projeto</button><br><br>
+          <button id="opacity13">Gravador</button><br><br>
+          <button id="opacity14">Midia</button><br><br>
+          <button id="opacity15">Compartilhar</button>
+        </div>
+          <div id="Aba4">
+            <button id="opacity16">Lightpage</button><br><br>
+            <button id="opacity17">Github</button><br><br>
+            <button id="opacity18">Tutorial</button><br><br>
+            <button id="opacity19">Relatar problema</button><br><br>
+            <button id="opacity20">Sobre</button>
+          </div>
+
+      </div>
+
+
+
+
+    <div id="tutorial" class="tutorial">
+      <p class="welcome">Welcome!<p>
+      <p class="welcome">Do you know how to use this page?</p>
+      <button onclick="startTutorialAndMostrarBarraMenu()">Yes, I know</button>
+      <button onclick="redirecionar1AndMostrarBarraMenu()">No, I don't know</button>
+    </div>
+
+    <div id="content" class="content" style="display: none;">
+
+    <!-- <div>
+      <p id="cabeçalho">xR_duíno IDE versão 1.0</p>
+    </div>-->
+    <button id="botao11">Ir para o modo iniciante</button>
+    
+   <div id="widget" class="widget">
+      <div class="widget-content">
+        <div class="widget-header">
+          <span class="close-btn" onclick="closeWidget()">X</span>
+        </div>
+        <div class="widget-body">
+          <p class="textoHelo1">O programador Rafael Silva diz: Bons estudos para todos!<br><br>
+            Espero que este programa 
+           possa ajudar todos que precisarem de uma ferramenta de manipulação de frequências 
+           sonoras. O uso é simples e instintivo, basta clicar nas notas musicais, e preencher
+            os formulários de tempo e salvar as sequencias de notas clicando no botão gravar!<br><br>
+             A frequência gerada pode ser ouvida clicando no botão gerado no formulário, o botão
+              Break sound serve para parar a execução de audios que estão sendo ouvidos. Você 
+              poderá montar uma sequência lógica de blocos para gravar em um pendrive e usar no
+               seu xR_duíno!<br><br> Além dos botões das notas,ouvir frequência, break sound e gravar
+                existe o botão apagar blocos, que serve para apagar sequências criadas! Este programa 
+                ainda precisa de muitas atualizações e melhorias!! mas acredito que um bom estudante
+                 poderá superar as falhas dessa versão inicial, deixei um repositório público no git hub!!
+                  Espero vocês por lá!! Deixem seus comentários e opniões!!<br><br>
+                  Agora clique em fechar e boa sorte!</p>
+          <!-- More extensive text goes here -->
+        </div>
+      </div>
+  </div>
+  <div id="widget2" class="widget2">
+    <div class="widget-content2">
+      <div class="widget-header2">
+        <span class="close-btn2" onclick="closeWidget2()">X</span>
+      </div>
+      <div class="widget-body2">
+        <p class="textoHelo2">"O QUE É xR_duíno???<br><br>Pode se dizer que é um Arduino caseiro feito com qualquer
+           caixinha de som, com leitor de pendrive, um pendrive, e um drive na configuração de relé sônica...<br><br>
+           LÓGICA:<br>No pendrive,grava-se as notas musicais em suas devidas frequências, no formato mp3; 
+           Ao reproduzir as notas musicais na caixa de som o fone deverá ser removido(ou não), para que as ondas das
+            frequências do pendrive com as gravações de audio sejam usadas para manipular outros circuitos...
+            Um driver de relé sônica deve ser configurado para manipulações de aparelhos ou mesmo portas lógicas...<br><br>
+             etc...Considerando que a configuração de hardware do drive funcione perfeitamente, a ideia seguinte será programar
+              os audios na IDE de manipulação de dados para facilitar o manuseio de comandos...Dentro da lógica
+               de programação em blocos, a IDE deve fornecer um menu de audios, nas devidas frequências em formato mp3
+                para serem organizados numa area de trabalho, possibilitando tambem gravações de audio.
+                 Ao organizar a sequência de audios em frequencias desejadas a mesma deve ser salva no
+                  pendrive para ser executado no xR_duíno.<br><br> Esta Tecnologia é nova no mercado, portanto drivers
+                   plug and play para dispositivos sonoros ainda não estão acessiveis no mercado restando as alternativas
+                    de importação do drive ou mesmo a fabricação do mesmo!! No momento a lightPage informa que
+                     a tecnologia ainda está na fase da prototipagem, no entanto estamos abertos a comentários 
+                     e sugestões e possiveis negociações...</p>
+        <!-- More extensive text goes here -->
+      </div>
+    </div>
+</div>
+<div id="widget3" class="widget3">
+  <div class="widget-content3">
+    <div class="widget-header3">
+      <span class="close-btn3" onclick="closeWidget3()">X</span>
+    </div>
+    <div class="widget-body3">
+      <p class="textoHelo3">
+        A lógica do programa é selecionar as notas musicais na sequência desejada e baixar,
+        mas para que essa aplicação seja possivel em HTML,CSS e JAVASCRIPT alguns detalhes
+        devem seguir a diretriz a seguir:<br><br>
+        Ao selecionar as notas musicais correspondentes as frequências sonoras, clicando nos 
+        respectivos botões relativos, outros botões são gerados na área de trabalho, e esses
+        novos botões são responsaveis por reproduzir o audio da nota, e representar a sequência
+        que o usuário deseja baixar!<br><br>
+        Para que a sequência de notas musicais seja registrada na ordem correta para download,
+        basta selecionar as notas musicais, e reproduzir o som de cada nota uma única vez!
+        O som tem tempos pré definidos em 1 segundos, 10 segundos e 30 segundos,
+         e o usuário pode parar a reprodução sonora, e seguir com
+        a reprodução das notas posteriores, ao terminar de reproduzir todas as notas musicais
+        selecionadas, basta clicar no botão baixar! e todas as frequêcias serão baixadas na pasta
+        download do computador na ordem em que foram criadas.<br><br>
+        Atenção! <br><br>
+        Pode acontecer do usuário querer ouvir as frequencias desordenadamente, em seguida baixar
+        o download, e os arquivos baixarem de forma desordenada, para evitar isso basta seguir a diretriz
+        corretamente! O botão apagar blocos está disponível para apagar sequências indesejadas,
+        Lembrar sempre de reproduzir "uma única vez", cada audio na sequência criada!<br><br> O botão
+        BreakSound está disponível para parar o som, não sendo nescessário reproduzir o audio
+        completamente!
+ 
+
+      
+      
+      </p>
+      <!-- More extensive text goes here -->
+    </div>
+  </div>
+</div>
+  <div id="conteudo">
+    <div id="meusBotoes">
+      <spam class="titu">O autor diz:</spam><br>
+      <button id="mensagem" onclick="openWidget()">Bons estudos!</button><br>
+      <spam class="titu">Sobre este Programa:</spam><br>
+      <button id="botao1"  onclick="openWidget2()">Helo xR_duíno!</button><br>
+      <spam class="titu2">Regras para o download:</spam><br>
+      <button id="regras"  onclick="openWidget3()">Download</button><br><br>
+
+      <spam class="titu3">Notas e frequências:</spam><br>
+
+      <spam class="titulos">Dó</spam><br>
+      <spam class="titulos">1 segundo</spam><br>
+      <button id="botao2">261,63 Hz</button><br>
+      <spam class="titulos">10 segundos</spam><br>
+      <button id="botao2p2">261,63 Hz</button><br>
+      <spam class="titulos">30 segundos</spam><br>
+      <button id="botao2p3">261,63 Hz</button><br>
+
+
+      <spam class="titulos2">Ré</spam><br>
+      <spam class="titulos2">1 segundo</spam><br>
+      <button id="botao3">293,66 Hz</button><br>
+      <spam class="titulos2">10 segundos</spam><br>
+      <button id="botao3p2">293,66 Hz</button><br>
+      <spam class="titulos2">30 segundos</spam><br>
+      <button id="botao3p3">293,66 Hz</button><br>
+
+
+      <spam class="titulos3">Mi</spam><br>
+      <spam class="titulos3">1 segundo</spam><br>
+      <button id="botao4">329,63 Hz</button><br>
+      <spam class="titulos3">10 segundos</spam><br>
+      <button id="botao4p2">329,63 Hz</button><br>
+      <spam class="titulos3">30 segundos</spam><br>
+      <button id="botao4p3">329,63 Hz</button><br>
+
+
+      <spam class="titulos4">Fá</spam><br>
+      <spam class="titulos4">1 segundo</spam><br>
+      <button id="botao5">349,23 Hz</button><br>
+      <spam class="titulos4">10 segundos</spam><br>
+      <button id="botao5p2">349,23 Hz</button><br>
+      <spam class="titulos4">30 segundos</spam><br>
+      <button id="botao5p3">349,23 Hz</button><br>
+
+
+      <spam class="titulos5">Sol</spam><br>
+      <spam class="titulos5">1 segundo</spam><br>
+      <button id="botao6">392 Hz</button><br>
+      <spam class="titulos5">10 segundos</spam><br>
+      <button id="botao6p2">392 Hz</button><br>
+      <spam class="titulos5">30 segundos</spam><br>
+      <button id="botao6p3">392 Hz</button><br>
+
+
+      <spam class="titulos6">Lá</spam><br>
+      <spam class="titulos6">1 segundo</spam><br>
+      <button id="botao7">440 Hz</button><br>
+      <spam class="titulos6">10 segundos</spam><br>
+      <button id="botao7p2">440 Hz</button><br>
+      <spam class="titulos6">30 segundos</spam><br>
+      <button id="botao7p3">440 Hz</button><br>
+
+
+      <spam class="titulos7">Si</spam><br>
+      <spam class="titulos7">1 segundo</spam><br>
+      <button id="botao8">493,88 Hz</button><br>
+      <spam class="titulos7">10 segundos</spam><br>
+      <button id="botao8p2">493,88 Hz</button><br>
+      <spam class="titulos7">30 segundos</spam><br>
+      <button id="botao8p3">493,88 Hz</button><br>
+
+      <spam class="titulos8">dó</spam><br>
+      <spam class="titulos8">1 segundo</spam><br>
+      <button id="botao9">523,25 Hz</button><br>
+      <spam class="titulos8">10 segundos</spam><br>
+      <button id="botao9p2">523,25 Hz</button><br>
+      <spam class="titulos8">30 segundos</spam><br>
+      <button id="botao9p3">523,25 Hz</button><br>
+
+
+
+
+
+
+    </div>
+    <div id="minhaDiv"></div><!--div responsavel pelos botoes em inline-block-->
+    <div id="minhaDivTexto"></div><!--div responsavel pelo texto em inline-block com a div dos botoes-->
+    <div id="botoesAuxiliares">
+        <button id="botaoApagar1">Apagar blocos</button><br><br>
+        <button id="botaoParar">BREAK SOUND !</button><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <button id="gravador" data-tooltip="Antes de baixar leia as regras do download!">Baixar</button>
+    </div><!--div responsavel pelos botoes auxiliares-->
+  </div>
+</div>
+      <script src="script.js"></script>
+      <script>
+//criar botão para sair do modo iniciante...
+function redirecionar3() {
+      // Altere o URL abaixo para a página desejada
+      window.location.href = "https://rafael-silva-natal.github.io/xR_duino_iniciantes/";
+  }
+  // Obtém o elemento do botão por seu ID
+  var botao11 = document.getElementById("botao11");
+
+  // Adiciona um ouvinte de evento ao botão
+  botao11.addEventListener("click", redirecionar3);
+
+//##############################
+
+
+
+
+
+function startTutorialAndMostrarBarraMenu() {
+            startTutorial();
+            mostrarBarraMenu();
+        }
+    
+        function redirecionar1AndMostrarBarraMenu() {
+            redirecionar1();
+            mostrarBarraMenu();
+        }
+      //Função para redirecionar a pagina
+     function redirecionar1() {
+      // Altere o URL abaixo para a página desejada
+      window.location.href = "https://rafael-silva-natal.github.io/xR_duino_iniciantes/";
+  }
+
+        function startTutorial() {
+  document.getElementById('tutorial').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+  document.getElementById('conteudo').style.display = 'block';
+}
+
+      
+
+        function mostrarBarraMenu() {
+                    var barraMenu = document.getElementById('barraMenu');
+                    barraMenu.style.display = 'block'; // Mostra a barra de menu quando o botão é clicado
+                }
+        // Função para mostrar o menu correspondente ao botão clicado
+        function showMenu(menuId) {
+          // Oculta todos os menus
+          var menus = document.querySelectorAll('[id^="Aba"]');
+          menus.forEach(menu => {
+            menu.style.display = "none";
+          });
+        
+          // Mostra o menu correspondente ao botão clicado
+          var menu = document.getElementById(menuId);
+          /*  menu.style.display = "block";    original*/
+          if (menu) {
+          menu.style.display = "block";
+              }
+        }
+        
+        // Função para ocultar o menu ao clicar fora dele
+        window.onclick = function(event) {
+          if (!event.target.matches('.menu-button') && !event.target.matches('.menu-button2') && !event.target.matches('.menu-button3')&& !event.target.matches('.menu-button4')) {
+            var menus = document.querySelectorAll('[id^="Aba"]');
+            menus.forEach(menu => {
+              menu.style.display = "none";
+            });
+          }
+        }
+        </script>
+</body>
+</html>

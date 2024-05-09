@@ -1,0 +1,665 @@
+.body{
+  background-color: #d6e0df;
+  background-image:  url('public/Imagens/fundoProgram.png');
+  background-size:100%;
+  background-position: center;
+  background-repeat:no-repeat;
+}
+
+#Widget {
+  margin: 0px;
+  border: 0px;
+}
+
+/* referente aos botões iniciais de apresentação Auto diz & hello world*/
+.body::-webkit-scrollbar
+ {
+  width: 12px; /* largura da barra de rolagem */
+  /*display: none;*/
+}
+
+/* referente aos botões iniciais de apresentação Auto diz & hello world*/
+.body::-webkit-scrollbar,
+.widget-body::-webkit-scrollbar,
+.widget-body2::-webkit-scrollbar,
+.widget-body3::-webkit-scrollbar {
+  width: 12px; /* largura da barra de rolagem */
+}
+.body::-webkit-scrollbar-track,
+.widget-body::-webkit-scrollbar-track,
+.widget-body2::-webkit-scrollbar-track,
+.widget-body3::-webkit-scrollbar-track {
+  background-color: #951afa; /* cor de fundo da barra de rolagem */
+}
+.body::-webkit-scrollbar-thumb,
+.widget-body::-webkit-scrollbar-thumb,
+.widget-body2::-webkit-scrollbar-thumb,
+.widget-body3::-webkit-scrollbar-thumb {
+  background-color: #be73fc;; /* cor do botão da barra de rolagem */
+  border-radius: 6px; /* arredondamento das bordas do botão da barra de rolagem */
+}
+.body::-webkit-scrollbar-thumb:hover,
+.widget-body::-webkit-scrollbar-thumb:hover,
+.widget-body2::-webkit-scrollbar-thumb:hover,
+.widget-body3::-webkit-scrollbar-thumb:hover {
+  background-color:  #ac4afc; /* cor do botão da barra de rolagem ao passar o mouse */
+}
+
+.widget {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 250px;
+  background-color: #8e0fe8;
+  border: 8px solid rgb(53, 4, 252); /* Borda */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  display: none;
+}
+.widget-content {
+  padding: 20px;
+}
+.widget-header {
+  text-align: right;
+}
+.close-btn {
+  cursor: pointer;
+}
+.widget-body {
+  max-height: 200px;
+  overflow-y:auto;
+  padding-right: 20px; /* Adicione um espaçamento inferior */
+}
+.textoHelo1{
+  text-shadow: 1px 1px  rgb(53, 4, 252);
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: black;
+  text-align: justify;      
+}
+.widget2 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 250px;
+  background-color: #8e0fe8;
+  border: 8px solid rgb(53, 4, 252); /* Borda verde */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  display: none;
+}
+.widget-content2 {
+  padding: 20px;
+}
+.widget-header2 {
+  text-align: right;
+}
+.close-btn2 {
+  cursor: pointer;
+}
+.widget-body2 {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 20px; /* Adicione um espaçamento inferior */
+}
+.textoHelo2{
+  text-shadow: 1px 1px  rgb(53, 4, 252);
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: black;
+  text-align: justify;
+}/* referente aos botões iniciais de apresentação Auto diz & hello world*/
+
+.widget3 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 250px;
+  background-color: #8e0fe8;
+  border: 8px solid rgb(53, 4, 252); /* Borda verde */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  display: none;
+}
+.widget-content3 {
+  padding: 20px;
+}
+.widget-header3 {
+  text-align: right;
+}
+.close-btn3 {
+  cursor: pointer;
+}
+.widget-body3 {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 20px; /* Adicione um espaçamento inferior */
+}
+.textoHelo3{
+  text-shadow: 1px 1px  rgb(53, 4, 252);
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: black;
+  text-align: justify;
+}/* referente aos botões iniciais de apresentação Auto diz & hello world*/
+
+
+#AudiosArray{
+  background-color: #3473e9; /* Cor de fundo do botão */
+  color: white; /* Cor do texto do botão */
+  border: 2px solid #f03a3a; /* Borda do botão */
+  padding: 10px 20px; /* Espaçamento interno do botão */
+  border-radius: 5px; /* Borda arredondada do botão */
+  font-size: 16px; /* Tamanho da fonte do botão */
+  margin-left: 85%;
+
+
+}
+ #botaoApagar1{
+    
+      background-color: white; /* Cor de fundo do botão */
+          color:black; /* Cor do texto do botão */
+          border: 4px solid blue; /* Borda do botão */
+          padding: 10px 20px; /* Espaçamento interno do botão */
+          border-radius: 5px; /* Borda arredondada do botão */
+          font-size: 20px; /* Tamanho da fonte do botão */    
+          margin-top: 0px;
+          text-shadow: 1px 1px gray;
+          font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+          
+    }
+ #botaoParar{
+  
+    background-color: blue; /* Cor de fundo do botão */
+        color: white; /* Cor do texto do botão */
+        border: 4px solid #fe7c0a; /* Borda do botão */
+        padding: 10px 20px; /* Espaçamento interno do botão */
+        border-radius: 5px; /* Borda arredondada do botão */
+        font-size: 20px; /* Tamanho da fonte do botão */
+        margin-top: 0px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  }
+#gravador{
+    background-color: #f70a2e; /* Cor de fundo do botão */
+        color: black; /* Cor do texto do botão */
+        border: 4px solid rgb(94, 3, 3); /* Borda do botão */
+        padding: 10px 20px; /* Espaçamento interno do botão */
+        border-radius: 20px; /* Borda arredondada do botão */
+        font-size: 20px; /* Tamanho da fonte do botão */  
+        margin-top: 0px;
+        margin-left: 30px;
+        color: black;
+        text-shadow: 1px 1px white;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  }
+  
+
+    
+    #cabeçalho{
+      margin-top: 80px;
+      margin-bottom: 40px;
+     
+      color:#8e0fe8;
+      font-family:Georgia, 'Times New Roman', Times, serif;
+      font-size: 1.5em;
+      border: 0px;
+      text-indent: 120px;
+      text-shadow: 3px 2px rgb(136, 171, 236);
+      
+    }
+    #cabeçalho2{
+      margin-top: 70px;
+      margin-bottom: 30px;
+     
+      color:#8e0fe8;
+      font-family:Georgia, 'Times New Roman', Times, serif;
+      font-size: 1.5em;
+      border: 0px;
+      text-indent: 120px;
+      text-shadow: 3px 2px rgb(136, 171, 236);
+      
+    }
+    #botao10{
+      background-color: #951afa; /* Cor de fundo do botão */
+            color: black; /* Cor do texto do botão */
+            border: 4px solid #f70af7; /* Borda do botão */
+            padding: 10px 20px; /* Espaçamento interno do botão */
+            border-radius: 20px; /* Borda arredondada do botão */
+            font-size: 13px; /* Tamanho da fonte do botão */  
+            margin-top: 70px;
+            margin-left: 0px;
+            margin-bottom: 40px;
+            color: black;
+            text-shadow: 1px 1px rgb(111, 8, 247);
+            font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+    #botao11{
+      background-color: #951afa; /* Cor de fundo do botão */
+            color: black; /* Cor do texto do botão */
+            border: 4px solid #f70af7; /* Borda do botão */
+            padding: 10px 20px; /* Espaçamento interno do botão */
+            border-radius: 20px; /* Borda arredondada do botão */
+            font-size: 13px; /* Tamanho da fonte do botão */  
+            margin-top: 70px;
+            margin-left: 0px;
+            margin-bottom: 40px;
+            color: black;
+            text-shadow: 1px 1px rgb(111, 8, 247);
+            font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+      
+      
+
+    
+    #meusBotoes::-webkit-scrollbar {
+      width: 12px; /* largura da barra de rolagem */
+      border-radius: 6px; /* arredondamento das bordas da barra de rolagem */
+    }
+    
+    #meusBotoes::-webkit-scrollbar-track {
+      background-color: #951afa; /* cor de fundo da barra de rolagem */
+    }
+    
+    #meusBotoes::-webkit-scrollbar-thumb {
+      background-color: #be73fc; /* cor do botão da barra de rolagem */
+      border-radius: 6px; /* arredondamento das bordas do botão da barra de rolagem */
+    }
+    
+    #meusBotoes::-webkit-scrollbar-thumb:hover {
+      background-color: #ac4afc; /* cor do botão da barra de rolagem ao passar o mouse */
+    }
+    
+
+
+
+    #meusBotoes {
+        display: inline-block;/*define formato e cores para a box e conteudo dos botões*/
+        vertical-align: top;
+        margin-right: 300px;/*define a distancia entre as divs*/
+        overflow-y: auto;/* sobre a barra de rolagem */
+        height: 450px; /* ou qualquer outra altura desejada */
+      }
+      #minhaDiv {
+        width: 150px;
+        height: 500px;
+        display: inline-block;
+        vertical-align: top;
+        justify-content: center;
+        align-items:flex-start;
+        position: relative;
+        top: 0;
+      
+      }
+      #minhaDivTexto {
+        margin-right: 330px;
+        width: 10px;
+        height: 300px;
+        display: inline-block;
+        vertical-align: top;
+        justify-content: center;
+        align-items:flex-start;
+        position: relative;
+        top: 0;
+       font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+       font-size: 0.9em;
+       text-align:center;
+       text-shadow: 1px 1px rgb(78, 63, 143);
+      }
+      #botoesAuxiliares{
+        width: 200px;
+        height: 300px;
+        display: inline-block;
+        vertical-align: top;
+        justify-content: center;
+        align-items:flex-start;
+        position: relative;
+        top: 0;
+       
+      }
+
+     #regras{
+        background-color: #8e0fe8;/*define estilização de box dos botoes de forma independente*/
+        color: black;
+        border: 5px solid rgb(252, 4, 4);
+        padding: 5px;
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.0em;
+        text-align:center;
+        border-radius: 10%;
+     }
+      #mensagem,
+      #botao1
+      {
+        background-color: #8e0fe8;/*define estilização de box dos botoes de forma independente*/
+        color: black;
+        border: 5px solid rgb(53, 4, 252);
+        padding: 5px;
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.0em;
+        text-align:center;
+        border-radius: 10%;
+      
+      }
+      #botao2ini,
+      #botao2,
+      #botao2p2,
+      #botao2p3{
+        background-color:rgb(128, 53, 24);/*define estilização de box dos botoes de forma independente*/
+        color: white;
+        border: 3px solid rgb(75, 22, 1);
+        padding: 5px;
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.0em;
+        text-align:center;
+        border-radius: 15%;
+
+      }
+      #botao3,
+      #botao3p2,
+      #botao3p3{
+        background-color: rgb(73, 247, 51);/*define estilização de box dos botoes de forma independente*/
+        color: white;
+        border: 3px solid rgb(16, 116, 3);
+        padding: 5px;
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.0em;
+        text-align:center;
+        border-radius: 15%;
+
+      }
+      #botao4,
+      #botao4p2,
+      #botao4p3{
+        background-color: rgb(250, 141, 39);/*define estilização de box dos botoes de forma independente*/
+        color: white;
+        border: 3px solid rgb(145, 72, 3);
+        padding: 5px;
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.0em;
+        text-align:center;
+        border-radius: 15%;
+      }
+
+      #botao5,
+      #botao5p2,
+      #botao5p3{
+        background-color:  rgb(81, 92, 245);/*define estilização de box dos botoes de forma independente*/
+        color: white;
+        border: 3px solid rgb(4, 15, 167);
+        padding: 5px;
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.0em;
+        text-align:center;
+        border-radius: 15%;
+
+      }
+      #botao6,
+      #botao6p2,
+      #botao6p3{
+        background-color:  rgb(234, 250, 7);/*define estilização de box dos botoes de forma independente*/
+        color: white;
+        border: 3px solid rgb(117, 126, 2);
+        padding: 5px;
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.0em;
+        text-align:center;
+        border-radius: 15%;
+
+      }
+      #botao7,
+      #botao7p2,
+      #botao7p3{
+        background-color: rgb(191, 14, 245);/*define estilização de box dos botoes de forma independente*/
+        color: white;
+        border: 3px solid rgb(88, 3, 114);
+        padding: 5px;
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.0em;
+        text-align:center;
+        border-radius: 15%;
+      
+
+      }
+      #botao8,
+      #botao8p2,
+      #botao8p3{
+        background-color: rgb(248, 7, 99);/*define estilização de box dos botoes de forma independente*/
+        color: white;
+        border: 3px solid rgb(145, 19, 67);
+        padding: 5px;
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.0em;
+        text-align:center;
+        border-radius: 15%;
+
+      }
+      #botao9,
+      #botao9p2,
+      #botao9p3{
+        background-color:  rgb(163, 110, 88);/*define estilização de box dos botoes de forma independente*/
+        color: white;
+        border: 3px solid rgb(110, 59, 37);
+        padding: 5px;
+        margin: 5px;
+        width: 120px;
+        height: 40px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.0em;
+        text-align:center;
+        border-radius: 15%;
+
+      }
+
+      .titulos{
+        color: rgb(128, 53, 24);
+        text-shadow: 1px 1px rgb(78, 63, 143);
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.5em;
+      }
+
+      .titulos2{
+        color: rgb(73, 247, 51);
+        text-shadow: 1px 1px rgb(78, 63, 143);
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.5em;
+      }
+
+      .titulos3{
+        color: rgb(250, 141, 39);
+        text-shadow: 1px 1px rgb(78, 63, 143);
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.5em;
+      }
+      .titulos4{
+        color: rgb(81, 92, 245);
+        text-shadow: 1px 1px rgb(78, 63, 143);
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.5em;
+      }
+      .titulos5{
+        color: rgb(234, 250, 7);
+        text-shadow: 1px 1px rgb(78, 63, 143);
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.5em;
+      }
+
+      .titulos6{
+        color: rgb(191, 14, 245);
+        text-shadow: 1px 1px rgb(78, 63, 143);
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.5em;
+      }
+
+      .titulos7{
+        color: rgb(248, 7, 99);
+        text-shadow: 1px 1px rgb(78, 63, 143);
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.5em;
+      }
+      .titulos8{
+        color: rgb(163, 110, 88);
+        text-shadow: 1px 1px rgb(78, 63, 143);
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.5em;
+      }
+      
+      .titu{
+        color: rgb(179, 3, 248);
+        text-shadow: 2px 2px brown;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.1em;
+      }
+      .titu2{
+        color: rgb(250, 4, 4);
+        text-shadow: 1px 1px blue;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.1em;
+      }
+      .titu3{
+        color: rgb(179, 3, 248);
+        text-shadow: 2px 2px brown;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.1em;
+      }
+     
+    .letrasLabel{
+        color: rgb(242, 204, 247);
+        text-shadow: 1px 1px rgb(78, 63, 143);
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 1.3em;
+    }
+    .botaoSomini,
+    .botaoSom,
+    .botaoSom10seg,
+    .botaoSom30seg{
+        background-color: rgb(128, 53, 24); /* Cor de fundo do botão */
+        color: #ffffff; /* Cor do texto do botão */
+        border: 2px solid #000000; /* Borda do botão */
+        padding: 10px 20px; /* Espaçamento interno do botão */
+        border-radius: 5px; /* Borda arredondada do botão */
+        font-size: 12px; /* Tamanho da fonte do botão */
+        margin-top: 10px;   
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+    .botaoSom2,
+    .botaoSom210seg,
+    .botaoSom230seg {
+      background-color: rgb(73, 247, 51); /* Cor de fundo do botão */
+      color: #ffffff; /* Cor do texto do botão */
+      border: 2px solid #000000; /* Borda do botão */
+      padding: 10px 20px; /* Espaçamento interno do botão */
+      border-radius: 5px; /* Borda arredondada do botão */
+      font-size: 12px; /* Tamanho da fonte do botão */
+      margin-top: 10px;
+      font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;   
+  }
+
+  .botaoSom3,
+  .botaoSom310seg,
+  .botaoSom330seg {
+    background-color: rgb(250, 141, 39); /* Cor de fundo do botão */
+    color: #ffffff; /* Cor do texto do botão */
+    border: 2px solid #000000; /* Borda do botão */
+    padding: 10px 20px; /* Espaçamento interno do botão */
+    border-radius: 5px; /* Borda arredondada do botão */
+    font-size: 12px; /* Tamanho da fonte do botão */
+    margin-top: 10px;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;   
+}
+.botaoSom4,
+.botaoSom410seg,
+.botaoSom430seg {
+  background-color: rgb(81, 92, 245); /* Cor de fundo do botão */
+  color: #ffffff; /* Cor do texto do botão */
+  border: 2px solid #000000; /* Borda do botão */
+  padding: 10px 20px; /* Espaçamento interno do botão */
+  border-radius: 5px; /* Borda arredondada do botão */
+  font-size: 12px; /* Tamanho da fonte do botão */
+  margin-top: 10px;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;   
+}
+.botaoSom5,
+.botaoSom510seg,
+.botaoSom530seg {
+  background-color: rgb(234, 250, 7); /* Cor de fundo do botão */
+  color: #ffffff; /* Cor do texto do botão */
+  border: 2px solid #000000; /* Borda do botão */
+  padding: 10px 20px; /* Espaçamento interno do botão */
+  border-radius: 5px; /* Borda arredondada do botão */
+  font-size: 12px; /* Tamanho da fonte do botão */
+  margin-top: 10px;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;   
+}
+.botaoSom6,
+.botaoSom610seg,
+.botaoSom630seg {
+  background-color: rgb(191, 14, 245); /* Cor de fundo do botão */
+  color: #ffffff; /* Cor do texto do botão */
+  border: 2px solid #000000; /* Borda do botão */
+  padding: 10px 20px; /* Espaçamento interno do botão */
+  border-radius: 5px; /* Borda arredondada do botão */
+  font-size: 12px; /* Tamanho da fonte do botão */
+  margin-top: 10px;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;   
+}
+.botaoSom7,
+.botaoSom710seg,
+.botaoSom730seg{
+  background-color: rgb(248, 7, 99); /* Cor de fundo do botão */
+  color: #ffffff; /* Cor do texto do botão */
+  border: 2px solid #000000; /* Borda do botão */
+  padding: 10px 20px; /* Espaçamento interno do botão */
+  border-radius: 5px; /* Borda arredondada do botão */
+  font-size: 12px; /* Tamanho da fonte do botão */
+  margin-top: 10px;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;   
+}
+.botaoSom8,
+.botaoSom810seg,
+.botaoSom830seg {
+  background-color: rgb(163, 110, 88); /* Cor de fundo do botão */
+  color: #ffffff; /* Cor do texto do botão */
+  border: 2px solid #000000; /* Borda do botão */
+  padding: 10px 20px; /* Espaçamento interno do botão */
+  border-radius: 5px; /* Borda arredondada do botão */
+  font-size: 12px; /* Tamanho da fonte do botão */
+  margin-top: 10px;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;   
+}
+
+
+
+
