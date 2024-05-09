@@ -10,4 +10,4 @@ LINK PARA A VERSAO MOBILE DA PAGINA WEB
 
 https://rafael-silva-natal.github.io/Ligth_page/
 
-help Pull bug
+reparação da página grande aula
