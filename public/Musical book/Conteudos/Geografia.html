@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geografia</title>
+    <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
+<style>
+.cabecalho{
+  position: relative; /* Define o contexto para o posicionamento absoluto */
+  width: 100%;
+}
+.imagem-cabecalho {
+    width: 100%; /* Faz com que a imagem ocupe toda a largura da div */
+    height: auto;
+}
+.video-link{
+  color: #a1f731;
+    text-decoration: none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+
+}
+
+.linksPortugues{
+  color: #4221fa;
+    text-decoration: none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+ }
+ a:hover{
+    color: #b70fe0; 
+    }
+    .Portugues{
+      position: absolute; /* Coloca os links sobre a imagem */
+    top: 20%; /* Ajuste para alinhar verticalmente os links */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -20%); /* Alinha exatamente ao centro */
+    display: flex;
+    justify-content: space-between;
+    width: 80%; /* Define largura para os links */
+    }
+    .linksMusica,
+    .linkMusica2{
+      margin: 0;
+ }
+ 
+ .linksMusica{
+  margin-left: 350px;
+ }
+ .linksMusica2{
+  margin-left: 100px;
+ }
+
+ .conteudo {
+    position: relative; /* Define um contexto para elementos absolutos */
+    width: 100%;
+    height: auto;
+}
+
+.imagem-conteudo {
+    width: 100%;
+    height: auto;
+}
+
+.video-overlay {
+    display: none; /* Inicialmente escondido */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Garante que fique acima da imagem */
+}
+
+#videoPlayer {
+    width: 80%;
+    height: 80%;
+    border: none;
+    border-radius: 10px;
+}
+
+</style>
+
+</head>
+
+<body style="background-color: black" class="body">
+    <div class="cabecalho">
+        <img src="../imagens/Geografia.jpg" class="imagem-cabecalho">
+        <div class="Portugues">
+          <div class="linksMusica">
+            <a href="#" id="videoGeo1" class="video-link">Geografia</a><br><br>
+            <!--<a href="#" id="videoGeo2" class="video-link">Tópico 2</a><br><br>
+            <a href="#" id="videoGeo3" class="video-link">Tópico 3</a><br><br>
+            <a href="#" id="videoGeo4" class="video-link">Tópico 4</a>-->
+          </div>
+          <div class="linksMusica2">
+            <!--<a href="#" id="videoGeo5" class="video-link">...</a><br><br>
+            <a href="#" id="videoGeo6" class="video-link">...</a><br><br>
+            <a href="#" id="videoGeo7" class="video-link">...</a><br><br>
+            <a href="#" id="videoGeo8" class="video-link">...</a>-->
+          </div>
+        </div>
+      </div>
+<br>
+
+<div class="conteudo">
+  <img src="../imagens/livroAberto.jpg" class="imagem-conteudo">
+  <div class="video-overlay" id="videoOverlay">
+      <iframe 
+          id="videoPlayer" 
+          width="560" 
+          height="315" 
+          src="" 
+          title="YouTube video player" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" 
+          allowfullscreen>
+      </iframe>
+  </div>
+</div>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const videoOverlay = document.getElementById("videoOverlay");
+    const videoPlayer = document.getElementById("videoPlayer");
+
+    // Mapeamento de vídeos pelos IDs dos links
+    const videoMap = {
+        videoGeo1: "https://www.youtube.com/embed/weDN44QyTGQ?si=v6Bq1_UcBQexkejF",
+        //videoGeo2: "https://www.youtube.com/embed/1JYH6zc2d8c?si=mHSTWVDmpq6aLB2W",
+        //videoGeo3: "https://www.youtube.com/embed/CATy4xLqW-8?si=e7trOjO4huVuDZuD",
+        //videoGeo: "https://www.youtube.com/embed/-g5ALedaHUM?si=MjLs8jmaF_If1jUM",
+        //videoGeo5: "https://www.youtube.com/embed/zeOeLc4zKpQ?si=p1KAgEaAOlpbwWPY",
+        //videoGeo6: "https://www.youtube.com/embed/aKUBdVss9pE?si=ayBe9ZVdqXuKN17u",
+        //videoGeo7: "https://www.youtube.com/embed/nlSoXVTXI6E?si=AM5381yo9UuEDvHo",
+        //videoGeo8: "https://www.youtube.com/embed/dE0bgN2BG8U?si=17RfiIddKFJFuTSd",
+
+    };
+
+    // Adiciona eventos de clique aos links
+    Object.keys(videoMap).forEach(videoId => {
+        const link = document.getElementById(videoId);
+        link.addEventListener("click", event => {
+            event.preventDefault();
+            const videoUrl = videoMap[videoId];
+
+            if (videoUrl) {
+                videoPlayer.src = videoUrl;
+                videoOverlay.style.display = "flex";
+            }
+        });
+    });
+
+    // Fecha o modal e para a reprodução
+    videoOverlay.addEventListener("click", event => {
+        if (event.target === videoOverlay) {
+            videoOverlay.style.display = "none";
+            videoPlayer.src = ""; // Para o vídeo
+        }
+    });
+});
+
+
+
+
+  </script>
+    
+</body>
+</html>

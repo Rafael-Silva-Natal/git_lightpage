@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matemática</title>
+    <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
+<style>
+.cabecalho{
+  position: relative; /* Define o contexto para o posicionamento absoluto */
+  width: 100%;
+}
+.imagem-cabecalho {
+    width: 100%; /* Faz com que a imagem ocupe toda a largura da div */
+    height: auto;
+}
+.video-link{
+  color: #fce24e;
+    text-decoration: none;
+    font-size: 20px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+
+}
+
+.linksPortugues{
+  color: #4221fa;
+    text-decoration: none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+ }
+ a:hover{
+    color: #b70fe0; 
+    }
+    .Portugues{
+      position: absolute; /* Coloca os links sobre a imagem */
+    top: 20%; /* Ajuste para alinhar verticalmente os links */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -20%); /* Alinha exatamente ao centro */
+    display: flex;
+    justify-content: space-between;
+    width: 70%; /* Define largura para os links */
+    }
+    .linksMusica,
+    .linkMusica2{
+      margin: 0;
+ }
+ 
+ .linksMusica{
+  margin-left: 350px;
+ }
+ .linksMusica2{
+  margin-left: 100px;
+ }
+
+ .conteudo {
+    position: relative; /* Define um contexto para elementos absolutos */
+    width: 100%;
+    height: auto;
+}
+
+.imagem-conteudo {
+    width: 100%;
+    height: auto;
+}
+
+.video-overlay {
+    display: none; /* Inicialmente escondido */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Garante que fique acima da imagem */
+}
+
+#videoPlayer {
+    width: 80%;
+    height: 80%;
+    border: none;
+    border-radius: 10px;
+}
+
+</style>
+
+</head>
+
+<body style="background-color: black" class="body">
+    <div class="cabecalho">
+        <img src="../imagens/Matematica.jpg" class="imagem-cabecalho">
+        <div class="Portugues">
+          <div class="linksMusica">
+            <a href="#" id="videoMat1" class="video-link">Potenciação e radiciação</a><br>
+            <a href="#" id="videoMat2" class="video-link">MMC e Frações</a><br>
+            <a href="#" id="videoMat3" class="video-link">Polinomios</a><br>
+            <a href="#" id="videoMat4" class="video-link">Equações</a><br>
+            <a href="#" id="videoMat5" class="video-link">Funções</a><br>
+            <a href="#" id="videoMat6" class="video-link">Matrizes</a><br>
+            <a href="#" id="videoMat7" class="video-link">Progressões</a><br>
+            <a href="#" id="videoMat8" class="video-link">Áreas geométricas</a>
+          </div>
+          <div class="linksMusica2">
+            <a href="#" id="videoMat9" class="video-link">Trigonometria</a><br>
+            <a href="#" id="videoMat10" class="video-link">Angulos notéveis</a><br>
+            <a href="#" id="videoMat11" class="video-link">Cilindros e cones</a><br>
+            <a href="#" id="videoMat12" class="video-link">Prisma e pirâmides</a><br>
+            <a href="#" id="videoMat13" class="video-link">Triangulo</a><br>
+            <a href="#" id="videoMat14" class="video-link">logaritmos</a><br>
+            <a href="#" id="videoMat15" class="video-link">Logaritimos 2</a><br>
+            <a href="#" id="videoMat16" class="video-link">Juros</a><br>
+            <a href="#" id="videoMat17" class="video-link">Finaceira</a>
+          </div>
+        </div>
+      </div>
+<br>
+
+<div class="conteudo">
+  <img src="../imagens/livroAberto.jpg" class="imagem-conteudo">
+  <div class="video-overlay" id="videoOverlay">
+      <iframe 
+          id="videoPlayer" 
+          width="560" 
+          height="315" 
+          src="" 
+          title="YouTube video player" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" 
+          allowfullscreen>
+      </iframe>
+  </div>
+</div>
+
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const videoOverlay = document.getElementById("videoOverlay");
+    const videoPlayer = document.getElementById("videoPlayer");
+
+    // Mapeamento de vídeos pelos IDs dos links
+    const videoMap = {
+        videoMat1: "https://www.youtube.com/embed/64NTzDAIkgs?si=XTjFIerhcmsrQKBD",
+        videoMat2: "https://www.youtube.com/embed/xaopIyID9SA?si=vwXPSdhWCEfoZsP1",
+        videoMat3: "https://www.youtube.com/embed/krqXbu5Yh3w?si=hMAhW7BumIAwuHUc",
+        videoMat4: "https://www.youtube.com/embed/x4YH5Qh3pB0?si=l_hbSWDdxJwCkXMu",
+        videoMat5: "https://www.youtube.com/embed/uaNnlnOghbg?si=-EF8kJibkFuQJrPm",
+        videoMat6: "https://www.youtube.com/embed/tANsYzFpvoA?si=6JuXIgAL0lXzfjOu",
+        videoMat7: "https://www.youtube.com/embed/QrNPZIG_OoA?si=VnY0Tw8upuUArtYJ",
+        videoMat8: "https://www.youtube.com/embed/J_4RKoyghm0?si=2OoOA5uK0QnTGRfn",
+        videoMat9: "https://www.youtube.com/embed/d701iV952NM?si=Y7tZPhDQelyYTPcR",
+        videoMat10: "https://www.youtube.com/embed/xc6XgBZQ8kY?si=l12fGTv4avg_4BtQ",
+        videoMat11: "https://www.youtube.com/embed/c0CvX75TPMU?si=AkeJBLhSQjgp3qnw",
+        videoMat12: "https://www.youtube.com/embed/eqZWYF1CPXk?si=_QgOKSc9ap44Ho-F",
+        videoMat13: "https://www.youtube.com/embed/p_EmHN4HPqY?si=H6dDvs36fS3bTGxR",
+        videoMat14: "https://www.youtube.com/embed/SHdkb9_o-K8?si=vWBhyqrreeKTIy-h",
+        videoMat15: "https://www.youtube.com/embed/KOhN3Ci0mSc?si=NjxQ4hoSdf-7Wtwk",
+        videoMat16: "https://www.youtube.com/embed/K2t6Az69wC0?si=vzw_IP3WwSmxHKmt",
+        videoMat17: "https://www.youtube.com/embed/kDSYm2a-43E?si=A8xNWjgzqy62SvUe",
+
+    };
+
+    // Adiciona eventos de clique aos links
+    Object.keys(videoMap).forEach(videoId => {
+        const link = document.getElementById(videoId);
+        link.addEventListener("click", event => {
+            event.preventDefault();
+            const videoUrl = videoMap[videoId];
+
+            if (videoUrl) {
+                videoPlayer.src = videoUrl;
+                videoOverlay.style.display = "flex";
+            }
+        });
+    });
+
+    // Fecha o modal e para a reprodução
+    videoOverlay.addEventListener("click", event => {
+        if (event.target === videoOverlay) {
+            videoOverlay.style.display = "none";
+            videoPlayer.src = ""; // Para o vídeo
+        }
+    });
+});
+
+
+
+
+  </script>
+    
+</body>
+</html>
