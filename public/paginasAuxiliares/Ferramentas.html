@@ -1,5 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,204 +47,264 @@
     <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
     <style>
         body {
-            background-image: url('../imagens/ferramentasPage.PNG');
-            /*filter: blur(5px);  Ajuste o valor conforme necessário */
-            background-size: cover;
-            width: 100%;
-            height: auto;
+            background-color: #0a0a0a;
+            color: #a0ffa0;
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
         }
-
-        .principal {
+        canvas#matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        h1 {
             text-align: center;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00cc00;
+            font-size: 48px;
+            margin-bottom: 40px;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
         }
-
         .conteudo {
             display: flex;
-            /*justify-content: center;*/
-            margin-left: 50px;
-            align-items: flex-start; /* Alinha os itens com o topo */
-            margin-top: 20px; /* Espaçamento superior entre os grupos */
+            align-items: center;
+            margin: 20px auto;
+            max-width: 1000px;
+            gap: 20px;
         }
-
-        .imagem {
-            display: inline-block;
+        .paragrafo {
+            text-indent: 2em;
+            text-align: justify;
+            letter-spacing: 0.05em;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px auto;
+            max-width: 1000px;
+            color: #a0ffa0;
+            text-shadow: 0 0 5px #00cc00;
         }
-
-        .dimensao {
+        .imagem img {
             width: 200px;
             height: 100px;
-            border: 1px solid #8d04fd;
-            border-radius: 3%;
+            border: 2px solid;
+            border-radius: 8px;
+            box-shadow: 0 0 10px;
+            object-fit: cover;
         }
-        .dimensao2 {
-            margin-left: 1100px;
-            width: 150px;
-            height: 100px;
-            border: 1px solid #8d04fd;
-            border-radius: 3%;
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
+        .links a {
+            color: #a0ffa0;
+            text-decoration: none;
+            font-size: 14px;
+            text-shadow: 0 0 5px #00cc00;
+            transition: transform 0.3s, text-shadow 0.3s;
+        }
+        .links a:hover {
+            transform: translateX(5px);
+            text-shadow: 0 0 8px #00cc00;
+        }
+        /* Estilização singular para cada grupo */
+        .grupo1 .paragrafo { color: #a0ffa0; text-shadow: 0 0 5px #00cc00; }
+        .grupo1 img { border-color: #00cc00; box-shadow: 0 0 10px #00cc00; }
+        .grupo1 a { color: #a0ffa0; text-shadow: 0 0 5px #00cc00; }
+        .grupo1 a:hover { text-shadow: 0 0 8px #00cc00; }
 
-        .link {
-            text-align: right;
-            font-size: 0.9em;
-            margin-left: 30px; /* Espaço entre a imagem e o link */
-            vertical-align: top; /* Alinha com o topo da imagem */
-        }
+        .grupo2 .paragrafo { color: #00b7eb; text-shadow: 0 0 5px #4682b4; }
+        .grupo2 img { border-color: #00b7eb; box-shadow: 0 0 10px #00b7eb; }
+        .grupo2 a { color: #00b7eb; text-shadow: 0 0 5px #4682b4; }
+        .grupo2 a:hover { text-shadow: 0 0 8px #00b7eb; }
 
-        #estilizarLink {
-            color: #073ffa;
-            text-decoration: underline;
-            font-size: 16px;
-            text-shadow: 1px 1px rgb(10, 10, 10);
-            font-family:Verdana, Geneva, Tahoma, sans-serif;
-        }
+        .grupo3 .paragrafo { color: #ff69b4; text-shadow: 0 0 5px #c71585; }
+        .grupo3 img { border-color: #ff69b4; box-shadow: 0 0 10px #ff69b4; }
+        .grupo3 a { color: #ff69b4; text-shadow: 0 0 5px #c71585; }
+        .grupo3 a:hover { text-shadow: 0 0 8px #ff69b4; }
 
-        .estilizarTexto {
-            color: #8d04fd;
-            text-align: center;
-            font-size: 60px;
-            text-shadow: 2px 2px black;
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-        }
-        .paragrafo{
-            color: black;
-            text-align: center;
-            font-size: 20px;
-            text-shadow: 2px 2px #8d04fd;
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-            text-align: right;
-            text-indent: 2em; /* Define a tabulação do parágrafo */
-            text-align: justify; /* Define o alinhamento do texto */
-            letter-spacing: 0.05em; /* Define o espaçamento entre as letras */
-            margin: 30px;
+        .grupo4 .paragrafo { color: #7b68ee; text-shadow: 0 0 5px #483d8b; }
+        .grupo4 img { border-color: #7b68ee; box-shadow: 0 0 10px #7b68ee; }
+        .grupo4 a { color: #7b68ee; text-shadow: 0 0 5px #483d8b; }
+        .grupo4 a:hover { text-shadow: 0 0 8px #7b68ee; }
 
+        .grupo5 img { 
+            display: block; 
+            margin: 20px auto; 
+            width: 150px; 
+            height: 100px; 
+            border: 2px solid #ffd700; 
+            border-radius: 8px; 
+            box-shadow: 0 0 10px #ffd700; 
+        }
+        @media (max-width: 800px) {
+            .conteudo {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .links {
+                align-items: center;
+            }
+            .paragrafo {
+                margin: 20px;
+            }
         }
     </style>
 </head>
-<body style="background-color: white" class="body">
-    <p class="estilizarTexto">Ferramentas gratuitas</p>
+<body>
+    <canvas id="matrix"></canvas>
+    <h1>Ferramentas Gratuitas</h1>
 
- 
-<p class="paragrafo">
-    Precisa exercitar seus conceitos de programação Javascript? E tambem gostaria de poder organizar a 
-    codificação semelhantemente aos programas de codificação em blocos?
-    Se você precisa organizar sua biblioteca de arquivos ou mesmo criar uma organização para suas ideias 
-    de forma similar aos projetos comumente acessados na nuvem, eis a sugestão do copiador de blocos para
-    Javascript! Nele você podera exercitar seus conhecimentos, organizar blocos de código, ou mesmo
-    modificar o programa para atender suas nescecidades, a base deste programa poderá ser modificada 
-    para complementar seus projetos! Acesse uma experiência na página, ou vá para o 
-    repositório do github.
-</p>
-    <!-- Grupo 1 -->
-    <div class="conteudo">
+    <div class="grupo1">
+        <p class="paragrafo">
+            Precisa exercitar seus conceitos de programação Javascript? E também gostaria de poder organizar a 
+            codificação semelhante aos programas de codificação em blocos?
+            Se você precisa organizar sua biblioteca de arquivos ou mesmo criar uma organização para suas ideias 
+            de forma similar aos projetos comumente acessados na nuvem, eis a sugestão do copiador de blocos para
+            Javascript! Nele você poderá exercitar seus conhecimentos, organizar blocos de código, ou mesmo
+            modificar o programa para atender suas necessidades, a base deste programa poderá ser modificada 
+            para complementar seus projetos! Acesse uma experiência na página, ou vá para o 
+            repositório do GitHub.
+        </p>
+        <div class="conteudo">
+            <div class="imagem">
+                <img src="../imagens/copyBlock.PNG">
+            </div>
+            <div class="links">
+                <a href="../CopyBlocks/CopyBlock.html">Acesse este link para uma experiência na página</a>
+                <a href="https://github.com/Rafael-Silva-Natal/CopyBlockJavascript">Acesse este link para acessar o repositório do Copyblock</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="grupo2">
+        <p class="paragrafo">
+            Precisando exercitar seus conceitos matemáticos? Ou mesmo precisando de uma base para remontar outros conceitos 
+            para memorizar? O jogo da memória sugerido é uma ótima ferramenta para estudar e relembrar conceitos!
+            Você poderá exercitar seus conhecimentos ou redesenhar os blocos de imagens na base de imagens deste programa,
+            que poderá ser modificada para complementar seus projetos! Acesse uma experiência na página, ou vá para o 
+            repositório do GitHub.
+        </p>
+        <div class="conteudo">
+            <div class="imagem">
+                <img src="../imagens/matMemoryImage.PNG">
+            </div>
+            <div class="links">
+                <a href="../MatMemoryGame/index2.html">Acesse este link para uma experiência na página</a>
+                <a href="https://github.com/Rafael-Silva-Natal/Matematics_MemoryGame">Acesse este link para acessar o repositório do MatMemoryGame</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="grupo3">
+        <p class="paragrafo">
+            O QUE É O xR_duíno???
+            Pode-se dizer que é um Arduino caseiro feito com qualquer caixinha de som, com leitor de pendrive,
+            um pendrive, e um drive na configuração de relé sônica...
+            LÓGICA:
+            No pendrive, grava-se as notas musicais em suas devidas frequências, no formato mp3.
+            Ao reproduzir as notas musicais na caixa de som, o fone deverá ser removido (ou não),
+            para que as ondas das frequências do pendrive com as gravações de áudio
+            sejam usadas para manipular outros circuitos...
+            Driver de relé sônica deve ser configurado para manipulações de aparelhos ou mesmo portas lógicas...
+            etc... Considerando que a configuração de hardware funcione perfeitamente, 
+            a ideia seguinte será programar os áudios na IDE de manipulação de dados para facilitar 
+            o manuseio de comandos...
+            Dentro da lógica de programação em blocos, a IDE deve fornecer um menu de áudios,
+            nas devidas frequências em formato mp3 para serem organizados numa área de trabalho,
+            possibilitando também gravações de áudio. Ao organizar a sequência de áudios em frequências desejadas,
+            a mesma deve ser salva no pendrive para ser executado no xR_duíno.
+            Esta tecnologia é nova no mercado, portanto drivers plug and play para dispositivos
+            sonoros ainda não estão acessíveis no mercado, restando
+            as alternativas de importação do drive ou mesmo a fabricação do mesmo!!
+            No momento, a LightPage informa que a tecnologia ainda está na fase da prototipagem,
+            no entanto, estamos abertos a comentários, sugestões e possíveis negociações...
+        </p>
+        <div class="conteudo">
+            <div class="imagem">
+                <img src="../imagens/xR_duino2.PNG">
+            </div>
+            <div class="links">
+                <a href="https://rafael-silva-natal.github.io/xR_duino_Version_1.0/">Acesse este link para uma experiência na página</a>
+                <a href="https://github.com/Rafael-Silva-Natal/xR_duino_Version_1.0">Link para acessar o repositório xR_duino</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="grupo4">
+        <p class="paragrafo">
+            Estude seus conteúdos didáticos cantando! Aprenda todas as fórmulas científicas sem estresse ou fadiga.
+            O projeto Musical Book foi configurado com os ritmos musicais do autor da página, mas pode ser facilmente
+            modificado para outros ritmos e músicas. A inteligência artificial usada para produzir as músicas foi a Suno,
+            mas basta um pouco de criatividade e o usuário poderá redesenhar seu próprio cinemático de áudios! A dica do 
+            autor é usar para estudar! E com esse fim está disponibilizando uma biblioteca musical com os principais
+            assuntos do ensino médio. Exercitar o conhecimento sempre será a chave do sucesso! 
+        </p>
+        <div class="conteudo">
+            <div class="imagem">
+                <img src="../Musical book/imagens/Capa.png">
+            </div>
+            <div class="links">
+                <a href="../Musical book/index.html">Estude pela página!</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="grupo5">
         <div class="imagem">
-            <img src="../imagens/copyBlock.PNG" class="dimensao">
-        </div>
-        <div class="link">
-            <a href="../CopyBlocks/CopyBlock.html" id="estilizarLink">Acesse este link para uma experiência na página</a>
-        </div>
-        <div class="link">
-            <a href="https://github.com/Rafael-Silva-Natal/CopyBlockJavascript" id="estilizarLink">Acesse este link para acessar o repositório do Copyblock</a>
+            <img src="../imagens/jogoDoRatoIMG.jpg">
         </div>
     </div>
 
-    <br>
-<p class="paragrafo">
-    Precisando exercitar seus conceitos matemáticos? Ou mesmo precisando de uma base para remontar outros conceitos 
-    para memorizar? O jogo da memoria sugerido é uma otima ferramenta para estudar e relembrar conceitos!
-    Você podera exercitar seus conhecimentos ou redesenhar os blocos de imagens na base de imagens deste programa,
-    que poderá ser modificada para complementar seus projetos! Acesse uma experiência na página, ou vá para o 
-    repositório do github.
-</p>
-    <!-- Grupo 2 -->
-    <div class="conteudo">
-        <div class="imagem">
-            <img src="../imagens/matMemoryImage.PNG" class="dimensao">
-        </div>
-        <div class="link">
-            <a href="../MatMemoryGame/index2.html" id="estilizarLink">Acesse este link para uma experiência na página</a>
-        </div>
-        <div class="link">
-            <a href="https://github.com/Rafael-Silva-Natal/Matematics_MemoryGame" id="estilizarLink">Acesse este link para acessar o repositório do MatMemoryGame </a>
-        </div>
-    </div>
+    <script>
+        // Matrix Background Animation
+        const matrixCanvas = document.getElementById('matrix');
+        const matrixCtx = matrixCanvas.getContext('2d');
 
-    <br>
+        matrixCanvas.height = window.innerHeight;
+        matrixCanvas.width = window.innerWidth;
 
-    <p class="paragrafo">
-        O QUE É O xR_duíno???
-        Pode se dizer que é um Arduino caseiro feito com qualquer caixinha de som, com leitor de pendrive,
-        um pendrive, e um drive na configuração de relé sônica...
-        LÓGICA:
-        No pendrive,grava-se as notas musicais em suas devidas frequências, no formato mp3.
-        Ao reproduzir as notas musicais na caixa de som o fone deverá ser removido(ou não),
-        para que as ondas das frequências do pendrive com as gravações de audio
-        sejam usadas para manipular outros circuitos...
-        Driver de relé sônica deve ser configurado para manipulações de aparelhos ou mesmo portas lógicas...
-         etc...Considerando que a configuração de hardware funcione perfeitamente 
-         a ideia seguinte será programar os audios na IDE de manipulação de dados para facilitar 
-         o manuseio de comandos...
-         Dentro da lógica de programação em blocos, A IDE deve fornecer um menu de audios,
-         nas devidas frequências em formato mp3 para serem organizados numa area de trabalho,
-         possibilitando tambem gravações de audio. Ao organizar a sequência de audios em frequencias desejadas
-         a mesma deve ser salva no pendrive para ser executado no xR_duíno.
-         Esta Tecnologia é nova no mercado, portanto drivers plug and play para dispositivos
-         sonoros ainda não estão acessiveis no mercado restando
-         as alternativas de importação do drive ou mesmo a fabricação do mesmo!!
-         No momento a lightPage informa que a tecnologia ainda está na fase da prototipagem,
-         no entanto estamos abertos a comentários e sugestões e possiveis negociações...
-    </p>
-<!-- Grupo 3 -->
-<div class="conteudo">
-    <div class="imagem">
-        <img src="../imagens/xR_duino2.PNG" class="dimensao">
-    </div>
-    <div class="link">
-        <a href="https://rafael-silva-natal.github.io/xR_duino_Version_1.0/" id="estilizarLink">Acesse este link para uma experiência na página</a>
-    </div>
-    <div class="link">
-        <a href="https://github.com/Rafael-Silva-Natal/xR_duino_Version_1.0" id="estilizarLink">Link para acessar o repositório xR_duino</a>
-    </div>
-</div>
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*';
+        const fontSize = 14;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = [];
 
-<br>
-<p class="paragrafo">
-    Estude seu conteudos didáticos cantando! Aprenda todas as fórmulas científicas sem estress ou fadiga,
-    O projeto Musical book foi configurado com os ritmos musicais do autor da página, mas pode ser facilmente
-    modificado para outros ritmos e músicas, a inteligencia artificial usada para produzir as músicas foi a Suno,
-    mas basta um pouco de criatividade e o usuário poderá redesenhar seu próprio cinematic de áudios! a dica do 
-    autor é usar para estudar! e com esse fim está disponibilizando uma bibioteca musical com os principais
-    assuntos do ensino médio, exercitar o conhecimento sempre será a chave do sussesso! 
-</p>
- <!-- Grupo 4 -->
-<div class="conteudo">
-    <div class="imagem">
-        <img src="../Musical book/imagens/Capa.png" class="dimensao">
-    </div>
-    <div class="link">
-        <a href="../Musical book/index.html" id="estilizarLink">Estude pela página!</a>
-    </div>
-    <!--<div class="link">
-        <a href="../" id="estilizarLink">Link para acessar o repositório do jogo do rato (indisponível)</a>
-    </div>-->
-</div>
-    <!-- Grupo 5 -->
-    <div class="conteudo">
-      <!--  <div class="imagem">
-            <img src="../imagens/jogoDoRatoIMG.jpg" class="dimensao">
-        </div>
-        <div class="link">
-            <a href="../pageRatbook/salaBabys.html" id="estilizarLink">Acesse este link para uma experiência na página</a>
-        </div>
-        <div class="link">
-            <a href="../pageRatbook/salaBabys.html" id="estilizarLink">Link para acessar o repositório do jogo do rato (indisponível)</a>
-        </div>-->
-    </div>
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
 
-    <div class="imagem">
-        <img src="../imagens/jogoDoRatoIMG.jpg" class="dimensao2">
-    </div>
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
 
+            matrixCtx.fillStyle = '#00cc00';
+            matrixCtx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 33);
+
+        window.addEventListener('resize', () => {
+            matrixCanvas.height = window.innerHeight;
+            matrixCanvas.width = window.innerWidth;
+        });
+    </script>
 </body>
 </html>

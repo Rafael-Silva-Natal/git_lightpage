@@ -1,281 +1,380 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <title>LigthPage</title>
+<head>
+    <title>LightPage - Loja (Novos)</title>
     <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
-  </head>
-
-<style>
-.conteudo {
-    display: flex;
-    margin-left: 50px;
-    align-items: flex-start; /* Alinha os itens com o topo */
-    margin-top: 20px; /* Espaçamento superior entre os grupos */
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            position: relative;
         }
-.imagem {
-   display: inline-block;
- }
-.dimensao {
-    width: 350px;
-    height: 250px;
-    border: 2px solid #5e4e4e;
-    border-radius: 3%;
+        canvas#matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Acima das imagens, abaixo do bot e marquee */
+            opacity: 0.15;
         }
-.imagem2 {
-    margin-left: 50px; /* Espaço entre a imagens*/
-    vertical-align: top; /* Alinha com o topo da imagem */
+        .image-container {
+            position: relative;
+            z-index: 0; /* Abaixo do efeito Matrix */
         }
-
-
-
-
- marquee {
-    width: 100%;
-    background-color: #180e3d;
-    color: #f5f6fa;
-    font-size: 1.5em;
-    direction:"Left";
-    margin: 0;
-    border: 0px;
-  } 
-
-  /* Estilize o widget de chat flutuante como desejado */
-  /* Neste exemplo, vamos criar uma janela de chat flutuante com uma animação de botão */
-  .chat-container {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 200px;
-      background-color: #fff;
-     border: 1px solid #ccc;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-
-      border-radius: 15px 15px 15px 15px; /* Valor do raio de borda arredondada */
-  }
-
-  /* Estilos para a animação */
-  .animation-container {
-      width: 100%;
-      height:auto;
-      background-color: #f5f5f5;
-      text-align: center;
-      border-radius: 15px 15px 15px 15px; /* Valor do raio de borda arredondada */
-  }
-
-  /* Estilize as imagens da animação */
-  .animation-image {
-      width: 100%;
-      height:auto;
-      border: 1px solid #ccc;
-      border-radius: 15px 15px 15px 15px; /* Valor do raio de borda arredondada */
-  }
-
-  /* Estilos para o chat de diálogo */
-  .chat-dialog {
-      padding: 10px;
-     
-  }
-
-  /* Estilos para as opções de link */
-  .suggestions {
-      margin-top: 10px;
-      
-  }
-
-  /* Botão de fechar o chat */
-  .close-button {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      cursor: pointer;
-  }
- 
-</style>
-  <body style="background-color:#000">
-
-
-        <img src="../imagens/img0_1.PNG" width="100%">
-
-
-
-         <!-- Grupo 1 -->
-    <div class="conteudo">
-      <div class="imagem">
-          <img src="../imagens/novos.PNG" class="dimensao">
-      </div>
-      <div class="imagem2">
+        .image-container img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+        }
+        .conteudo {
+            display: flex;
+            margin: 20px auto;
+            max-width: 1200px;
+            align-items: flex-start;
+            gap: 20px;
+            position: relative;
+            z-index: 2; /* Acima do efeito Matrix */
+        }
+        .imagem img {
+            width: 350px;
+            height: 250px;
+            border: 2px solid #5e4e4e;
+            border-radius: 3%;
+            object-fit: cover;
+        }
+        marquee {
+            width: 100%;
+            background-color: #180e3d;
+            color: #f5f6fa;
+            font-size: 1.5em;
+            direction: "left";
+            margin: 0;
+            border: 0px;
+            position: relative;
+            z-index: 2; /* Acima do efeito Matrix */
+        }
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            z-index: 2; /* Acima do efeito Matrix */
+            display: none;
+        }
+        .chat-minimized {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #00cc00;
+            box-shadow: 0 0 10px #00cc00;
+            animation: pulse 2s infinite;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .chat-dialog {
+            padding: 80px 10px 10px;
+            text-align: center;
+        }
+        .message {
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .suggestions button {
+            display: block;
+            width: 80%;
+            margin: 5px auto;
+            padding: 8px;
+            background-color: #1890ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .suggestions button:hover {
+            background-color: #40a9ff;
+        }
+        .suggestions a {
+            display: block;
+            margin: 5px auto;
+            color: #1890ff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .suggestions a:hover {
+            text-decoration: underline;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+        }
+        @media (max-width: 800px) {
+            .conteudo {
+                flex-direction: column;
+                align-items: center;
+            }
+            .imagem img {
+                width: 300px;
+                height: 200px;
+            }
+            .chat-container {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <div class="image-container">
+        <img src="../imagens/img0_1.PNG" alt="Header">
+    </div>
+    <!-- Grupo 1 -->
+    <div class="conteudo" id="grupo1">
         <div class="imagem">
-          <img src="../imagens/novos.PNG" class="dimensao">
-      </div> 
-      </div>
-      <div class="imagem2">
+            <img src="../imagens/novos.PNG" alt="Item 1">
+        </div>
         <div class="imagem">
-          <img src="../imagens/novos.PNG" class="dimensao">
-      </div> 
-      </div>
-
-      
-  </div>
-
-  <br><br>
-
-   <!-- Grupo 2 -->
-   <div class="conteudo">
-    <div class="imagem">
-        <img src="../imagens/novos.PNG" class="dimensao">
+            <img src="../imagens/novos.PNG" alt="Item 2">
+        </div>
+        <div class="imagem">
+            <img src="../imagens/novos.PNG" alt="Item 3">
+        </div>
     </div>
-    <div class="imagem2">
-      <div class="imagem">
-        <img src="../imagens/novos.PNG" class="dimensao">
-    </div> 
+    <!-- Grupo 2 -->
+    <div class="conteudo" id="grupo2">
+        <div class="imagem">
+            <img src="../imagens/novos.PNG" alt="Item 4">
+        </div>
+        <div class="imagem">
+            <img src="../imagens/novos.PNG" alt="Item 5">
+        </div>
+        <div class="imagem">
+            <img src="../imagens/novos.PNG" alt="Item 6">
+        </div>
     </div>
-    <div class="imagem2">
-      <div class="imagem">
-        <img src="../imagens/novos.PNG" class="dimensao">
-    </div> 
+    <!-- Grupo 3 -->
+    <div class="conteudo" id="grupo3">
+        <div class="imagem">
+            <img src="../imagens/novos.PNG" alt="Item 7">
+        </div>
+        <div class="imagem">
+            <img src="../imagens/novos.PNG" alt="Item 8">
+        </div>
+        <div class="imagem">
+            <img src="../imagens/novos.PNG" alt="Item 9">
+        </div>
     </div>
-
-    
-</div>
-
-<br><br>
-        
-<!-- Grupo 3 -->
-<div class="conteudo">
-  <div class="imagem">
-      <img src="../imagens/novos.PNG" class="dimensao">
-  </div>
-  <div class="imagem2">
-    <div class="imagem">
-      <img src="../imagens/novos.PNG" class="dimensao">
-  </div> 
-  </div>
-  <div class="imagem2">
-    <div class="imagem">
-      <img src="../imagens/novos.PNG" class="dimensao">
-  </div> 
-  </div>
-
-  
-</div>
-
-<br><br>
-
-<!-- Grupo 4 -->
-<div class="conteudo">
-  <div class="imagem">
-      <img src="../imagens/novos.PNG" class="dimensao">
-  </div>
-  <div class="imagem2">
-    <div class="imagem">
-      <img src="../imagens/novos.PNG" class="dimensao">
-  </div> 
-  </div>
-  <div class="imagem2">
-    <div class="imagem">
-      <img src="../imagens/novos.PNG" class="dimensao">
-  </div> 
-  </div>
-
-  
-</div>
-
-<br><br>
-
-
-      
-          <marquee >
-            Amigos da reciclagem_Rafael Silva_Natal_RN_Brasil
-          </marquee>
-
- <!-- Conteúdo da animação -->
- <div class="chat-container" id="chatContainer" onclick="showResponse()"><!--adicionado o evento on clique-->
-
-
-  <div class="chat-dialog">
-    
-        <!--posição original de id mensage abaixo que foi removida para adiv sugestion abaixo-->
-
-        
-    <div class="suggestions" id="suggestions">
-<div id="message">Olá! Como posso ajudá-lo hoje?</div>
-      <button onclick="showResponse('Gostaria de comprar resistores?')" display="none">Sim</button>
-        <button onclick="showResponse('Estou procurando capacitores.')" display="none">Não</button>  
-      
+    <!-- Grupo 4 -->
+    <div class="conteudo" id="grupo4">
+        <div class="imagem">
+            <img src="../imagens/novos.PNG" alt="Item 10">
+        </div>
+        <div class="imagem">
+            <img src="../imagens/novos.PNG" alt="Item 11">
+        </div>
+        <div class="imagem">
+            <img src="../imagens/novos.PNG" alt="Item 12">
+        </div>
     </div>
+    <marquee>
+        Amigos da reciclagem_Rafael Silva_Natal_RN_Brasil
+    </marquee>
+    <div class="chat-minimized" id="chatMinimized" onclick="openChat()">
+        <img class="avatar" src="../imagens/4.jpg" alt="Avatar">
+    </div>
+    <div class="chat-container" id="chatContainer">
+        <img class="avatar" src="../imagens/4.jpg" alt="Avatar">
+        <div class="chat-dialog">
+            <div class="message" id="message">Olá! Posso ajudar você a encontrar componentes novos hoje?</div>
+            <div class="suggestions" id="suggestions">
+                <button onclick="showHelpOptions()">Sim</button>
+                <button onclick="noHelp()">Não</button>
+            </div>
+        </div>
+        <div class="close-button" onclick="closeChat()">x</div>
+    </div>
+    <script>
+        // Matrix Background Animation
+        const matrixCanvas = document.getElementById('matrix');
+        const matrixCtx = matrixCanvas.getContext('2d');
 
-</div>
-<div class="animation-container" id="animationContainer">
-    <img class="animation-image" src="../imagens/4.jpg" alt="Imagem 1">
-</div>
+        matrixCanvas.height = window.innerHeight;
+        matrixCanvas.width = window.innerWidth;
 
-<!--o fechamento da div chat dialog aqui modifica a estética-->
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*';
+        const fontSize = 14;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = [];
 
-<div class="close-button" onclick="closeChat()">x</div>
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
 
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
 
-</div>
+            matrixCtx.fillStyle = '#00cc00';
+            matrixCtx.font = fontSize + 'px monospace';
 
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-<script>
-  let animationInterval;
-  let currentImageIndex = 0;
-  const imagePaths = ["../imagens/4.jpg", "../imagens/5.jpg", "../imagens/6.jpg"];
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
 
-  // Função para trocar a imagem atual
-  function changeImage() {
-      const imageElement = document.querySelector(".animation-image");
-      imageElement.src = imagePaths[currentImageIndex];
-      currentImageIndex = (currentImageIndex + 1) % imagePaths.length;
-  }
+        setInterval(drawMatrix, 33);
 
-  // Função para abrir o chat e a animação
-  function openChat() {
-      const chatContainer = document.getElementById("chatContainer");
-      chatContainer.style.display = "block";
+        window.addEventListener('resize', () => {
+            matrixCanvas.height = window.innerHeight;
+            matrixCanvas.width = window.innerWidth;
+        });
 
-      const suggestions = document.getElementById("suggestions");// modificação fatal estudo para ocultar o chat e os botões
-      suggestions.style.display = "none";
+        // Bot Logic
+        function openChat() {
+            document.getElementById('chatContainer').style.display = 'block';
+            document.getElementById('chatMinimized').style.display = 'none';
+            showInitialMessage();
+        }
 
-      // Iniciar o loop de troca de imagens
-      animationInterval = setInterval(changeImage, 1000); // Trocar a cada 1 segundo
-  }
+        function closeChat() {
+            document.getElementById('chatContainer').style.display = 'none';
+            document.getElementById('chatMinimized').style.display = 'block';
+        }
 
-  // Função para mostrar a resposta e as opções de link
-  function showResponse(response) {
-      const suggestions = document.getElementById("suggestions");
-      suggestions.style.display = "block";// chama a pergunta do chat
+        function showInitialMessage() {
+            document.getElementById('message').textContent = 'Olá! Posso ajudar você a encontrar componentes novos hoje?';
+            document.getElementById('suggestions').innerHTML = `
+                <button onclick="showHelpOptions()">Sim</button>
+                <button onclick="noHelp()">Não</button>
+            `;
+        }
 
-      const button = document.getElementById("button");
-      button.style.display = "block";// chama os botões
+        function noHelp() {
+            document.getElementById('message').textContent = 'Estarei aqui se precisar! Clique para me chamar!';
+            document.getElementById('suggestions').innerHTML = '';
+            setTimeout(closeChat, 2000);
+        }
 
-          // modificação em teste...
-         
-      const messageDiv = document.getElementById("message");
-      messageDiv.textContent = response;
-      //messageDiv.textContent.display = "block";
+        function showHelpOptions() {
+            document.getElementById('message').textContent = 'Nossos componentes novos são de alta qualidade! O que você procura?';
+            document.getElementById('suggestions').innerHTML = `
+                <button onclick="showPrices()">Ver Preços</button>
+                <button onclick="showItems()">Procurar Item</button>
+                <button onclick="showContact()">Entrar em Contato</button>
+            `;
+        }
 
-      const suggestionsDiv = document.querySelector(".suggestions");
-      suggestionsDiv.innerHTML = "<a href='link_para_componentes.html'>Veja nossos componentes eletrônicos</a>";
-  
-  }
-  
+        function showPrices() {
+            document.getElementById('message').textContent = 'Confira os preços dos nossos componentes novos!';
+            document.getElementById('suggestions').innerHTML = `
+                <div>Kit Resistores Novos (Grupo 1): R$ 39,90</div>
+                <div>Capacitores Novos (Grupo 2): R$ 29,90</div>
+                <div>LEDs Novos (Grupo 3): R$ 25,00</div>
+                <div>Placas de Circuito Novas (Grupo 4): R$ 69,90</div>
+                <button onclick="showHelpOptions()">Voltar</button>
+            `;
+        }
 
-  // Função para fechar o chat e a animação
-  function closeChat() {
-      const chatContainer = document.getElementById("chatContainer");
-      chatContainer.style.display = "none";
-      clearInterval(animationInterval);
-  }
+        function showItems() {
+            document.getElementById('message').textContent = 'Explore nossos componentes novos!';
+            document.getElementById('suggestions').innerHTML = `
+                <a href="#grupo1" onclick="scrollToSection('grupo1')">Kit Resistores Novos (Grupo 1)</a>
+                <a href="#grupo2" onclick="scrollToSection('grupo2')">Capacitores Novos (Grupo 2)</a>
+                <a href="#grupo3" onclick="scrollToSection('grupo3')">LEDs Novos (Grupo 3)</a>
+                <a href="#grupo4" onclick="scrollToSection('grupo4')">Placas de Circuito Novas (Grupo 4)</a>
+                <button onclick="showHelpOptions()">Voltar</button>
+            `;
+        }
 
-  // Chamando a função openChat() quando a página é carregada
-  document.addEventListener("DOMContentLoaded", openChat);
-</script>
+        function showContact() {
+            document.getElementById('message').textContent = 'Entre em contato conosco!';
+            document.getElementById('suggestions').innerHTML = `
+                <div>Telefone: (84) 99999-9999</div>
+                <div>E-mail: <a href="mailto:contato@lightpage.com">contato@lightpage.com</a></div>
+                <button onclick="showHelpOptions()">Voltar</button>
+            `;
+        }
 
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
 
-  </body>
+        // Initialize Chat
+        document.addEventListener('DOMContentLoaded', openChat);
+    </script>
+</body>
 </html>

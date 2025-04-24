@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>LigthPage</title>
+    <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+  </head>
+
+<style>
+.conteudo {
+    display: flex;
+    margin-left: 50px;
+    align-items: flex-start; /* Alinha os itens com o topo */
+    margin-top: 20px; /* Espaçamento superior entre os grupos */
+        }
+.imagem {
+   display: inline-block;
+ }
+.dimensao {
+    width: 350px;
+    height: 250px;
+    border: 2px solid #5e4e4e;
+    border-radius: 3%;
+        }
+.imagem2 {
+    margin-left: 50px; /* Espaço entre a imagens*/
+    vertical-align: top; /* Alinha com o topo da imagem */
+        }
+
+
+
+
+ marquee {
+    width: 100%;
+    background-color: #180e3d;
+    color: #f5f6fa;
+    font-size: 1.5em;
+    direction:"Left";
+    margin: 0;
+    border: 0px;
+  } 
+
+  /* Estilize o widget de chat flutuante como desejado */
+  /* Neste exemplo, vamos criar uma janela de chat flutuante com uma animação de botão */
+  .chat-container {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 200px;
+      background-color: #fff;
+     border: 1px solid #ccc;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
+      border-radius: 15px 15px 15px 15px; /* Valor do raio de borda arredondada */
+  }
+
+  /* Estilos para a animação */
+  .animation-container {
+      width: 100%;
+      height:auto;
+      background-color: #f5f5f5;
+      text-align: center;
+      border-radius: 15px 15px 15px 15px; /* Valor do raio de borda arredondada */
+  }
+
+  /* Estilize as imagens da animação */
+  .animation-image {
+      width: 100%;
+      height:auto;
+      border: 1px solid #ccc;
+      border-radius: 15px 15px 15px 15px; /* Valor do raio de borda arredondada */
+  }
+
+  /* Estilos para o chat de diálogo */
+  .chat-dialog {
+      padding: 10px;
+     
+  }
+
+  /* Estilos para as opções de link */
+  .suggestions {
+      margin-top: 10px;
+      
+  }
+
+  /* Botão de fechar o chat */
+  .close-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+  }
+ 
+</style>
+  <body style="background-color:#000">
+
+
+        <img src="../imagens/img0_1.PNG" width="100%">
+
+
+
+         <!-- Grupo 1 -->
+    <div class="conteudo">
+      <div class="imagem">
+          <img src="../imagens/reciclagens.jpg" class="dimensao">
+      </div>
+      <div class="imagem2">
+        <div class="imagem">
+          <img src="../imagens/reciclagens.jpg" class="dimensao">
+      </div> 
+      </div>
+      <div class="imagem2">
+        <div class="imagem">
+          <img src="../imagens/reciclagens.jpg" class="dimensao">
+      </div> 
+      </div>
+
+      
+  </div>
+
+  <br><br>
+
+   <!-- Grupo 2 -->
+   <div class="conteudo">
+    <div class="imagem">
+        <img src="../imagens/reciclagens.jpg" class="dimensao">
+    </div>
+    <div class="imagem2">
+      <div class="imagem">
+        <img src="../imagens/reciclagens.jpg" class="dimensao">
+    </div> 
+    </div>
+    <div class="imagem2">
+      <div class="imagem">
+        <img src="../imagens/reciclagens.jpg" class="dimensao">
+    </div> 
+    </div>
+
+    
+</div>
+
+<br><br>
+        
+ <!-- Grupo 3 -->
+ <div class="conteudo">
+  <div class="imagem">
+      <img src="../imagens/reciclagens.jpg" class="dimensao">
+  </div>
+  <div class="imagem2">
+    <div class="imagem">
+      <img src="../imagens/reciclagens.jpg" class="dimensao">
+  </div> 
+  </div>
+  <div class="imagem2">
+    <div class="imagem">
+      <img src="../imagens/reciclagens.jpg" class="dimensao">
+  </div> 
+  </div>
+
+  
+</div>
+
+<br><br>
+ <!-- Grupo 4 -->
+ <div class="conteudo">
+  <div class="imagem">
+      <img src="../imagens/reciclagens.jpg" class="dimensao">
+  </div>
+  <div class="imagem2">
+    <div class="imagem">
+      <img src="../imagens/reciclagens.jpg" class="dimensao">
+  </div> 
+  </div>
+  <div class="imagem2">
+    <div class="imagem">
+      <img src="../imagens/reciclagens.jpg" class="dimensao">
+  </div> 
+  </div>
+
+  
+</div>
+
+<br><br>
+
+
+
+      
+          <marquee >
+            Amigos da reciclagem_Rafael Silva_Natal_RN_Brasil
+          </marquee>
+
+ <!-- Conteúdo da animação -->
+ <div class="chat-container" id="chatContainer" onclick="showResponse()"><!--adicionado o evento on clique-->
+
+
+  <div class="chat-dialog">
+    
+        <!--posição original de id mensage abaixo que foi removida para adiv sugestion abaixo-->
+
+        
+    <div class="suggestions" id="suggestions">
+<div id="message">Olá! Como posso ajudá-lo hoje?</div>
+      <button onclick="showResponse('Gostaria de comprar resistores?')" display="none">Sim</button>
+        <button onclick="showResponse('Estou procurando capacitores.')" display="none">Não</button>  
+      
+    </div>
+
+</div>
+<div class="animation-container" id="animationContainer">
+    <img class="animation-image" src="../imagens/1.PNG" alt="Imagem 1">
+</div>
+
+<!--o fechamento da div chat dialog aqui modifica a estética-->
+
+<div class="close-button" onclick="closeChat()">x</div>
+
+
+</div>
+
+
+<script>
+  let animationInterval;
+  let currentImageIndex = 0;
+  const imagePaths = ["../imagens/1.PNG", "../imagens/2.PNG", "../imagens/3.PNG"];
+
+  // Função para trocar a imagem atual
+  function changeImage() {
+      const imageElement = document.querySelector(".animation-image");
+      imageElement.src = imagePaths[currentImageIndex];
+      currentImageIndex = (currentImageIndex + 1) % imagePaths.length;
+  }
+
+  // Função para abrir o chat e a animação
+  function openChat() {
+      const chatContainer = document.getElementById("chatContainer");
+      chatContainer.style.display = "block";
+
+      const suggestions = document.getElementById("suggestions");// modificação fatal estudo para ocultar o chat e os botões
+      suggestions.style.display = "none";
+
+      // Iniciar o loop de troca de imagens
+      animationInterval = setInterval(changeImage, 1000); // Trocar a cada 1 segundo
+  }
+
+  // Função para mostrar a resposta e as opções de link
+  function showResponse(response) {
+      const suggestions = document.getElementById("suggestions");
+      suggestions.style.display = "block";// chama a pergunta do chat
+
+      const button = document.getElementById("button");
+      button.style.display = "block";// chama os botões
+
+          // modificação em teste...
+         
+      const messageDiv = document.getElementById("message");
+      messageDiv.textContent = response;
+      //messageDiv.textContent.display = "block";
+
+      const suggestionsDiv = document.querySelector(".suggestions");
+      suggestionsDiv.innerHTML = "<a href='link_para_componentes.html'>Veja nossos componentes eletrônicos</a>";
+  
+  }
+  
+
+  // Função para fechar o chat e a animação
+  function closeChat() {
+      const chatContainer = document.getElementById("chatContainer");
+      chatContainer.style.display = "none";
+      clearInterval(animationInterval);
+  }
+
+  // Chamando a função openChat() quando a página é carregada
+  document.addEventListener("DOMContentLoaded", openChat);
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Tela de Login</title>
+    <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+   
+  </head>
+
+  <style>
+     marquee {
+    width: 100%;
+    background-color: #180e3d;
+    color: #f5f6fa;
+    font-size: 1.5em;
+    direction:"Left";
+    margin: 0;
+  } 
+    body{
+    background-color:#000;/*css da cor de fundo*/
+  }
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  label {
+    margin-bottom: 8px;
+  }
+  input {
+    width: 200px;
+    height: 24px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+  }
+  button {
+    width: 100px;
+    height: 32px;
+    background-color: #1890ff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #40a9ff;
+  }
+h3{
+    color:#fff;/*css da cor de fundo*/
+  }
+   </style>
+  <body>
+    <div>
+      <img src="../imagens/img0_1.PNG" width="100%">
+     </div>
+
+    <form>
+      <h3>login</h3>
+      <input type="text" placeholder="login" id="login">
+<br>
+      <input type="password" placeholder="senha" id="senha">
+<br>
+      <input type="submit" onclick="logar(); return false">
+    </form>
+    <div>
+      <img src="../imagens/img2_3rodape.PNG" width="100%">
+     </div>
+  
+    <script>
+      function logar(){
+
+        var login = document.getElementById('login').value;
+        var senha = document.getElementById('senha').value;
+
+        if(login == "player" && senha == "controle"){
+           
+            location.href = "https://cd299b6a-ed4a-43c3-8e25-383234a771b3-00-1fk1rvwwy00mj.janeway.replit.dev:3000/";
+
+        }else{
+          alert('Senha e usuário inválidos');
+        }
+
+      }
+    </script>
+   
+    <marquee >
+      LightPage_LightJoystik_versão1.0_Arduino_project_Rafael Silva_Natal_RN_Brasil -Doe qualquer valor e ajude o desenvolvedor desse projeto... PIX : atomaespionka@gmail.com
+    </marquee>
+  </body>
+</html>

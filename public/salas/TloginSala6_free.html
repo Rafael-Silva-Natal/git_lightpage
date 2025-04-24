@@ -1,92 +1,199 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+<head>
     <title>Tela de Login</title>
     <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-   
-  </head>
-
-  <style>
-     marquee {
-    width: 100%;
-    background-color: #180e3d;
-    color: #f5f6fa;
-    font-size: 1.5em;
-    direction:"Left";
-    margin: 0;
-  } 
-    body{
-    background-color:#000;/*css da cor de fundo*/
-  }
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  label {
-    margin-bottom: 8px;
-  }
-  input {
-    width: 200px;
-    height: 24px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 8px;
-  }
-  button {
-    width: 100px;
-    height: 32px;
-    background-color: #1890ff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  button:hover {
-    background-color: #40a9ff;
-  }
-h3{
-    color:#fff;/*css da cor de fundo*/
-  }
-   </style>
-  <body>
-    <div>
-      <img src="../imagens/img0_1.PNG" width="100%">
-     </div>
-
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            position: relative;
+        }
+        canvas#matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Acima das imagens, mas abaixo do formulário e marquee */
+            opacity: 0.15;
+        }
+        .image-container {
+            position: relative;
+            z-index: 0; /* Abaixo do efeito Matrix */
+        }
+        .image-container img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+        }
+        marquee {
+            width: 100%;
+            background-color: #180e3d;
+            color: #f5f6fa;
+            font-size: 1.5em;
+            direction: "left";
+            margin: 0;
+            position: relative;
+            z-index: 2; /* Acima do efeito Matrix */
+        }
+        marquee a {
+            color: #f5f6fa;
+            text-decoration: underline;
+        }
+        marquee a:hover {
+            color: #00cc00;
+            text-shadow: 0 0 5px #00cc00;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2; /* Acima do efeito Matrix */
+            margin: 20px 0;
+        }
+        label {
+            margin-bottom: 8px;
+        }
+        input {
+            width: 200px;
+            height: 24px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 100px;
+            height: 32px;
+            background-color: #1890ff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #40a9ff;
+        }
+        h3 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <div class="image-container">
+        <img src="../imagens/img0_1.PNG" alt="Header">
+    </div>
     <form>
-      <h3>login</h3>
-      <input type="text" placeholder="login" id="login">
-<br>
-      <input type="password" placeholder="senha" id="senha">
-<br>
-      <input type="submit" onclick="logar(); return false">
+        <h3>Login</h3>
+        <input type="text" placeholder="login" id="login">
+        <input type="password" placeholder="senha" id="senha">
+        <input type="submit" onclick="logar(); return false">
     </form>
-    <div>
-      <img src="../imagens/img2_3rodape.PNG" width="100%">
-     </div>
-  
+    <div class="image-container">
+        <img src="../imagens/img2_3rodape.PNG" alt="Rodapé">
+    </div>
+    <marquee>
+        LightPage_LightJoystik_versão1.0_Arduino_project_Rafael Silva_Natal_RN_Brasil - Doe qualquer valor e ajude o desenvolvedor desse projeto... PIX: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="39584d5654585c4a495056575258795e54585055175a5654">[email&#160;protected]</a>
+    </marquee>
     <script>
-      function logar(){
+        // Matrix Background Animation
+        const matrixCanvas = document.getElementById('matrix');
+        const matrixCtx = matrixCanvas.getContext('2d');
 
-        var login = document.getElementById('login').value;
-        var senha = document.getElementById('senha').value;
+        matrixCanvas.height = window.innerHeight;
+        matrixCanvas.width = window.innerWidth;
 
-        if(login == "player" && senha == "controle"){
-           
-            location.href = "https://cd299b6a-ed4a-43c3-8e25-383234a771b3-00-1fk1rvwwy00mj.janeway.replit.dev:3000/";
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*';
+        const fontSize = 14;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = [];
 
-        }else{
-          alert('Senha e usuário inválidos');
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
         }
 
-      }
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+            matrixCtx.fillStyle = '#00cc00';
+            matrixCtx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 33);
+
+        window.addEventListener('resize', () => {
+            matrixCanvas.height = window.innerHeight;
+            matrixCanvas.width = window.innerWidth;
+        });
+
+        // Login Function
+        function logar() {
+            var login = document.getElementById('login').value;
+            var senha = document.getElementById('senha').value;
+
+            if (login == "player" && senha == "controle") {
+                location.href = "https://cd299b6a-ed4a-43c3-8e25-383234a771b3-00-1fk1rvwwy00mj.janeway.replit.dev:3000/";
+            } else {
+                alert('Senha e usuário inválidos');
+            }
+        }
     </script>
-   
-    <marquee >
-      LightPage_LightJoystik_versão1.0_Arduino_project_Rafael Silva_Natal_RN_Brasil -Doe qualquer valor e ajude o desenvolvedor desse projeto... PIX : atomaespionka@gmail.com
-    </marquee>
-  </body>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+</body>
 </html>

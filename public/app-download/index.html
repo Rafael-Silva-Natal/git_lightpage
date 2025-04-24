@@ -1,0 +1,159 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Arquivos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .gallery-item {
+            text-align: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .gallery-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Biblioteca de Arquivos</h1>
+        <div class="gallery" id="gallery"></div>
+    </div>
+
+    <script>
+        // Lista de arquivos (imagens e seus respectivos arquivos para download)
+        const files = [
+            { image: 'Imagens/mecânica.jpg', download: 'Biblioteca/Meu Livro de Física mecânica.pdf', name: 'Arquivo 1' },
+            { image: 'Imagens/Termologia.jpeg', download: 'Biblioteca/Meu livro de Física_Termologia.pdf', name: 'Arquivo 2' },
+            { image: 'Imagens/Óptica e Ondas.jpeg', download: 'Biblioteca/Meu livro de Física_Óptica e ondas.pdf', name: 'Arquivo 3' },
+            { image: 'Imagens/eletricidade.jpeg', download: 'Biblioteca/Meu livro de Física_Eletricidade.pdf', name: 'Arquivo 4' },
+           
+            // Adicione mais arquivos conforme necessário
+        ];
+
+        // Função para criar a galeria
+        function createGallery() {
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = ''; // Limpa a galeria
+
+            files.forEach(file => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+
+                // Cria a imagem
+                const img = document.createElement('img');
+                img.src = file.image;
+                img.alt = file.name;
+                img.title = file.name;
+
+                // Cria o botão de download
+                const button = document.createElement('button');
+                button.className = 'download-btn';
+                button.textContent = 'Baixar';
+                button.onclick = () => downloadFile(file.download, file.name);
+
+                // Adiciona elementos ao item da galeria
+                galleryItem.appendChild(img);
+                galleryItem.appendChild(button);
+                gallery.appendChild(galleryItem);
+            });
+        }
+
+        // Função para iniciar o download
+        function downloadFile(filePath, fileName) {
+            const link = document.createElement('a');
+            link.href = filePath;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Inicializa a galeria quando a página carrega
+        window.onload = createGallery;
+    </script>
+</body>
+</html>

@@ -1,112 +1,198 @@
-<!DOCTYPE html>
-<html lang="en">
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>autor</title>
+    <title>Autor</title>
     <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            position: relative;
+        }
+        canvas#matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Acima da imagem, mas abaixo dos links */
+            opacity: 0.15;
+        }
+        .curriculo {
+            color: black;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 16px;
+            text-decoration: none;
+            margin: 10px;
+            display: inline-block;
+            position: relative;
+            z-index: 2; /* Acima do efeito Matrix */
+        }
+        .curriculo:hover {
+            color: #00cc00;
+            text-shadow: 0 0 5px #00cc00;
+        }
+        .image-container {
+            position: relative;
+            z-index: 0; /* Abaixo do efeito Matrix */
+        }
+        .image-container img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+        }
+        .links-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px 0;
+            position: relative;
+            z-index: 2; /* Acima do efeito Matrix */
+        }
+        .links-container a {
+            text-decoration: none;
+            font-size: 20px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            transition: transform 0.3s, text-shadow 0.3s;
+        }
+        .links-container a:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 0 8px currentColor;
+        }
+        .linkreposit {
+            color: #b70fe0;
+            text-shadow: 1px 1px rgba(56, 202, 221, 0.5);
+        }
+        .linkRedeS {
+            color: #67c6f1;
+            text-shadow: 1px 1px rgba(56, 202, 221, 0.5);
+        }
+        .linkRedeS2 {
+            color: #f51a2c;
+            text-shadow: 1px 1px rgba(56, 202, 221, 0.5);
+        }
+        .linkRedeS3 {
+            color: #f84297;
+            text-shadow: 1px 1px rgba(56, 202, 221, 0.5);
+        }
+        .linkRedeS4 {
+            color: #108519;
+            text-shadow: 1px 1px rgba(56, 202, 221, 0.5);
+        }
+        @media (max-width: 600px) {
+            .links-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .links-container a {
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
-<style>
-    .linkreposit{/*link github*/
-    flex: 20%;
-    color:#b70fe0;
-    text-decoration:underline;
-    font-size: 20px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    flex-shrink: 0;
-  }
-  
-  .linkRedeS{/*link twiter*/
-    flex: 20%;
-    color:#67c6f1;
-    font-size: 23px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    flex-shrink: 0;
-  }
-  
-  .linkRedeS2{/*link youtube*/
-    flex: 20%;
-    color:#f51a2c;
-    font-size: 23px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    flex-shrink: 0;
-  }
-  .linkRedeS3{/*link instagram*/
-    flex: 20%;
-    color:#f84297;
-    font-size: 23px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    flex-shrink: 0;
-  }
-  
-  .linkRedeS4{/*link doi discord*/
-    flex: 20%;
-    /*margin-left: 25px;*/
-    color:#108519;
-    font-size: 23px;
-    text-shadow: 1px 1px rgb(56, 202, 221);
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    flex-shrink: 0;
-  }
-
-.curriculo{
-  color:black;
-}
-.game{
-  display: flex;
-      justify-content: center;
-      align-items: center;
-}
-.rodape{
-  text-align: center;
-  border: 0px;
-  margin: 0%;
-  color: rgb(141, 131, 170);
-  font-size: 16px;
-  text-shadow: 1px 1px rgb(176, 33, 219);
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
-}
-
-            
-</style>
-
-<body style="background-color:#000">
-  <a href="../paginasAuxiliares/curriculum.html" class="curriculo">curriculum</a>
-  <a href="../paginasAuxiliares/curriculum2.html" class="curriculo">curriculum</a>
-  
-  
+<body>
+    <canvas id="matrix"></canvas>
+    <a href="../paginasAuxiliares/curriculum.html" class="curriculo">Curriculum</a>
+    <a href="../paginasAuxiliares/curriculum2.html" class="curriculo">Curriculum</a>
     <br>
-       <div>
-      
-        <img src="../imagens/autor.PNG" width="100%">
-      </div>
-    <div style="
-  width: 100%;
-  display: flex;
-  justify-content:center;
-  padding: 0px;
-">
-  <a href="https://www.instagram.com/atomaespionka/" class="link linkRedeS3">Instagram</a>
-  <a href="https://twitter.com/RafaelS14068210" class="link linkRedeS">twitter</a>
-  <a href="https://youtube.com/@RafaelSilva-ke7rt" class="link linkRedeS2">Youtube</a>
-  <a href="https://discord.com" class="link linkRedeS4">Discord</a>
-  <a href="https://github.com/Rafael-Silva-Natal" class="link linkreposit">Repositório no GitHub.</a>
-</div>
+    <div class="image-container">
+        <img src="../imagens/autor.PNG" alt="Autor">
+    </div>
+    <div class="links-container">
+        <a href="https://www.instagram.com/atomaespionka/" class="link linkRedeS3">Instagram</a>
+        <a href="https://twitter.com/RafaelS14068210" class="link linkRedeS">Twitter</a>
+        <a href="https://youtube.com/@RafaelSilva-ke7rt" class="link linkRedeS2">Youtube</a>
+        <a href="https://discord.com" class="link linkRedeS4">Discord</a>
+        <a href="https://github.com/Rafael-Silva-Natal" class="link linkreposit">Repositório no GitHub</a>
+    </div>
+    <script>
+        // Matrix Background Animation
+        const matrixCanvas = document.getElementById('matrix');
+        const matrixCtx = matrixCanvas.getContext('2d');
 
-  <br><br><br><br><br><br><br><br><br><br><br><br>
+        matrixCanvas.height = window.innerHeight;
+        matrixCanvas.width = window.innerWidth;
 
-  <div class="game">
-    <iframe src="https://scratch.mit.edu/projects/876977149/embed" allowtransparency="true" width="485" height="402" frameborder="0" scrolling="no" allowfullscreen></iframe>
-  
-  </div>
-<p class="rodape">
-    Click na bandeirinha e use as setas do teclado para jogar...
-  </p>
-  
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*';
+        const fontSize = 14;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+            matrixCtx.fillStyle = '#00cc00';
+            matrixCtx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 33);
+
+        window.addEventListener('resize', () => {
+            matrixCanvas.height = window.innerHeight;
+            matrixCanvas.width = window.innerWidth;
+        });
+    </script>
 </body>
 </html>

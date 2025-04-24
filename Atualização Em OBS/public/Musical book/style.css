@@ -1,0 +1,82 @@
+body {
+    background: url('imagens/capa1.jpg') no-repeat;
+  }
+ .assuntos{
+     margin-top: 150px;
+     margin-left: 45%;
+ }
+ .linksbooks{
+    flex: 20%;
+    color:#4221fa;
+    text-decoration:none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    flex-shrink: 0;
+ }
+ .linksbooks2{
+    flex: 20%;
+    color:#29b3f3;
+    text-decoration:none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    flex-shrink: 0;
+ }
+ .linksbooks3{
+    flex: 20%;
+    color:#3bf19c;
+    text-decoration:none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    flex-shrink: 0;
+ }
+ .linksbooks4{
+    flex: 20%;
+    color:#a1f731;
+    text-decoration:none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    flex-shrink: 0;
+ }
+ .linksbooks5{
+    flex: 20%;
+    color:#fce24e;
+    text-decoration:none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    flex-shrink: 0;
+ }
+ .linksbooks6{
+    flex: 20%;
+    color:#f88f2c;
+    text-decoration:none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    flex-shrink: 0;
+ }
+ .linksbooks7{
+    flex: 20%;
+    color:#f33b22;
+    text-decoration:none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    flex-shrink: 0;
+ }
+ .linksbooks8{
+   flex: 20%;
+   color:#f73f9b;
+   text-decoration:none;
+   font-size: 30px;
+   text-shadow: 1px 1px rgb(56, 202, 221);
+   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+   flex-shrink: 0;
+}
+ a:hover{
+    color: #b70fe0; 
+    }

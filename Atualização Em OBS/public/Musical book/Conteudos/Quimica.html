@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musical book</title>
+    <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
+<style>
+.cabecalho{
+  position: relative; /* Define o contexto para o posicionamento absoluto */
+  width: 100%;
+}
+.imagem-cabecalho {
+    width: 100%; /* Faz com que a imagem ocupe toda a largura da div */
+    height: auto;
+}
+.video-link{
+  color: #f33b22;
+    text-decoration: none;
+    font-size: 18px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+
+}
+
+.linksPortugues{
+  color: #4221fa;
+    text-decoration: none;
+    font-size: 30px;
+    text-shadow: 1px 1px rgb(56, 202, 221);
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+ }
+ a:hover{
+    color: #b70fe0; 
+    }
+    .Portugues{
+      position: absolute; /* Coloca os links sobre a imagem */
+    top: 20%; /* Ajuste para alinhar verticalmente os links */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -20%); /* Alinha exatamente ao centro */
+    display: flex;
+    justify-content: space-between;
+    width: 60%; /* Define largura para os links */
+    }
+    .linksMusica,
+    .linkMusica2{
+      margin: 0;
+ }
+ 
+ .linksMusica{
+  margin-left: 350px;
+ }
+ .linksMusica2{
+  margin-left: 100px;
+ }
+
+ .conteudo {
+    position: relative; /* Define um contexto para elementos absolutos */
+    width: 100%;
+    height: auto;
+}
+
+.imagem-conteudo {
+    width: 100%;
+    height: auto;
+}
+
+.video-overlay {
+    display: none; /* Inicialmente escondido */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Garante que fique acima da imagem */
+}
+
+#videoPlayer {
+    width: 80%;
+    height: 80%;
+    border: none;
+    border-radius: 10px;
+}
+
+</style>
+
+</head>
+
+<body style="background-color: black" class="body">
+    <div class="cabecalho">
+        <img src="../imagens/Quimica.jpg" class="imagem-cabecalho">
+        <div class="Portugues">
+          <div class="linksMusica">
+            <a href="#" id="videoQui1" class="video-link">Conceitos iníciais</a><br>
+            <a href="#" id="videoQui2" class="video-link">Reações</a><br>
+            <a href="#" id="videoQui3" class="video-link">Distribuição</a><br>
+            <a href="#" id="videoQui4" class="video-link">Classificação</a><br>
+            <a href="#" id="videoQui5" class="video-link">Valência</a><br>
+            <a href="#" id="videoQui6" class="video-link">Nox</a><br>
+            <a href="#" id="videoQui7" class="video-link">Ácidos e bases</a><br>
+            <a href="#" id="videoQui8" class="video-link">Balanceamento</a><br>
+            <a href="#" id="videoQui9" class="video-link">Oxirredução</a><br>
+            <a href="#" id="videoQui10" class="video-link">Nox 2</a><br>
+            <a href="#" id="videoQui11" class="video-link">Balanceamento 2</a><br>
+            <a href="#" id="videoQui12" class="video-link">Medidas</a><br>
+            <a href="#" id="videoQui13" class="video-link">Exercícios</a><br>
+          </div>
+          <div class="linksMusica2">
+            <a href="#" id="videoQui14" class="video-link">Gases</a><br>
+            <a href="#" id="videoQui15" class="video-link">Cálculos químicos</a><br>
+            <a href="#" id="videoQui16" class="video-link">Estequiometria</a><br>
+            <a href="#" id="videoQui17" class="video-link">Soluções</a><br>
+            <a href="#" id="videoQui18" class="video-link">Radiatividade</a><br>
+            <a href="#" id="videoQui19" class="video-link">Química orgânica 1</a><br>
+            <a href="#" id="videoQui20" class="video-link">Química orgânica 2</a><br>
+            <a href="#" id="videoQui21" class="video-link">Química orgânica 3</a><br>
+            <a href="#" id="videoQui22" class="video-link">Química orgânica 4</a><br>
+            <a href="#" id="videoQui23" class="video-link">Química orgânica 5</a><br>
+            <a href="#" id="videoQui24" class="video-link">Química orgânica 6</a><br>
+            <a href="#" id="videoQui25" class="video-link">Química orgânica 7</a><br>
+            <a href="#" id="videoQui26" class="video-link">Química orgânica 8</a>
+          </div>
+        </div>
+      </div>
+<br>
+
+<div class="conteudo">
+  <img src="../imagens/livroAberto.jpg" class="imagem-conteudo">
+  <div class="video-overlay" id="videoOverlay">
+      <iframe 
+          id="videoPlayer" 
+          width="560" 
+          height="315" 
+          src="" 
+          title="YouTube video player" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" 
+          allowfullscreen>
+      </iframe>
+  </div>
+</div>
+
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const videoOverlay = document.getElementById("videoOverlay");
+    const videoPlayer = document.getElementById("videoPlayer");
+
+    // Mapeamento de vídeos pelos IDs dos links
+    const videoMap = {
+        videoQui1: "https://www.youtube.com/embed/wUN0zFZLTUY?si=YzgrnS87UyoIDnuT",
+        videoQui2: "https://www.youtube.com/embed/HyZxk37c2Ho?si=Fjtd5iKA3fX_EOs3",
+        videoQui3: "https://www.youtube.com/embed/yJrHrVN3xs0?si=9N0gK_5Ilejmn0Nc",
+        videoQui4: "https://www.youtube.com/embed/olRqPGpPvJ0?si=bHL87U_M0UdMNgpv",
+        videoQui5: "https://www.youtube.com/embed/Ku_LMbfrKlY?si=xvUUTK6q4zDyaYR-",
+        videoQui6: "https://www.youtube.com/embed/bYovsK4iCXA?si=1b0MihkXcMcTKn4y",
+        videoQui7: "https://www.youtube.com/embed/KOErOkgv7qY?si=1D-ncTWEBZ6v32ud",
+        videoQui8: "https://www.youtube.com/embed/88A8Qr51QKQ?si=JsSr0TK5I8LniFJa",
+        videoQui9: "https://www.youtube.com/embed/euK4uOCmz1U?si=FsIsL7a3Egr2qUry",
+        videoQui10: "https://www.youtube.com/embed/ezhNhu8h4c4?si=TEoOuUaHS6-x7x2B",
+        videoQui11: "https://www.youtube.com/embed/hjyGaHb2imA?si=wLRXmjZLeEg6lHi-",
+        videoQui12: "https://www.youtube.com/embed/kfc1sviohJg?si=YnZHuKyQw8-KkAoH",
+        videoQui13: "https://www.youtube.com/embed/LJs-wEtXM7I?si=cUZC54xfts2jZJXV",
+        videoQui14: "https://www.youtube.com/embed/8rsD1LgOccw?si=lNAjFSh_WQUNXYB4",
+        videoQui15: "https://www.youtube.com/embed/dLPl8PaeXCE?si=imqwlqnst9_XP497",
+        videoQui16: "https://www.youtube.com/embed/gqLq8BTa5Q8?si=l6qfoiGy8ebJwD_h",
+        videoQui17: "https://www.youtube.com/embed/rzdlx7k8Zy8?si=lmFSV4n8c2cXtSeY",
+        videoQui18: "https://www.youtube.com/embed/ktNLQJ1dQcU?si=wLuQ3tAFcKbJ2G6j",
+        videoQui19: "https://www.youtube.com/embed/4kaHtLpCrVM?si=QDbHINRWBZ0YH1Yn",
+        videoQui20: "https://www.youtube.com/embed/WF-Yde6WdHs?si=Xtv5cIQjbrj9xofc",
+        videoQui21: "https://www.youtube.com/embed/RGFJ9nr6Fac?si=6LKWBde5f4N1UpqH",
+        videoQui22: "https://www.youtube.com/embed/3JgGdfcnXO0?si=Aby25asRetVSTNyS",
+        videoQui23: "https://www.youtube.com/embed/CP4mGYvNXi4?si=QD91owjF0oRXAWOL",
+        videoQui24: "https://www.youtube.com/embed/j7kiT9AXLmE?si=wJ1O5-pM_l_qTA3x",
+        videoQui25: "https://www.youtube.com/embed/S3fqqQ_rcW0?si=vMEI0oZ2y28ZXJSD",
+        videoQui26: "https://www.youtube.com/embed/4dflEg4bCLM?si=5OjTs6MZ1uLbDg9J",
+    };
+
+    // Adiciona eventos de clique aos links
+    Object.keys(videoMap).forEach(videoId => {
+        const link = document.getElementById(videoId);
+        link.addEventListener("click", event => {
+            event.preventDefault();
+            const videoUrl = videoMap[videoId];
+
+            if (videoUrl) {
+                videoPlayer.src = videoUrl;
+                videoOverlay.style.display = "flex";
+            }
+        });
+    });
+
+    // Fecha o modal e para a reprodução
+    videoOverlay.addEventListener("click", event => {
+        if (event.target === videoOverlay) {
+            videoOverlay.style.display = "none";
+            videoPlayer.src = ""; // Para o vídeo
+        }
+    });
+});
+
+
+
+  </script>
+    
+</body>
+</html>

@@ -1,210 +1,255 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <title>LigthPage_salas</title>
+<head>
+    <title>LightPage Salas</title>
     <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
-   
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
-  </head>
-
-  <style>
-   
-  a {
-  color: #f5f6fa;
-  text-decoration: none;
-}
-a:hover{
-  color: rgb(54, 204, 111); 
-}
-
-
-.alfa{
-  color:rgb(223, 131, 70);
-  font-size: 23px;
-  text-shadow: 1px 1px #92922b;
-  font-family:'Courier New', Courier, monospace;
-  
-}
-.beta{
-  color:rgb(161, 128, 36);
-  font-size: 23px;
-  text-shadow: 1px 1px #ebeb7b;
-  font-family:'Courier New', Courier, monospace;
-  
-}
-.sala2{
-  color:rgb(133, 155, 82);
-  font-size: 20px;
-  text-shadow: 1px 1px #92922b;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-.linkcolor{
-  color:rgb(241, 163, 218);
-  font-size: 20px;
-  text-shadow: 1px 1px #92922b;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-.p{
-  text-align:right;
-  font-size:0.9em ;
-  margin: 0 ;
-  margin: auto;
-}
-
-
-#linkScratch{
-  color:orange;
-  text-decoration:underline;
-  /*top: 50px;
-  left: 50px;*/
-  font-size: 23px;
-  text-shadow: 1px 1px #f8f8f4;
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
-#linkRatLocal{
-  color:#5c595b;
-  text-decoration:underline;
-  top: 50px;
-  left: 50px;
-  font-size: 23px;
-  text-shadow: 1px 1px red;
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
-
-.linkFInais{
-  width: 100%;
-  text-align: center;
-}
-
-.linkRodape{
-  color:#8ca5d4;
-  text-decoration:underline;
-  /*top: 50px;
-  left: 50px;*/
-  font-size: 23px;
-  text-shadow: 1px 1px rgb(56, 202, 221);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-
-}
-.alinhamento{
-  text-align: center;
-}
-
-.canvas {
-  border: 0px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0px;
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #a0ffa0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
         }
-
+        canvas#matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
         #CanvaLinks {
             display: flex;
             width: 100%;
             justify-content: space-between;
-            padding: 0px;
+            padding: 20px;
+            margin-top: 0px;
         }
-
+        .canvas {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0px;
+        }
+        #desenho1 {
+            border: 2px solid #00cc00;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #00cc00;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
         .links {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-Content: center;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .links a {
+            display: block;
+            margin: 15px 0;
+            font-size: 18px;
+            text-decoration: none;
+            transition: transform 0.3s, text-shadow 0.3s;
+        }
+        .links a:hover {
+            transform: translateX(5px);
+            text-shadow: 0 0 8px currentColor;
+        }
+        .free {
+            color: #a0ffa0;
+            text-shadow: 0 0 5px #00cc00;
+        }
+        .alfa {
+            color: #ff8c00;
+            text-shadow: 0 0 5px #ff4500;
+        }
+        .beta {
+            color: #ffd700;
+            text-shadow: 0 0 5px #daa520;
+        }
+        .sala2 {
+            color: #32cd32;
+            text-shadow: 0 0 5px #228b22;
+        }
+        .sala3 {
+            color: #00b7eb;
+            text-shadow: 0 0 5px #4682b4;
+        }
+        .sala4 {
+            color: #ff69b4;
+            text-shadow: 0 0 5px #c71585;
+        }
+        .sala5 {
+            color: #7b68ee;
+            text-shadow: 0 0 5px #483d8b;
+        }
+        .rodape {
+            width: 100%;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .rodape img {
+            width: 100%;
+            max-width: 1200px;
+            opacity: 0.7;
+        }
+        h2 {
+            text-align: center;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00cc00;
+            margin-bottom: 5px;
+        }
+        @media (max-width: 900px) {
+            #CanvaLinks {
+                flex-direction: column;
+                align-items: center;
+            }
+            .links {
+                margin: 20px 0;
+                text-align: center;
+            }
+            .canvas {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <h2>Salas</h2>
+    <div id="CanvaLinks">
+        <div class="canvas">
+            <canvas id="desenho1" width="500" height="500">
+                <h3>Seu browser não possui suporte a canvas</h3>
+            </canvas>
+        </div>
+        <div class="links">
+            <a href="TloginSala6_free.html" class="free">Fale com o administrador, receba sua senha e acesse a sala free!</a>
+            <a href="TloginAlfa.html" class="alfa">Sala alfa (Indisponível)</a>
+            <a href="TloginBeta.html" class="beta">Sala beta (Indisponível)</a>
+            <a href="TloginSala2.html" class="sala2">Acesse o link e execute o login da sala 2 (Indisponível)</a>
+            <a href="TloginSala3.html" class="sala3">Acesse o link e execute o login da sala 3 (Indisponível)</a>
+            <a href="TloginSala4.html" class="sala4">Acesse o link e execute o login da sala 4 (Indisponível)</a>
+            <a href="TloginSala5.html" class="sala5">Acesse o link e execute o login da sala 5 (Indisponível)</a>
+        </div>
+    </div>
+    <div class="rodape">
+        <img src="../imagens/img0_1.PNG" alt="Rodapé">
+    </div>
+    <script>
+        // Matrix Background Animation
+        const matrixCanvas = document.getElementById('matrix');
+        const matrixCtx = matrixCanvas.getContext('2d');
 
-            margin-left: 200px; /* Adicionei uma margem à esquerda dos links */
+        matrixCanvas.height = window.innerHeight;
+        matrixCanvas.width = window.innerWidth;
+
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*';
+        const fontSize = 14;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
         }
 
-        #desenho1 {
-            flex: 1;
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+            matrixCtx.fillStyle = '#00cc00';
+            matrixCtx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
         }
-        .rodape{
-          width: 100%;
-          border: 0px;
-          padding: 0%;
-        }
-        .body{
-          background: url('../imagens/fundoProgram3.PNG') no-repeat;
-          background-size: cover;
-      
-          width: 100%;
-          max-width: 100%;
-          height: auto;
-          /*background-color: black;*/
-        }
-</style>
 
-<body style="background-color: black" class="body">
+        setInterval(drawMatrix, 33);
 
-  
-<br><br><br><br><br>
-<div id="CanvaLinks">
+        window.addEventListener('resize', () => {
+            matrixCanvas.height = window.innerHeight;
+            matrixCanvas.width = window.innerWidth;
+        });
 
-<div class="canvas">
+        // Canvas Animation (Existing)
+        let canvas = document.getElementById("desenho1");
+        let ctx = canvas.getContext('2d');
 
- <canvas id="desenho1" width="500" height="500">
-  <h3>seu browser não possui suporte a canvas</h3>
-  </canvas>
-</div>
+        let jogador = new Image();
+        jogador.src = "../imagens/AnimationSalas.png";
+        let numSprite = 0;
+        let posIniX = 0;
+        let largSprite = 0;
+        let numSpries = 4;
 
-<br><br>
-<div class="links">
- <p >
-    <a href="TloginSala6_free.html" color="#f5f6fa">Fale com o administrador, receba sua senha e acesse a sala free!</a>
-  </p>
-  <br><br>
-  <a href="TloginAlfa.html" class="alfa"> Sala alfa (Indisponível)</a><br><br><br>
-  <a href="TloginBeta.html" class="beta"> Sala beta (Indisponível)</a><br><br><br>
-  <a href="TloginSala2.html" class="sala2"> Acesse o link e execute o login da sala 2 (Indisponível)</a><br><br><br>
-  <a href="TloginSala3.html" class="linkcolor"> Acesse o link e execute o login da sala 3 (Disponível)</a><br><br><br>
-  <a href="TloginSala4.html" class="linkcolor"> Acesse o link e execute o login da sala 4 (Disponível)</a><br><br><br>
-  <a href="TloginSala5.html" class="linkcolor"> Acesse o link e execute o login da sala 5 (Disponível)</a>
-  
-</div>
-</div>
-<br>
-<div class="rodape">
-  <img src="../imagens/fundo program3_1.png" width="100%">
- </div>
+        jogador.addEventListener('load', () => {
+            largSprite = jogador.width / numSpries;
+            AltSprite = jogador.height / numSpries;
+            posIniX = largSprite * numSprite;
+            ctx.drawImage(jogador, posIniX, 0, largSprite, AltSprite, 0, 0, largSprite, AltSprite);
+        });
 
-
-  <script type="text/javascript">
-    let canvas=document.getElementById("desenho1")
-    let ctx=canvas.getContext('2d')
-
-    let jogador= new Image()
-    jogador.src="../imagens/AnimationSalas.png"//lembrar sempre de rever o caminho da imagem em caso de mudaça de pastas
-    let numSprite=0//variavel responsavel de mudar as imagens! na posição em x
-    let posIniX=0
-    let Limagem=0
-    let largSprite=0
-    let numSpries=4//A quntidade de recorte de imagens esta ligada diretamenta com a condição que reinicia a sequencia de imagens do if da função ANIMA
-    jogador.addEventListener('load',()=>{
-        largSprite=jogador.width/numSpries
-        AltSprite=jogador.height/numSpries
-        posIniX=largSprite*numSprite// <= ao mudar esse valor desloca-se a captura de imagem... como a imagem estudada é de 4imagens 50x50pixls ..temos de 0 a 3 ... posteriormente o numero foi adcionado a uma variavel!!
-        //(imagem) +++ (x inicial do recorte..y inicial do recorte) +++ (largura do recote...Altura do recorte) +++ (posição X da imagem...posição Y da imagem) +++ (Largura da imagem ...altura da imagem)
-      ctx.drawImage(jogador,posIniX,0,largSprite,AltSprite,0,0,largSprite,AltSprite)
-      //posIniY modifica a sequencia de imagens para baixo lembra de modificar nas duas funções que se seguem
-    })      
-    
-    let anima=setInterval(()=>{
-        ctx.clearRect(0,0,500,500)
-        numSprite++
-        if(numSprite>3)//condição que reinicia a sequencia de imagens! 
-        numSprite=0
-        posIniX=largSprite*numSprite
-         //(imagem) +++ (x inicial do recorte..y inicial do recorte) +++ (largura do recote...Altura do recorte) +++ (posição X da imagem...posição Y da imagem) +++ (Largura da imagem ...altura da imagem)
-      ctx.drawImage(jogador,posIniX,0,largSprite,400,0,0,500,500)//..50x50
-     //posIniY modifica a sequencia de imagens para baixo  lembra de modificar nas duas funções que se seguem
-    },1000)//função que define o tempo em que as imagens mudam
-
-
-
-
-
-
-
-
-</script>
-
-  </body>
+        let anima = setInterval(() => {
+            ctx.clearRect(0, 0, 500, 500);
+            numSprite++;
+            if (numSprite > 3) numSprite = 0;
+            posIniX = largSprite * numSprite;
+            ctx.drawImage(jogador, posIniX, 0, largSprite, 400, 0, 0, 500, 500);
+        }, 1000);
+    </script>
+</body>
 </html>

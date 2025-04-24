@@ -1,92 +1,148 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <title class="topo">LigthPage</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="shortcut icon" href="public\imagens\Lampada.jpg"/>
-  <!--<meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />-->
+    <title class="topo">LightPage</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="public/imagens/Lampada.jpg"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        canvas#matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+    </style>
 </head>
-
 <body style="background-color: black" class="body">
+    <canvas id="matrix"></canvas>
+    <div id="esquerda">
+        <header id="menu-esquerda">
+            <br>
+            <h1 id="title">Menu</h1>
+            <p id="expand"></p>
+            <p id="select"></p>
+            <ul id="nav">
+                <li><a href="public/paginasAuxiliares/tutorial.html" class="selected">Tutorial</a></li>
+                <li><a href="public/paginasAuxiliares/Canal.html">Canal</a></li>
+                <li><a href="public/salas/TloginSala6_free.html">Sala free</a></li>
+                <li><a href="public/paginasAuxiliares/Ferramentas.html">Ferramentas Gratuitas</a></li>
+                <li><a href="public/paginasAuxiliares/jogos.html">Entretenimento</a></li>
+                <li><a href="https://rafael-silva-natal.github.io/Ligth_page/">MOBILE</a></li>
+                <li><a href="https://7b56db6e-16f7-405e-8514-b6b25a80f4d7-00-1z7oqyylisetc.kirk.replit.dev/auth">Fórum da página</a></li>
+            </ul>
+        </header>
+    </div>
+    <div id="canvas-container">
+        <canvas id="desenho1"></canvas>
+    </div>
+    <div id="direita">
+        <header id="menu-direita">
+            <br>
+            <h1 id="title">$</h1>
+            <p id="expand"></p>
+            <p id="select"></p>
+            <ul id="nav">
+                <li><a href="public/salas/salas.html">Salas reservadas</a></li>
+                <li><a href="public/paginasAuxiliares/projetos.html">Projetos</a></li>
+                <li><a href="public/paginasAuxiliares/loja2.html">Loja (Novos)</a></li>
+                <li><a href="public/paginasAuxiliares/loja.html">Loja (Reciclados)</a></li>
+                <li><a href="public/paginasAuxiliares/Parcerias.html">Parcerias</a></li>
+                <li><a href="public/paginasAuxiliares/Autor.html">Contato</a></li>
+            </ul>
+        </header>
+    </div>
+    <script>
+        // Matrix Background Animation
+        const matrixCanvas = document.getElementById('matrix');
+        const matrixCtx = matrixCanvas.getContext('2d');
 
+        matrixCanvas.height = window.innerHeight;
+        matrixCanvas.width = window.innerWidth;
 
-  <!-- Conteúdo da Página seria a imagem de fundo da página feita com uma div
-  <div class="rodape">
-    <img src="public/imagens/img_01.PNG" style="width: 100%; max-width: 100%; height: auto;" >
-  </div>-->
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*';
+        const fontSize = 14;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = [];
 
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
 
-  <!-- Menu da Esquerda -->
-  <div id="esquerda">
-  <header id="menu-esquerda">
-    <br>
-    <h1 id="title">Menu</h1>
-    <p id="expand">Expanda para ver o menu.</p>
-    <p id="select"></p>
-    <ul id="nav">
-        <li><a href="public/paginasAuxiliares/tutorial.html"  class="selected">Tutorial</a></li>
-       <li><a href="public/paginasAuxiliares/Canal.html">Canal</a></li>
-        <li><a href="public/salas/TloginSala6_free.html" >Sala free</a></li>
-        <!--<li><a href="public\paginasAuxiliares\projetos.html" >Projetos</a></li>-->
-        <li><a href="public/paginasAuxiliares/Ferramentas.html" >Ferramentas Gratuitas</a></li>
-        <!--<li><a href="public\paginasAuxiliares\loja.html" >Loja</a></li>-->
-        <li><a href="https://rafael-silva-natal.github.io/Ligth_page/">MOBILE</a></li>
-        <li><a href="public/paginasAuxiliares/Autor.html" >Sobre o autor</a></li>
-    </ul>
-  </header>
-</div>
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
 
+            matrixCtx.fillStyle = '#00cc00';
+            matrixCtx.font = fontSize + 'px monospace';
 
-<div id="canvas-container">
-  <canvas id="desenho1"></canvas>
-</div>
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
 
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
 
+        setInterval(drawMatrix, 33);
 
+        window.addEventListener('resize', () => {
+            matrixCanvas.height = window.innerHeight;
+            matrixCanvas.width = window.innerWidth;
+        });
 
-
-  <!-- Menu da Direita -->
-  <div id="direita">
-  <header id="menu-direita">
-    <br>
-    <h1 id="title">$</h1>
-    <p id="expand">Expanda para ver o menu.</p>
-    <p id="select"></p>
-    <ul id="nav">
-        <!-- Adicione links correspondentes ao menu da direita aqui -->
-        <!--<li><a href="public\paginasAuxiliares\tutorial.html"  class="selected">Tutorial</a></li>
-        <li><a href="public\salas\TloginSala6_free.html" >Sala free</a></li>-->
-        <li><a href="public\salas\salas.html">Salas reservadas</a></li>
-        <li><a href="public\paginasAuxiliares\projetos.html" >Projetos</a></li>
-        <!--<li><a href="public\CopyBlocks\CopyBlock.html" >Ferramentas Gratuítas</a></li>-->
-        <li><a href="public\paginasAuxiliares\loja2.html" >Loja (Novos)</a></li>
-        <li><a href="public\paginasAuxiliares\loja.html" >Loja (Reciclados)</a></li>
-        <li><a href="public\paginasAuxiliares\Parcerias.html">Parcerias</a></li>
-        <li><a href="public\paginasAuxiliares\Autor.html" >Contato</a></li>
-        <!-- ... -->
-    </ul>
-  </header>
-</div>
-
- 
+        // No Scroll
+        function noscroll() {
+            window.scrollTo(0, 0);
+        }
+        window.addEventListener("scroll", noscroll);
+    </script>
+    <script src="CanvasAnimation.js"></script>
 </body>
-
-<script type="text/javascript">
-  function noscroll(){
-window.scrollTo(0,0);
-}
-window.addEventListener("scroll",noscroll);
-</script>
-
- <!-- Rodapé 
-  <div class="rodape">
-    <img src="public\imagens\imgzcircuito3.png" width="100%">
-  </div>-->
-
-<!--script da animação do canvas   OBS!-->
-<script src="CanvasAnimation.js"></script>
-
-
-    
 </html>

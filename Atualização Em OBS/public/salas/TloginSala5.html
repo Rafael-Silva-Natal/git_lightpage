@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Tela de Login</title>
+    <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+   
+  </head>
+
+  <style>
+    body{
+    background-color:#000;/*css da cor de fundo*/
+  }
+  
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  label {
+    margin-bottom: 8px;
+  }
+  
+  input {
+    width: 200px;
+    height: 24px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+  }
+  
+  button {
+    width: 100px;
+    height: 32px;
+    background-color: #1890ff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #40a9ff;
+  }
+
+h3{
+    color:#fff;/*css da cor de fundo*/
+  }
+  
+
+  </style>
+
+
+
+  <body>
+
+    <div>
+      <img src="../imagens/img0_1.PNG" width="100%">
+     </div>
+  
+    <form>
+
+      <h3>login</h3>
+     
+      <input type="text" placeholder="login" id="login">
+<br>
+      <input type="password" placeholder="senha" id="senha">
+<br>
+      <input type="submit" onclick="logar(); return false">
+
+    </form>
+
+    <div>
+      <img src="../imagens/img2_2rodape.PNG" width="100%">
+     </div>
+  
+
+    <script>
+      function logar(){
+
+        var login = document.getElementById('login').value;
+        var senha = document.getElementById('senha').value;
+
+        if(login == "usuario5" && senha == "123"){
+           
+            location.href = "https://joysticksala5.rafaelsilva666.repl.co/";
+
+        }else{
+          alert('Senha e usuário inválidos');
+        }
+
+      }
+
+
+
+    </script>
+  
+  </body>
+</html>

@@ -1,67 +1,210 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <title>LigthPage</title>
+<head>
+    <title>LightPage</title>
     <link rel="shortcut icon" href="../imagens/Lampada.jpg"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
-  </head>
-<style>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #a0ffa0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .video-container iframe {
+            width: 100%;
+            max-width: 500px;
+            height: 215px;
+            border: 2px solid #00cc00;
+            border-radius: 8px;
+        }
+        .texto {
+            text-indent: 2em;
+            text-align: justify;
+            letter-spacing: 0.05em;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px auto;
+            max-width: 800px;
+            color: #a0ffa0;
+            text-shadow: 0 0 5px #00cc00;
+            opacity: 0;
+            animation: fadeOut 2s ease-in-out forwards;
+        }
+        .typing {
+            opacity: 1;
+            animation: none;
+        }
+        h4 {
+            text-align: center;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00cc00;
+            margin-bottom: 10px;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @media (max-width: 600px) {
+            .texto {
+                margin: 20px;
+            }
+            .video-container iframe {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <h4>Tutorial LightPage</h4>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/CGO-9ggBwcM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+    <p class="texto" id="texto1">
+        Esse projeto está sendo desenvolvido para o manuseio de robôs através de bits de luz do monitor, manipulados com programação. Com as funcionalidades do Node e Socket.io, uma página online poderá conectar computadores pela internet em tempo real. Seguindo a lógica de jogos multiplayer com o canvas do HTML, a base do projeto foi desenvolvida. Basicamente, é uma página HTML com a apresentação de canvas manipuláveis pelos usuários através das setas do teclado, que poderá apagar e acender bits de luz no monitor. Fica a disposição do usuário os tipos de sensores usados para captar as variações de ondas do monitor e a adaptação de joystick para melhor comodidade. Os tipos de robôs que poderão ser usados são opcionais, mas fica a sugestão de Arduinos.
+    </p>
+    <p class="texto" id="texto2">
+        O complemento básico de uso da página é a interatividade em tempo real com a webcam. Infelizmente, atualizações ainda estão sendo trabalhadas, e a página ainda não fornece suporte a essa funcionalidade. No entanto, outros aplicativos podem fornecer esse suporte. Ao acessar uma videoconferência com qualquer outro aplicativo, essa página pode funcionar em segundo plano. Dessa forma, é possível visualizar um robô recebendo comandos através de bits de luz, em qualquer parte do mundo!
+    </p>
+    <script>
+        // Matrix Background Animation
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
 
-.video-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
 
-  .texto{
- 
- text-indent: 2em; /* Define a tabulação do parágrafo */
- text-align: justify; /* Define o alinhamento do texto */
- letter-spacing: 0.05em; /* Define o espaçamento entre as letras */
- align-items: center;
- font-family:'Courier New', Courier, monospace;
-margin-left: 150px;
-margin-right: 150px;
-color: white;
-text-shadow: 1px 1px #60f560;
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
 
-}
-</style>
-  <body style="background-image: url('../imagens/fundoProgram2.png'); background-size:100%; background-position:top; background-repeat:no-repeat;">
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
 
- <br><br><br>
- 
-        
-      
-        <div class="video-container">
-          <iframe width="30%" src="https://www.youtube.com/embed/CGO-9ggBwcM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-      </div>
-      
-    
-      <p class="texto">
-        Esse projeto esta sendo desenvolvido para o manuseio de robôs através de bits de luz do monitor,
-         e manipuladas com a programação. Com as funcionalidades do Node e Soquet.io,
-          uma página on line poderá conectar computadores pela internet em tempo real;
-           e seguindo a lógica de jogos multplayer com o canvas do html, a base do projeto
-            foi desenvolvida. Basicamente é uma página html com a apresentaçao de canvas
-             manipulaveis pelos usuários através das setas do teclado, que poderá apagar e
-              acender bits de luz no monitor. Fica a disposição do usuário os tipos de sensores
-               usados para captar as variações de ondas do monitor; e a adaptação de joystic para
-                melhor comodidade. Os tipos de robôs que poderão ser usados é opcional, mas fica a
-                 sugestão de arduinos.
+        function draw() {
+            ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      </p>
-      <p class="texto">
-        O complemento básico de uso da página é a interatividade em tempo real com a webcam,
-         infelizmente atualizações ainda estão sendo trabalhadas e a página ainda não fornece
-          suporte a essa funcionalidade, no entanto outros aplicativos podem fornecer esse
-           suporte; ao acessar uma video conferência com qualquer outro aplicativo,
-            essa página pode funcionar em segundo plano, dessa forma é possivel visualizar
-             um robô recebendo comandos através de bits de luz, em qualquer parte do mundo!
+            ctx.fillStyle = '#00cc00';
+            ctx.font = fontSize + 'px monospace';
 
-      </p>
-     
-  </body>
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 33);
+
+        window.addEventListener('resize', () => {
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+        });
+
+        // Typing Effect
+        const texts = document.querySelectorAll('.texto');
+        let currentTextIndex = 0;
+
+        function typeText(element, text, speed, callback) {
+            let i = 0;
+            element.classList.add('typing');
+            element.textContent = '';
+            element.style.opacity = 1;
+
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    setTimeout(() => {
+                        element.classList.remove('typing');
+                        element.style.animation = 'fadeOut 2s ease-in-out forwards';
+                        setTimeout(callback, 2000); // Wait for fade out
+                    }, 3000); // Pause after typing
+                }
+            }
+            type();
+        }
+
+        function startTypingCycle() {
+            const currentElement = texts[currentTextIndex];
+            const textContent = currentElement.textContent.trim();
+            typeText(currentElement, textContent, 50, () => {
+                currentElement.style.opacity = 0;
+                currentElement.style.animation = '';
+                currentTextIndex = (currentTextIndex + 1) % texts.length;
+                setTimeout(startTypingCycle, 1000); // Delay before next text
+            });
+        }
+
+        startTypingCycle();
+    </script>
+</body>
 </html>
