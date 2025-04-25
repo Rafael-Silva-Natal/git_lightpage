@@ -273,7 +273,7 @@
         matrixCanvas.width = window.innerWidth;
 
         const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*';
-        const fontSize = 14;
+        const fontSize = 16;
         const columns = matrixCanvas.width / fontSize;
         const drops = [];
 
@@ -299,7 +299,7 @@
             }
         }
 
-        setInterval(drawMatrix, 33);
+        setInterval(drawMatrix, 100);
 
         window.addEventListener('resize', () => {
             matrixCanvas.height = window.innerHeight;
