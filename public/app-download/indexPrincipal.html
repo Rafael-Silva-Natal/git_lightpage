@@ -1,0 +1,530 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Arquivos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #313531;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .gallery-item {
+            text-align: center;
+            background-color: rgb(116, 111, 111);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .gallery-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+        h1 {
+            color: #0ffaac;
+            text-align: center;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: center;
+            position: relative;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .modal-content button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal-content button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+
+
+
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: rgba(202, 248, 197, 0.9);
+            border: 1px solid rgb(10, 248, 30);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            z-index: 2; /* Acima do efeito Matrix */
+            display: none;
+        }
+        .chat-minimized {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #00cc00;
+            box-shadow: 0 0 10px #00cc00;
+            animation: pulse 2s infinite;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .chat-dialog {
+            padding: 80px 10px 10px;
+            text-align: center;
+        }
+        .message {
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .suggestions button {
+            display: block;
+            width: 80%;
+            margin: 5px auto;
+            padding: 8px;
+            background-color: #1a6323;
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .suggestions button:hover {
+            background-color: #08f858;
+        }
+        .suggestions a {
+            display: block;
+            margin: 5px auto;
+            color: #1890ff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .suggestions a:hover {
+            text-decoration: underline;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+        }
+        @media (max-width: 800px) {
+            .conteudo {
+                flex-direction: column;
+                align-items: center;
+            }
+            .imagem img {
+                width: 300px;
+                height: 200px;
+            }
+            .chat-container {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Biblioteca</h1>
+        <div class="gallery" id="gallery"></div>
+    </div>
+
+    <!-- Modal for Password Input -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <h2>Inserir Senha</h2>
+            <input type="password" id="passwordInput" placeholder="Digite a senha">
+            <button onclick="verifyPassword()">Confirmar</button>
+            <div class="error-message" id="errorMessage">Senha incorreta!</div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+            if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+                try {
+                    var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                    var firstSheetName = workbook.SheetNames[0];
+                    var worksheet = workbook.Sheets[firstSheetName];
+                    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                    var filteredData = jsonData.filter(row => row.some(filledCell));
+                    var headerRowIndex = filteredData.findIndex((row, index) =>
+                      row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                    );
+                    if (headerRowIndex === -1 || headerRowIndex > 25) {
+                      headerRowIndex = 0;
+                    }
+                    var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
+                    csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                    return csv;
+                } catch (e) {
+                    console.error(e);
+                    return "";
+                }
+            }
+            return gk_fileData[filename] || "";
+        }
+    </script>
+    <script>
+        // Lista de arquivos com senhas individuais AS SENHAS FORAM DEFINIDAS NESSA SESSÃO!!!
+        const files = [
+            { image: 'Imagens/mecânica.jpg', download: 'Biblioteca/Meu Livro de Física mecânica.pdf', name: 'Arquivo 1', password: 'mecanica' },
+            { image: 'Imagens/Termologia.jpeg', download: 'Biblioteca/Meu livro de Física_Termologia.pdf', name: 'Arquivo 2', password: 'termologia' },
+            { image: 'Imagens/Óptica e Ondas.jpeg', download: 'Biblioteca/Meu livro de Física_Óptica e ondas.pdf', name: 'Arquivo 3', password: 'optica' },
+            { image: 'Imagens/eletricidade.jpeg', download: 'Biblioteca/Meu livro de Física_Eletricidade.pdf', name: 'Arquivo 4', password: 'eletricidade' },
+        ];
+
+        // Variáveis para controlar o download
+        let currentFilePath = '';
+        let currentFileName = '';
+        let currentFilePassword = '';
+
+        // Função para criar a galeria
+        function createGallery() {
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = '';
+
+            files.forEach(file => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+
+                const img = document.createElement('img');
+                img.src = file.image;
+                img.alt = file.name;
+                img.title = file.name;
+
+                const button = document.createElement('button');
+                button.className = 'download-btn';
+                button.textContent = 'Baixar';
+                button.onclick = () => showPasswordModal(file.download, file.name, file.password);
+
+                galleryItem.appendChild(img);
+                galleryItem.appendChild(button);
+                gallery.appendChild(galleryItem);
+            });
+        }
+
+        // Função para exibir o modal de senha
+        function showPasswordModal(filePath, fileName, filePassword) {
+            currentFilePath = filePath;
+            currentFileName = fileName;
+            currentFilePassword = filePassword;
+            const modal = document.getElementById('passwordModal');
+            const passwordInput = document.getElementById('passwordInput');
+            const errorMessage = document.getElementById('errorMessage');
+            passwordInput.value = '';
+            errorMessage.style.display = 'none';
+            modal.style.display = 'flex';
+            passwordInput.focus();
+        }
+
+        // Função para verificar a senha
+        function verifyPassword() {
+            const passwordInput = document.getElementById('passwordInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+            if (passwordInput === currentFilePassword) {
+                closeModal();
+                downloadFile(currentFilePath, currentFileName);
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        }
+
+        // Função para fechar o modal
+        function closeModal() {
+            const modal = document.getElementById('passwordModal');
+            modal.style.display = 'none';
+        }
+
+        // Função para iniciar o download
+        function downloadFile(filePath, fileName) {
+            const link = document.createElement('a');
+            link.href = filePath;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('passwordModal').addEventListener('click', (event) => {
+            if (event.target === document.getElementById('passwordModal')) {
+                closeModal();
+            }
+        });
+
+        // Permitir Enter para confirmar senha
+        document.getElementById('passwordInput').addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                verifyPassword();
+            }
+        });
+
+        // Inicializa a galeria
+        window.onload = createGallery;
+    </script>
+
+
+
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9369b8c178886fe9',t:'MTc0NTcwODY5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+
+<div class="chat-minimized" id="chatMinimized" onclick="openChat()">
+    <img class="avatar" src="Imagens/xRat.PNG" alt="Avatar">
+</div>
+<div class="chat-container" id="chatContainer">
+    <img class="avatar" src="Imagens/xRat.PNG" alt="Avatar">
+    <div class="chat-dialog">
+        <div class="message" id="message">Olá! Posso ajudar você a encontrar algo hoje?</div>
+        <div class="suggestions" id="suggestions">
+            <button onclick="showHelpOptions()">Sim</button>
+            <button onclick="noHelp()">Não</button>
+        </div>
+    </div>
+    <div class="close-button" onclick="closeChat()">x</div>
+</div>
+<script>
+    // Matrix Background Animation
+    const matrixCanvas = document.getElementById('matrix');
+    const matrixCtx = matrixCanvas.getContext('2d');
+
+    matrixCanvas.height = window.innerHeight;
+    matrixCanvas.width = window.innerWidth;
+
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@#$%^&*';
+    const fontSize = 14;
+    const columns = matrixCanvas.width / fontSize;
+    const drops = [];
+
+    for (let x = 0; x < columns; x++) {
+        drops[x] = 1;
+    }
+
+    function drawMatrix() {
+        matrixCtx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+        matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+        matrixCtx.fillStyle = '#00cc00';
+        matrixCtx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars.charAt(Math.floor(Math.random() * chars.length));
+            matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+
+    setInterval(drawMatrix, 33);
+
+    window.addEventListener('resize', () => {
+        matrixCanvas.height = window.innerHeight;
+        matrixCanvas.width = window.innerWidth;
+    });
+
+    // Bot Logic
+    function openChat() {
+        document.getElementById('chatContainer').style.display = 'block';
+        document.getElementById('chatMinimized').style.display = 'none';
+        showInitialMessage();
+    }
+
+    function closeChat() {
+        document.getElementById('chatContainer').style.display = 'none';
+        document.getElementById('chatMinimized').style.display = 'block';
+    }
+
+    function showInitialMessage() {
+        document.getElementById('message').textContent = 'Olá! Você gostaria de adquirir algum livro?';
+        document.getElementById('suggestions').innerHTML = `
+            <button onclick="showHelpOptions()">Sim</button>
+            <button onclick="noHelp()">Não</button>
+        `;
+    }
+
+    function noHelp() {
+        document.getElementById('message').textContent = 'Estarei aqui se precisar de mim! Clique para me chamar!';
+        document.getElementById('suggestions').innerHTML = '';
+        setTimeout(closeChat, 2000);
+    }
+
+    function showHelpOptions() {
+        document.getElementById('message').textContent = 'Temos ótimas ofertas! O que você procura?';
+        document.getElementById('suggestions').innerHTML = `
+            <button onclick="showPrices()">Ver Preços</button>
+            <button onclick="showItems()">Procurar Item</button>
+            <button onclick="showContact()">Entrar em Contato</button>
+        `;
+    }
+
+    function showPrices() {
+        document.getElementById('message').textContent = 'Aqui estão alguns dos nossos itens e preços!';
+        document.getElementById('suggestions').innerHTML = `
+            <div>Física Mecânica: R$ 29,90</div>
+            <div>Física Termologia: R$ 19,90</div>
+            <div>Física Óptica: R$ 15,00</div>
+            <div>Física Eletricidade: R$ 49,90</div>
+            <button onclick="showHelpOptions()">Voltar</button>
+        `;
+    }
+
+    function showItems() {
+        document.getElementById('message').textContent = 'Explore nossos itens incríveis!';
+        document.getElementById('suggestions').innerHTML = `
+            <a href="#grupo1" onclick="scrollToSection('grupo1')">Componentes eletônicos</a>
+            <a href="#grupo2" onclick="scrollToSection('grupo2')">Placas de Circuito</a>
+            <a href="#grupo3" onclick="scrollToSection('grupo3')">Livros</a>
+            <a href="#grupo4" onclick="scrollToSection('grupo4')">Reciclados</a>
+            <button onclick="showHelpOptions()">Voltar</button>
+        `;
+    }
+
+    function showContact() {
+        document.getElementById('message').textContent = 'Entre em contato conosco!';
+        document.getElementById('suggestions').innerHTML = `
+            <div>Telefone: (84) 99652-4563</div>
+            <div>E-mail: <a href="mailto:atomaespionka@outlook.com.br">atomaespionka@outlook.com.br</a></div>
+            <button onclick="showHelpOptions()">Voltar</button>
+        `;
+    }
+
+    function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Initialize Chat
+    //document.addEventListener('DOMContentLoaded', openChat);
+</script>
+
+</body>
+</html>
